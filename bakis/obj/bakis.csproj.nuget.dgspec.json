@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\uni\\bakis\\bakis\\bakis.csproj": {}
+    "C:\\Users\\zv222\\Documents\\GitHub\\bakalaur\\bakis\\bakis.csproj": {}
   },
   "projects": {
-    "E:\\uni\\bakis\\bakis\\bakis.csproj": {
+    "C:\\Users\\zv222\\Documents\\GitHub\\bakalaur\\bakis\\bakis.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\uni\\bakis\\bakis\\bakis.csproj",
+        "projectUniqueName": "C:\\Users\\zv222\\Documents\\GitHub\\bakalaur\\bakis\\bakis.csproj",
         "projectName": "bakis",
-        "projectPath": "E:\\uni\\bakis\\bakis\\bakis.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "E:\\uni\\bakis\\bakis\\obj\\",
+        "projectPath": "C:\\Users\\zv222\\Documents\\GitHub\\bakalaur\\bakis\\bakis.csproj",
+        "packagesPath": "C:\\Users\\zv222\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\zv222\\Documents\\GitHub\\bakalaur\\bakis\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\zv222\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

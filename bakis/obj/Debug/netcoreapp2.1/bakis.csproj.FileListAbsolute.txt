@@ -1,0 +1,16 @@
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\bin\Debug\netcoreapp2.1\bakis.deps.json
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\bin\Debug\netcoreapp2.1\bakis.runtimeconfig.json
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\bin\Debug\netcoreapp2.1\bakis.runtimeconfig.dev.json
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\bin\Debug\netcoreapp2.1\bakis.dll
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\bin\Debug\netcoreapp2.1\bakis.pdb
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.csprojAssemblyReference.cache
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.RazorAssemblyInfo.cache
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.RazorAssemblyInfo.cs
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.AssemblyInfoInputs.cache
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.AssemblyInfo.cs
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.RazorTargetAssemblyInfo.cache
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.dll
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.pdb
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\bin\Debug\netcoreapp2.1\appsettings.Development.json
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\bin\Debug\netcoreapp2.1\appsettings.json
+C:\Users\zv222\Documents\GitHub\bakalaur\bakis\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
