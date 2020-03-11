@@ -12,14 +12,12 @@ namespace bakis.Models
         [Key]
         public int TenderId { get; set; }
         [Required]
-        [Column(TypeName = "nvarchar(100)")]
-        public string State { get; set; }
+        [ForeignKey("TenderStateId")]
+        public int TenderState { get; set; }
         [Required]
         public double Price { get; set; }
         [Required]
         public DateTime FillingDate { get; set; }
-        [ForeignKey("ProjectId")]
-        public int ProjectId { get; set; }
         [ForeignKey("ContestId")]
         public int ContestId { get; set; }
     }

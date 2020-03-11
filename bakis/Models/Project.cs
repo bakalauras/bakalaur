@@ -14,8 +14,6 @@ namespace bakis.Models
         [Required]
         [Column(TypeName = "nvarchar(100)")]
         public string Title { get; set; }
-        [Column(TypeName = "nvarchar(100)")]
-        public string Phase { get; set; }
         [Required]
         [Column(TypeName = "nvarchar(100)")]
         public string ContractNumber { get; set; }
@@ -25,6 +23,5 @@ namespace bakis.Models
         public int ContestStatusId { get; set; }
         [ForeignKey("TenderId")]
         public int TenderId { get; set; }
-        //TODO: Būsena klasifikatorius
     }
 }
