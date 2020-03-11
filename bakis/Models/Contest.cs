@@ -24,12 +24,9 @@ namespace bakis.Models
         public DateTime PriceRobbingDate { get; set; }
         [Required]
         public DateTime ClaimsFillingDate { get; set; }
-        //TODO: Pasiūlymas
         [ForeignKey("CustomerId")]
         public int CustomerId { get; set; }
         [ForeignKey("ContestStatusId")]
         public int ContestStatusId { get; set; }
-        [ForeignKey("TenderId")]
-        public int TenderId { get; set; }
     }
 }

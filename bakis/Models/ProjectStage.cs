@@ -11,9 +11,8 @@ namespace bakis.Models
     {
         [Key]
         public int ProjectStageId { get; set; }
-        [Required]
-        [Column(TypeName = "nvarchar(100)")]
-        public string StageName { get; set; }
+        [ForeignKey("ProjectStageNameId")]
+        public int ProjectStageNameId { get; set; }
         [Required]
         public double StageBudget { get; set; }
         [Required]

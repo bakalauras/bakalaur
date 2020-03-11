@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bakis.Models;
 
 namespace bakis.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20200310175513_DB update")]
+    partial class DBupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +41,8 @@ namespace bakis.Migrations
 
                     b.Property<DateTime>("PublicationDate");
 
+                    b.Property<int>("TenderId");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
@@ -60,7 +64,7 @@ namespace bakis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("FileName")
+                    b.Property<string>("File")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
@@ -254,7 +258,9 @@ namespace bakis.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<int>("TenderState");
+                    b.Property<int>("ProjectId");
+
+                    b.Property<int>("TenderStateId");
 
                     b.HasKey("TenderId");
 
@@ -271,7 +277,7 @@ namespace bakis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("FileName")
+                    b.Property<string>("File")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
