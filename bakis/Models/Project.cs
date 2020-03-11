@@ -20,7 +20,7 @@ namespace bakis.Models
         [Required]
         public double Budget { get; set; }
         [ForeignKey("CustomerId")]
-        public int ContestStatusId { get; set; }
+        public int CustomerId { get; set; }
         [ForeignKey("TenderId")]
         public int TenderId { get; set; }
     }
