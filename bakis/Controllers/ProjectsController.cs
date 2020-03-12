@@ -100,6 +100,15 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            var customer = _context.Customers.Where(l => l.CustomerId == project.CustomerId).Select(l => l.CustomerId).FirstOrDefault().ToString();
+
+            var tender = _context.Tenders.Where(l => l.TenderId == project.TenderId).Select(l => l.TenderId).FirstOrDefault().ToString();
+
+            if (customer == "0" || tender == "0")
+            {
+                return BadRequest();
+            }
+
             _context.Entry(project).State = EntityState.Modified;
 
             try
@@ -128,6 +137,15 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var customer = _context.Customers.Where(l => l.CustomerId == project.CustomerId).Select(l => l.CustomerId).FirstOrDefault().ToString();
+
+            var tender = _context.Tenders.Where(l => l.TenderId == project.TenderId).Select(l => l.TenderId).FirstOrDefault().ToString();
+
+            if (customer == "0" || tender == "0")
+            {
+                return BadRequest();
             }
 
             _context.Projects.Add(project);

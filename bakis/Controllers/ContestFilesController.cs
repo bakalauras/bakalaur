@@ -60,6 +60,13 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            var contests = _context.Contests.Where(l => l.ContestId == contestFile.ContestId).Select(l => l.ContestId).FirstOrDefault().ToString();
+
+            if (contests == "0")
+            {
+                return BadRequest();
+            }
+
             _context.Entry(contestFile).State = EntityState.Modified;
 
             try
@@ -88,6 +95,13 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var contests = _context.Contests.Where(l => l.ContestId == contestFile.ContestId).Select(l => l.ContestId).FirstOrDefault().ToString();
+
+            if (contests == "0")
+            {
+                return BadRequest();
             }
 
             _context.ContestFiles.Add(contestFile);

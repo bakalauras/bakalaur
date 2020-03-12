@@ -60,6 +60,13 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == workingTimeRegister.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
+
+            if (projectStage == "0")
+            {
+                return BadRequest();
+            }
+
             _context.Entry(workingTimeRegister).State = EntityState.Modified;
 
             try
@@ -88,6 +95,13 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == workingTimeRegister.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
+
+            if (projectStage == "0")
+            {
+                return BadRequest();
             }
 
             _context.WorkingTimeRegisters.Add(workingTimeRegister);

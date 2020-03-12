@@ -100,6 +100,15 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            var contest = _context.Contests.Where(l => l.ContestId == tender.ContestId).Select(l => l.ContestId).FirstOrDefault().ToString();
+
+            var tenderState = _context.TenderStates.Where(l => l.TenderStateId == tender.TenderState).Select(l => l.TenderStateId).FirstOrDefault().ToString();
+
+            if (contest == "0" || tenderState == "0")
+            {
+                return BadRequest();
+            }
+
             _context.Entry(tender).State = EntityState.Modified;
 
             try
@@ -128,6 +137,15 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var contest = _context.Contests.Where(l => l.ContestId == tender.ContestId).Select(l => l.ContestId).FirstOrDefault().ToString();
+
+            var tenderState = _context.TenderStates.Where(l => l.TenderStateId == tender.TenderState).Select(l => l.TenderStateId).FirstOrDefault().ToString();
+
+            if (contest == "0" || tenderState == "0")
+            {
+                return BadRequest();
             }
 
             _context.Tenders.Add(tender);
