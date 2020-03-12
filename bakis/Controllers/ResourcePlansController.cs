@@ -60,6 +60,15 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == resourcePlan.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
+
+            var employeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == resourcePlan.EmployeeRoleId).Select(l => l.EmployeeRoleId).FirstOrDefault().ToString();
+
+            if (projectStage == "0" || employeeRole == "0")
+            {
+                return BadRequest();
+            }
+
             _context.Entry(resourcePlan).State = EntityState.Modified;
 
             try
@@ -88,6 +97,15 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == resourcePlan.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
+
+            var employeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == resourcePlan.EmployeeRoleId).Select(l => l.EmployeeRoleId).FirstOrDefault().ToString();
+
+            if (projectStage == "0" || employeeRole == "0")
+            {
+                return BadRequest();
             }
 
             _context.ResourcePlans.Add(resourcePlan);

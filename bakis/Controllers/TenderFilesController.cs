@@ -60,6 +60,13 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            var tender = _context.Tenders.Where(l => l.TenderId == tenderFile.TenderId).Select(l => l.TenderId).FirstOrDefault().ToString();
+
+            if (tender == "0")
+            {
+                return BadRequest();
+            }
+
             _context.Entry(tenderFile).State = EntityState.Modified;
 
             try
@@ -88,6 +95,13 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var tender = _context.Tenders.Where(l => l.TenderId == tenderFile.TenderId).Select(l => l.TenderId).FirstOrDefault().ToString();
+
+            if (tender == "0")
+            {
+                return BadRequest();
             }
 
             _context.TenderFiles.Add(tenderFile);

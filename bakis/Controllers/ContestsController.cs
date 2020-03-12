@@ -80,6 +80,15 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            var contestStatus = _context.ContestStatuses.Where(l => l.ContestStatusId == contest.ContestStatusId).Select(l => l.ContestStatusId).FirstOrDefault().ToString();
+
+            var customer = _context.Customers.Where(l => l.CustomerId == contest.CustomerId).Select(l => l.CustomerId).FirstOrDefault().ToString();
+
+            if (contestStatus == "0" || customer == "0")
+            {
+                return BadRequest();
+            }
+
             _context.Entry(contest).State = EntityState.Modified;
 
             try
@@ -108,6 +117,15 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var contestStatus = _context.ContestStatuses.Where(l => l.ContestStatusId == contest.ContestStatusId).Select(l => l.ContestStatusId).FirstOrDefault().ToString();
+
+            var customer = _context.Customers.Where(l => l.CustomerId == contest.CustomerId).Select(l => l.CustomerId).FirstOrDefault().ToString();
+
+            if (contestStatus == "0" || customer == "0")
+            {
+                return BadRequest();
             }
 
             _context.Contests.Add(contest);

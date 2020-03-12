@@ -117,6 +117,15 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            var projectStageName = _context.ProjectStageNames.Where(l => l.ProjctStageNameId == projectStage.ProjectStageNameId).Select(l => l.ProjctStageNameId).FirstOrDefault().ToString();
+
+            var project = _context.Projects.Where(l => l.ProjectId == projectStage.ProjectId).Select(l => l.ProjectId).FirstOrDefault().ToString();
+
+            if (projectStageName == "0" || project == "0")
+            {
+                return BadRequest();
+            }
+
             _context.Entry(projectStage).State = EntityState.Modified;
 
             try
@@ -145,6 +154,15 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var projectStageName = _context.ProjectStageNames.Where(l => l.ProjctStageNameId == projectStage.ProjectStageNameId).Select(l => l.ProjctStageNameId).FirstOrDefault().ToString();
+
+            var project = _context.Projects.Where(l => l.ProjectId == projectStage.ProjectId).Select(l => l.ProjectId).FirstOrDefault().ToString();
+
+            if (projectStageName == "0" || project == "0")
+            {
+                return BadRequest();
             }
 
             _context.ProjectStages.Add(projectStage);

@@ -100,6 +100,13 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            var customerType = _context.CustomerTypes.Where(l => l.CustomerTypeId == customer.CustomerTypeId).Select(l => l.CustomerTypeId).FirstOrDefault().ToString();
+
+            if (customerType == "0")
+            {
+                return BadRequest();
+            }
+
             _context.Entry(customer).State = EntityState.Modified;
 
             try
@@ -128,6 +135,13 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var customerType = _context.CustomerTypes.Where(l => l.CustomerTypeId == customer.CustomerTypeId).Select(l => l.CustomerTypeId).FirstOrDefault().ToString();
+
+            if (customerType == "0")
+            {
+                return BadRequest();
             }
 
             _context.Customers.Add(customer);

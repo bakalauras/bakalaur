@@ -1,7 +1,37 @@
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
 
-*.ide
-*.dll
-*.cache
-*.cache
+# Visual Studio Code
+.vscode
+
+# User-specific files
 *.suo
-*.dtbcache
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio 2015
+.vs/
+bakis/obj/bakis.csproj.nuget.dgspec.json
+bakis/obj/bakis.csproj.nuget.g.props
+*.cache
+*.ide-shm
+*.ide-wal
