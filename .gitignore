@@ -30,3 +30,8 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+bakis/obj/bakis.csproj.nuget.dgspec.json
+bakis/obj/bakis.csproj.nuget.g.props
+*.cache
+*.ide-shm
+*.ide-wal
