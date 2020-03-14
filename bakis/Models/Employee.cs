@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace bakis.Models
+{
+    public class Employee
+    {
+        [Key]
+        public int EmployeeId { get; set; }
+        [Required]
+        [Column(TypeName = "nvarchar(50)")]
+        public string Name { get; set; }
+        [Required]
+        [Column(TypeName = "nvarchar(100)")]
+        public string Surname { get; set; }
+        [Required]
+        public bool IsActive { get; set; }
+        [ForeignKey("EmployeeId")]
+        public int FkEmployeeId { get; set; }
+    }
+}
