@@ -7,17 +7,12 @@ using System.Threading.Tasks;
 
 namespace bakis.Models
 {
-    public class Customer
+    public class CustomerType
     {
         [Key]
-        public int CustomerId { get; set; }
-        [Required]
-        [Column(TypeName = "nvarchar(100)")]
-        public string Name { get; set; }
-        [Required]
-        [Column(TypeName = "nvarchar(100)")]
-        public string Adress { get; set; }
-        [ForeignKey("CustomerTypeId")]
         public int CustomerTypeId { get; set; }
+        [Required]
+        [Column(TypeName = "nvarchar(100)")]
+        public string Type { get; set; }
     }
 }

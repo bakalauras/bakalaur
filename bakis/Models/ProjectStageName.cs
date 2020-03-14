@@ -7,17 +7,12 @@ using System.Threading.Tasks;
 
 namespace bakis.Models
 {
-    public class Customer
+    public class ProjectStageName
     {
         [Key]
-        public int CustomerId { get; set; }
+        public int ProjctStageNameId { get; set; }
         [Required]
         [Column(TypeName = "nvarchar(100)")]
-        public string Name { get; set; }
-        [Required]
-        [Column(TypeName = "nvarchar(100)")]
-        public string Adress { get; set; }
-        [ForeignKey("CustomerTypeId")]
-        public int CustomerTypeId { get; set; }
+        public string StageName { get; set; }
     }
 }

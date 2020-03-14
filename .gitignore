@@ -1,32 +1,37 @@
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
 
-bakis/.vs/bakis/DesignTimeBuild/.dtbcache
-bakis/.vs/bakis/DesignTimeBuild/.dtbcache
-bakis/.vs/bakis/v16/.suo
-bakis/.vs/bakis/v16/Server/sqlite3/storage.ide
-bakis/.vs/bakis/v16/Server/sqlite3/storage.ide-shm
-bakis/.vs/bakis/v16/Server/sqlite3/storage.ide-wal
-bakis/obj/bakis.csproj.nuget.cache
+# Visual Studio Code
+.vscode
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio 2015
+.vs/
 bakis/obj/bakis.csproj.nuget.dgspec.json
 bakis/obj/bakis.csproj.nuget.g.props
-bakis/obj/Debug/netcoreapp2.1/bakis.assets.cache
-bakis/obj/Debug/netcoreapp2.1/bakis.csprojAssemblyReference.cache
-bakis/obj/project.assets.json
-bakis/.vs/bakis/DesignTimeBuild/.dtbcache
-bakis/.vs/bakis/v16/.suo
-bakis/.vs/bakis/v16/Server/sqlite3/storage.ide
-bakis/.vs/bakis/v16/Server/sqlite3/storage.ide-shm
-bakis/.vs/bakis/v16/Server/sqlite3/storage.ide-wal
-bakis/appsettings.json
-bakis/bin/Debug/netcoreapp2.1/appsettings.json
-bakis/bin/Debug/netcoreapp2.1/bakis.dll
-bakis/bin/Debug/netcoreapp2.1/bakis.pdb
-bakis/bin/Debug/netcoreapp2.1/bakis.runtimeconfig.dev.json
-bakis/obj/bakis.csproj.nuget.cache
-bakis/obj/bakis.csproj.nuget.dgspec.json
-bakis/obj/bakis.csproj.nuget.g.props
-bakis/obj/Debug/netcoreapp2.1/bakis.assets.cache
-bakis/obj/Debug/netcoreapp2.1/bakis.csproj.FileListAbsolute.txt
-bakis/obj/Debug/netcoreapp2.1/bakis.csprojAssemblyReference.cache
-bakis/obj/Debug/netcoreapp2.1/bakis.dll
-bakis/obj/Debug/netcoreapp2.1/bakis.pdb
-bakis/obj/project.assets.json
+*.cache
+*.ide-shm
+*.ide-wal

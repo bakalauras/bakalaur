@@ -14,17 +14,14 @@ namespace bakis.Models
         [Required]
         [Column(TypeName = "nvarchar(100)")]
         public string Title { get; set; }
-        [Column(TypeName = "nvarchar(100)")]
-        public string Phase { get; set; }
         [Required]
         [Column(TypeName = "nvarchar(100)")]
         public string ContractNumber { get; set; }
         [Required]
         public double Budget { get; set; }
         [ForeignKey("CustomerId")]
-        public int ContestStatusId { get; set; }
+        public int CustomerId { get; set; }
         [ForeignKey("TenderId")]
         public int TenderId { get; set; }
-        //TODO: Būsena klasifikatorius
     }
 }

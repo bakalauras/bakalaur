@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bakis.Models;
 
 namespace bakis.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20200311080301_Fixes5")]
+    partial class Fixes5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,6 +21,7 @@ namespace bakis.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("bakis.Models.Contest", b =>
                 {
                     b.Property<int>("ContestId")
                         .ValueGeneratedOnAdd()
@@ -144,11 +147,11 @@ namespace bakis.Migrations
 
                     b.Property<double>("Budget");
 
+                    b.Property<int>("ContestStatusId");
+
                     b.Property<string>("ContractNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("CustomerId");
 
                     b.Property<int>("TenderId");
 
