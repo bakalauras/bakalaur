@@ -12530,23 +12530,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zv222\\.nuget\\packages\\": {},
+    "C:\\Users\\User\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zv222\\Documents\\GitHub\\bakalaur\\bakis\\bakis.csproj",
+      "projectUniqueName": "E:\\bakalauras\\bakalaur\\bakis\\bakis.csproj",
       "projectName": "bakis",
-      "projectPath": "C:\\Users\\zv222\\Documents\\GitHub\\bakalaur\\bakis\\bakis.csproj",
-      "packagesPath": "C:\\Users\\zv222\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\zv222\\Documents\\GitHub\\bakalaur\\bakis\\obj\\",
+      "projectPath": "E:\\bakalauras\\bakalaur\\bakis\\bakis.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "E:\\bakalauras\\bakalaur\\bakis\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\zv222\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

@@ -19,7 +19,6 @@ namespace bakis.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("bakis.Models.Contest", b =>
                 {
                     b.Property<int>("ContestId")
                         .ValueGeneratedOnAdd()
