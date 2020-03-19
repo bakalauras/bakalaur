@@ -39,10 +39,11 @@ namespace bakis.Models
         public DbSet<Competency> Competencies { get; set; }
         public DbSet<EmployeeCompetency> EmployeeCompetencies { get; set; }
         public DbSet<StageCompetency> StageCompetencies { get; set; }
+        public DbSet<Exam> Exams { get; set; }
         public DbSet<EmployeeExam> EmployeeExams { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<EmployeeCertificate> EmployeeCertificates { get; set; }
-        public DbSet<Exam> Exams { get; set; }
+        
         public DbSet<ContestCertificate> ContestCertificates { get; set; }
 
         public DbSet<ProjectStageName> ProjectStageNames { get; set; }

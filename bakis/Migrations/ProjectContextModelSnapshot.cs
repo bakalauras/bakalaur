@@ -19,6 +19,47 @@ namespace bakis.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("bakis.Models.Certificate", b =>
+                {
+                    b.Property<int>("CertificateId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("EmployeeCertificateId");
+
+                    b.Property<string>("Technology")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("CertificateId");
+
+                    b.ToTable("Certificates");
+                });
+
+            modelBuilder.Entity("bakis.Models.Competency", b =>
+                {
+                    b.Property<int>("CompetencyId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("CompetencyId");
+
+                    b.ToTable("Competencies");
+                });
+
+            modelBuilder.Entity("bakis.Models.Contest", b =>
                 {
                     b.Property<int>("ContestId")
                         .ValueGeneratedOnAdd()
@@ -45,6 +86,23 @@ namespace bakis.Migrations
                     b.HasKey("ContestId");
 
                     b.ToTable("Contests");
+                });
+
+            modelBuilder.Entity("bakis.Models.ContestCertificate", b =>
+                {
+                    b.Property<int>("ContestCertificateId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Amount");
+
+                    b.Property<int>("CertificateId");
+
+                    b.Property<int>("ContestId");
+
+                    b.HasKey("ContestCertificateId");
+
+                    b.ToTable("ContestCertificates");
                 });
 
             modelBuilder.Entity("bakis.Models.ContestFile", b =>
@@ -119,6 +177,128 @@ namespace bakis.Migrations
                     b.ToTable("CustomerTypes");
                 });
 
+            modelBuilder.Entity("bakis.Models.Duty", b =>
+                {
+                    b.Property<int>("DutyId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("DutyId");
+
+                    b.ToTable("Duties");
+                });
+
+            modelBuilder.Entity("bakis.Models.Employee", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FkEmployeeId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("EmployeeId");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("bakis.Models.EmployeeCertificate", b =>
+                {
+                    b.Property<int>("EmployeeCertificateId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeId");
+
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("EmployeeCertificateId");
+
+                    b.ToTable("EmployeeCertificates");
+                });
+
+            modelBuilder.Entity("bakis.Models.EmployeeCompetency", b =>
+                {
+                    b.Property<int>("EmployeeCompetencyId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompetencyId");
+
+                    b.Property<DateTime>("DateFrom");
+
+                    b.Property<DateTime>("DateTo");
+
+                    b.Property<int>("EmployeeId");
+
+                    b.HasKey("EmployeeCompetencyId");
+
+                    b.ToTable("EmployeeCompetencies");
+                });
+
+            modelBuilder.Entity("bakis.Models.EmployeeDuty", b =>
+                {
+                    b.Property<int>("EmployeeDutyId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateFrom");
+
+                    b.Property<DateTime>("DateTo");
+
+                    b.Property<int>("DutyId");
+
+                    b.Property<int>("EmployeeId");
+
+                    b.HasKey("EmployeeDutyId");
+
+                    b.ToTable("EmployeeD");
+                });
+
+            modelBuilder.Entity("bakis.Models.EmployeeExam", b =>
+                {
+                    b.Property<int>("EmployeeExamId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CertificateId");
+
+                    b.Property<int>("EmployeeId");
+
+                    b.Property<int>("ExamId");
+
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsPassed");
+
+                    b.Property<DateTime>("PlannedExamDate");
+
+                    b.Property<double>("Price");
+
+                    b.Property<DateTime>("RealExamDate");
+
+                    b.HasKey("EmployeeExamId");
+
+                    b.ToTable("EmployeeExams");
+                });
+
             modelBuilder.Entity("bakis.Models.EmployeeRole", b =>
                 {
                     b.Property<int>("EmployeeRoleId")
@@ -134,6 +314,27 @@ namespace bakis.Migrations
                     b.HasKey("EmployeeRoleId");
 
                     b.ToTable("EmployeeRoles");
+                });
+
+            modelBuilder.Entity("bakis.Models.Exam", b =>
+                {
+                    b.Property<int>("ExamId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CertificateId");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ExamId");
+
+                    b.ToTable("Exams");
                 });
 
             modelBuilder.Entity("bakis.Models.Project", b =>
@@ -220,6 +421,44 @@ namespace bakis.Migrations
                     b.HasKey("ResourcePlanId");
 
                     b.ToTable("ResourcePlans");
+                });
+
+            modelBuilder.Entity("bakis.Models.Salary", b =>
+                {
+                    b.Property<int>("SalaryId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateFrom");
+
+                    b.Property<DateTime>("DateTo");
+
+                    b.Property<int>("EmployeeId");
+
+                    b.Property<double>("EmployeeSalary");
+
+                    b.Property<double>("Staff");
+
+                    b.HasKey("SalaryId");
+
+                    b.ToTable("Salaries");
+                });
+
+            modelBuilder.Entity("bakis.Models.StageCompetency", b =>
+                {
+                    b.Property<int>("StageCompetencyId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Amount");
+
+                    b.Property<int>("CompetencyId");
+
+                    b.Property<int>("ProjectStageId");
+
+                    b.HasKey("StageCompetencyId");
+
+                    b.ToTable("StageCompetencies");
                 });
 
             modelBuilder.Entity("bakis.Models.StageProgress", b =>
