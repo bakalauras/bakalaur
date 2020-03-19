@@ -24,7 +24,7 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<EmployeeDuty> GetEmployeeD()
         {
-            return _context.EmployeeD;
+            return _context.EmployeeDuties;
         }
 
         // GET: api/EmployeeDuties/5
@@ -36,7 +36,7 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
-            var employeeDuty = await _context.EmployeeD.FindAsync(id);
+            var employeeDuty = await _context.EmployeeDuties.FindAsync(id);
 
             if (employeeDuty == null)
             {
@@ -90,7 +90,7 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.EmployeeD.Add(employeeDuty);
+            _context.EmployeeDuties.Add(employeeDuty);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetEmployeeDuty", new { id = employeeDuty.EmployeeDutyId }, employeeDuty);
@@ -105,13 +105,13 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
-            var employeeDuty = await _context.EmployeeD.FindAsync(id);
+            var employeeDuty = await _context.EmployeeDuties.FindAsync(id);
             if (employeeDuty == null)
             {
                 return NotFound();
             }
 
-            _context.EmployeeD.Remove(employeeDuty);
+            _context.EmployeeDuties.Remove(employeeDuty);
             await _context.SaveChangesAsync();
 
             return Ok(employeeDuty);
@@ -119,7 +119,7 @@ namespace bakis.Controllers
 
         private bool EmployeeDutyExists(int id)
         {
-            return _context.EmployeeD.Any(e => e.EmployeeDutyId == id);
+            return _context.EmployeeDuties.Any(e => e.EmployeeDutyId == id);
         }
     }
 }
