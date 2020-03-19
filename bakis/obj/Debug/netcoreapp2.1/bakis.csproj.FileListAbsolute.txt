@@ -22,7 +22,6 @@ E:\bakalauras\bakalaur\bakis\bin\Debug\netcoreapp2.1\bakis.runtimeconfig.json
 E:\bakalauras\bakalaur\bakis\bin\Debug\netcoreapp2.1\bakis.runtimeconfig.dev.json
 E:\bakalauras\bakalaur\bakis\bin\Debug\netcoreapp2.1\bakis.dll
 E:\bakalauras\bakalaur\bakis\bin\Debug\netcoreapp2.1\bakis.pdb
-E:\bakalauras\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.csprojAssemblyReference.cache
 E:\bakalauras\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.RazorAssemblyInfo.cache
 E:\bakalauras\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.RazorAssemblyInfo.cs
 E:\bakalauras\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.AssemblyInfoInputs.cache
@@ -30,3 +29,4 @@ E:\bakalauras\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.AssemblyInfo.cs
 E:\bakalauras\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.RazorTargetAssemblyInfo.cache
 E:\bakalauras\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.dll
 E:\bakalauras\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.pdb
+E:\bakalauras\bakalaur\bakis\obj\Debug\netcoreapp2.1\bakis.csprojAssemblyReference.cache
