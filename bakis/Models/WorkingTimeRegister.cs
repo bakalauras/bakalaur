@@ -23,6 +23,8 @@ namespace bakis.Models
         [Required]
         [ForeignKey("EmployeeRoleId")]
         public int EmployeeRoleId { get; set; }
-        //TODO: FK su lentele Darbuotojas
+        [Required]
+        [ForeignKey("EmployeeId")]
+        public int EmployeeId { get; set; }
     }
 }

@@ -103,6 +103,25 @@ namespace bakis.Controllers
             return Ok(resourcePlans);
         }
 
+        [HttpGet("{id}/competencies")]
+        public async Task<IActionResult> GetProjectStageCompetencies([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var projectStage = await _context.ProjectStages.FindAsync(id);
+
+            if (projectStage == null)
+            {
+                return NotFound();
+            }
+            var competencies = _context.StageCompetencies.Where(l => l.ProjectStageId == id);
+
+            return Ok(competencies);
+        }
+
         // PUT: api/ProjectStages/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProjectStage([FromRoute] int id, [FromBody] ProjectStage projectStage)
@@ -192,7 +211,9 @@ namespace bakis.Controllers
 
             var workingTimeRegisters = _context.WorkingTimeRegisters.Where(l => l.ProjectStageId == id).Select(l => l.WorkingTimeRegisterId).FirstOrDefault().ToString();
 
-            if (stageProgresses != "0" || resourcePlans != "0" || workingTimeRegisters != "0")
+            var stageCompetencies = _context.StageCompetencies.Where(l => l.ProjectStageId == id).Select(l => l.StageCompetencyId).FirstOrDefault().ToString();
+
+            if (stageProgresses != "0" || resourcePlans != "0" || workingTimeRegisters != "0" || stageCompetencies != "0")
             {
                 return BadRequest();
             }
