@@ -66,6 +66,26 @@ namespace bakis.Controllers
             return Ok(files);
         }
 
+        [HttpGet("{id}/certificates")]
+        public async Task<IActionResult> GetContestCertificates([FromRoute] int id)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var contest = await _context.Contests.FindAsync(id);
+
+            if (contest == null)
+            {
+                return NotFound();
+            }
+            var certificates = _context.ContestCertificates.Where(l => l.ContestId == id);
+
+            return Ok(certificates);
+        }
+
         // PUT: api/Contests/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContest([FromRoute] int id, [FromBody] Contest contest)
@@ -153,7 +173,9 @@ namespace bakis.Controllers
 
             var contestFiles = _context.ContestFiles.Where(l => l.ContestId == id).Select(l => l.ContestFileId).FirstOrDefault().ToString();
 
-            if (contestFiles != "0" || tenders != "0")
+            var contestCertificates = _context.ContestCertificates.Where(l => l.ContestId == id).Select(l => l.ContestCertificateId).FirstOrDefault().ToString();
+
+            if (contestFiles != "0" || tenders != "0" || contestCertificates != "0")
             {
                 return BadRequest();
             }

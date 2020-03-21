@@ -62,7 +62,11 @@ namespace bakis.Controllers
 
             var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == workingTimeRegister.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
 
-            if (projectStage == "0")
+            var employee = _context.Employees.Where(l => l.EmployeeId == workingTimeRegister.EmployeeId).Select(l => l.EmployeeId).FirstOrDefault().ToString();
+
+            var employeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == workingTimeRegister.EmployeeRoleId).Select(l => l.EmployeeRoleId).FirstOrDefault().ToString();
+
+            if (projectStage == "0" || employee == "0" || employeeRole == "0")
             {
                 return BadRequest();
             }
@@ -99,7 +103,11 @@ namespace bakis.Controllers
 
             var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == workingTimeRegister.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
 
-            if (projectStage == "0")
+            var employee = _context.Employees.Where(l => l.EmployeeId == workingTimeRegister.EmployeeId).Select(l => l.EmployeeId).FirstOrDefault().ToString();
+
+            var employeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == workingTimeRegister.EmployeeRoleId).Select(l => l.EmployeeRoleId).FirstOrDefault().ToString();
+
+            if (projectStage == "0" || employee == "0" || employeeRole == "0")
             {
                 return BadRequest();
             }
