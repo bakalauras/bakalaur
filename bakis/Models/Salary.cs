@@ -16,8 +16,10 @@ namespace bakis.Models
         [Required]
         public double EmployeeSalary { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateFrom { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateTo { get; set; }
         [ForeignKey("EmployeeId")]
         public int EmployeeId { get; set; }

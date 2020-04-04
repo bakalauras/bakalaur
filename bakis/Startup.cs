@@ -37,6 +37,7 @@ namespace bakis
 
             services.AddDbContext<ProjectContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+            services.AddCors();
 
         }
 
@@ -47,6 +48,11 @@ namespace bakis
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(builder => builder
+             .AllowAnyOrigin()
+             .AllowAnyMethod()
+             .AllowAnyHeader()
+             .AllowCredentials());
 
             app.UseMvc();
         }
