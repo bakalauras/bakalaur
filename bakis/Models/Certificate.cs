@@ -20,7 +20,5 @@ namespace bakis.Models
         [Required]
         [Column(TypeName = "nvarchar(100)")]
         public string Technology { get; set; }
-        [ForeignKey("EmployeeCertificateId")]
-        public int EmployeeCertificateId { get; set; }
     }
 }

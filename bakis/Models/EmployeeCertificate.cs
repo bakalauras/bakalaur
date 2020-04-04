@@ -16,5 +16,7 @@ namespace bakis.Models
         public string File { get; set; }
         [ForeignKey("EmployeeId")]
         public int EmployeeId { get; set; }
+        [ForeignKey("CertificateId")]
+        public int CertificateId { get; set; }
     }
 }
