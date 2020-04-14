@@ -29,7 +29,7 @@ namespace bakis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("EmployeeCertificateId");
+                    b.Property<int>("Order");
 
                     b.Property<string>("Technology")
                         .IsRequired()
@@ -221,6 +221,8 @@ namespace bakis.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CertificateId");
+
                     b.Property<int>("EmployeeId");
 
                     b.Property<string>("File")
@@ -267,7 +269,7 @@ namespace bakis.Migrations
 
                     b.HasKey("EmployeeDutyId");
 
-                    b.ToTable("EmployeeD");
+                    b.ToTable("EmployeeDuties");
                 });
 
             modelBuilder.Entity("bakis.Models.EmployeeExam", b =>
@@ -327,6 +329,8 @@ namespace bakis.Migrations
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Order");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -544,6 +548,8 @@ namespace bakis.Migrations
                     b.Property<DateTime>("DateFrom");
 
                     b.Property<DateTime>("DateTo");
+
+                    b.Property<int>("EmployeeId");
 
                     b.Property<int>("EmployeeRoleId");
 

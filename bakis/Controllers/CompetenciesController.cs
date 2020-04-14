@@ -111,6 +111,14 @@ namespace bakis.Controllers
                 return NotFound();
             }
 
+            var employeeCompetency = _context.EmployeeCompetencies.Where(l => l.CompetencyId == id).Select(l => l.EmployeeCompetencyId).FirstOrDefault().ToString();
+            var stageCompetency = _context.StageCompetencies.Where(l => l.CompetencyId == id).Select(l => l.StageCompetencyId).FirstOrDefault().ToString();
+
+            if (employeeCompetency != "0" || stageCompetency != "0")
+            {
+                return BadRequest("Negalima ištrinti šios kompetencijos, nes ji turi susijusių įrašų.");
+            }
+
             _context.Competencies.Remove(competency);
             await _context.SaveChangesAsync();
 

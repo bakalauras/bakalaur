@@ -17,6 +17,8 @@ namespace bakis.Models
         [Required]
         [Column(TypeName = "nvarchar(100)")]
         public string Code { get; set; }
+        [Required]
+        public int Order { get; set; }
         [ForeignKey("CertificateId")]
         public int CertificateId { get; set; }
     }

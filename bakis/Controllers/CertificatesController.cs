@@ -108,7 +108,17 @@ namespace bakis.Controllers
             var certificate = await _context.Certificates.FindAsync(id);
             if (certificate == null)
             {
-                return NotFound();
+                return NotFound("Product not found");
+            }
+
+            var exams = _context.Exams.Where(l => l.CertificateId == id).Select(l => l.ExamId).FirstOrDefault().ToString();
+            var contestCertificate = _context.ContestCertificates.Where(l => l.CertificateId == id).Select(l => l.ContestCertificateId).FirstOrDefault().ToString();
+            var employeeCertificate = _context.EmployeeCertificates.Where(l => l.CertificateId == id).Select(l => l.EmployeeCertificateId).FirstOrDefault().ToString();
+            var employeeExam = _context.EmployeeExams.Where(l => l.CertificateId == id).Select(l => l.EmployeeExamId).FirstOrDefault().ToString();
+
+            if (exams != "0" || contestCertificate != "0" || employeeCertificate != "0" || employeeExam != "0")
+            {
+                return BadRequest("Negalima ištrinti šio sertifikato, nes jis turi susijusių įrašų.");
             }
 
             _context.Certificates.Remove(certificate);

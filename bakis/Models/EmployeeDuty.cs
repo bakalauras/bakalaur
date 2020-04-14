@@ -12,8 +12,13 @@ namespace bakis.Models
         [Key]
         public int EmployeeDutyId { get; set; }
         [Required]
+        [Display(Name = "DateFrom")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime DateFrom { get; set; }
-        [Required]
+        [Display(Name = "DateTo")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime DateTo { get; set; }
         [ForeignKey("DutyId")]
         public int DutyId { get; set; }

@@ -62,6 +62,10 @@ namespace bakis.Controllers
 
             _context.Entry(exam).State = EntityState.Modified;
 
+            var allexams = await _context.Exams.ToArrayAsync();
+            var exams = await _context.Exams.FindAsync(id);
+            var certi = await _context.Certificates.FindAsync(exams.CertificateId);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -90,6 +94,7 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
+
             _context.Exams.Add(exam);
             await _context.SaveChangesAsync();
 
@@ -109,6 +114,13 @@ namespace bakis.Controllers
             if (exam == null)
             {
                 return NotFound();
+            }
+
+            var employeeExam = _context.EmployeeExams.Where(l => l.ExamId == id).Select(l => l.EmployeeExamId).FirstOrDefault().ToString();
+
+            if (employeeExam != "0")
+            {
+                return BadRequest("Negalima ištrinti šio egzamino, nes jis yra priskirtas bent vienam darbuotojui.");
             }
 
             _context.Exams.Remove(exam);

@@ -46,6 +46,7 @@ namespace bakis.Controllers
             return Ok(employeeExam);
         }
 
+
         // PUT: api/EmployeeExams/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmployeeExam([FromRoute] int id, [FromBody] EmployeeExam employeeExam)
@@ -90,8 +91,28 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.EmployeeExams.Add(employeeExam);
-            await _context.SaveChangesAsync();
+            var cert = await _context.Certificates.FindAsync(employeeExam.CertificateId);
+            var query = from b in _context.EmployeeExams
+                        from p in _context.EmployeeCertificates.Where(p => b.CertificateId == p.CertificateId)
+                        from c in _context.Certificates.Where(c => p.CertificateId == c.CertificateId).Where(a => b.EmployeeId == employeeExam.EmployeeId)
+                        select new { b, p, c };
+           
+            if (cert.Title == "ISTQB Advanced")
+            {
+                var query1 = query.Select(s => s.c).Where(a => a.Title == "ISTQB Foundation");
+                if (query1.Count() == 0)
+                {
+                    return BadRequest("Negalite registruotis, nes neturite ISTQB Foundation sertifikato.");
+                }
+                var query2 = query.Select(s => s.c).Where(a => a.Title == "ISTQB Advanced");
+                if (query2.Count() == 1)
+                {
+                    return BadRequest("Jūs jau turite šį sertifikatą.");
+                }
+            }
+
+             _context.EmployeeExams.Add(employeeExam);
+             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetEmployeeExam", new { id = employeeExam.EmployeeExamId }, employeeExam);
         }
