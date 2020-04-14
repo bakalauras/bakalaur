@@ -57,7 +57,7 @@ namespace bakis.Controllers
 
             if (id != workingTimeRegister.WorkingTimeRegisterId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
             }
 
             var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == workingTimeRegister.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
@@ -68,7 +68,7 @@ namespace bakis.Controllers
 
             if (projectStage == "0" || employee == "0" || employeeRole == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas projekto etapas, darbuotojas arba darbuotojo rolė");
             }
 
             _context.Entry(workingTimeRegister).State = EntityState.Modified;
@@ -109,7 +109,7 @@ namespace bakis.Controllers
 
             if (projectStage == "0" || employee == "0" || employeeRole == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas projekto etapas, darbuotojas arba darbuotojo rolė");
             }
 
             _context.WorkingTimeRegisters.Add(workingTimeRegister);

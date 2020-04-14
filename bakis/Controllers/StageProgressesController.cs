@@ -57,14 +57,14 @@ namespace bakis.Controllers
 
             if (id != stageProgress.StageProgressId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
             }
 
             var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == stageProgress.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
 
             if (projectStage == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas projekto etapas");
             }
 
             _context.Entry(stageProgress).State = EntityState.Modified;
@@ -101,7 +101,7 @@ namespace bakis.Controllers
 
             if (projectStage == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas projekto etapas");
             }
 
             _context.StageProgresses.Add(stageProgress);

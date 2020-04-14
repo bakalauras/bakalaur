@@ -97,14 +97,14 @@ namespace bakis.Controllers
 
             if (id != customer.CustomerId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos būsenos ID nesutampa su formoje esančiu būsenos ID");
             }
 
             var customerType = _context.CustomerTypes.Where(l => l.CustomerTypeId == customer.CustomerTypeId).Select(l => l.CustomerTypeId).FirstOrDefault().ToString();
 
             if (customerType == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas užsakovo tipas");
             }
 
             _context.Entry(customer).State = EntityState.Modified;
@@ -141,7 +141,7 @@ namespace bakis.Controllers
 
             if (customerType == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas užsakovo tipas");
             }
 
             _context.Customers.Add(customer);
@@ -171,7 +171,7 @@ namespace bakis.Controllers
             
             if (contests != "0" || projects != "0")
             {
-                return BadRequest();
+                return BadRequest("Užsakovas turi susijusių įrašų ir negali būti ištrintas");
             }
 
             _context.Customers.Remove(customer);

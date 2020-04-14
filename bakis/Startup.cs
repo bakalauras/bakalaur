@@ -63,12 +63,19 @@ namespace bakis
              .AllowAnyHeader()
              .AllowCredentials());
 
+
             //app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
                 RequestPath = new PathString("/Resources")
             });
+
+            app.UseCors(options =>
+            options.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
             app.UseMvc();
         }
     }

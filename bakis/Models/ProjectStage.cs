@@ -15,13 +15,15 @@ namespace bakis.Models
         public int ProjectStageNameId { get; set; }
         [Required]
         public double StageBudget { get; set; }
-        [Required]
+        [DisplayFormat(DataFormatString = "{yyyy'-'MM'-'dd}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
-        [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime ScheduledStartDate { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime ScheduledEndDate { get; set; }
         [Required]
         [ForeignKey("ProjectId")]

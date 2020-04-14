@@ -57,7 +57,7 @@ namespace bakis.Controllers
 
             if (id != employeeRole.EmployeeRoleId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
             }
 
             _context.Entry(employeeRole).State = EntityState.Modified;
@@ -117,7 +117,7 @@ namespace bakis.Controllers
 
             if (workingTimeRegisters != "0" || resourcePlans !="0")
             {
-                return BadRequest();
+                return BadRequest("Darbuotojo rolė turi susijusių įrašų ir negali būti ištrinta");
             }
 
             _context.EmployeeRoles.Remove(employeeRole);

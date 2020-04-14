@@ -57,14 +57,14 @@ namespace bakis.Controllers
 
             if (id != tenderFile.TenderFileId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
             }
 
             var tender = _context.Tenders.Where(l => l.TenderId == tenderFile.TenderId).Select(l => l.TenderId).FirstOrDefault().ToString();
 
             if (tender == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas pasiūlymas");
             }
 
             _context.Entry(tenderFile).State = EntityState.Modified;
@@ -101,7 +101,7 @@ namespace bakis.Controllers
 
             if (tender == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas pasiūlymas");
             }
 
             _context.TenderFiles.Add(tenderFile);

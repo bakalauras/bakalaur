@@ -17,12 +17,16 @@ namespace bakis.Models
         [Required]
         public double Budget { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PublicationDate { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FillingDate { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PriceRobbingDate { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime ClaimsFillingDate { get; set; }
         [ForeignKey("CustomerId")]
         public int CustomerId { get; set; }
