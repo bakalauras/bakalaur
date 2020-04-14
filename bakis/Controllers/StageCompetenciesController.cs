@@ -46,6 +46,26 @@ namespace bakis.Controllers
             return Ok(stageCompetency);
         }
 
+        // GET: api/StageCompetencies/5/ProjectStages/5/ProjectStageNames/5
+        [HttpGet("{id}/ProjectStages")]
+        public async Task<IActionResult> GetStageCompetencyNames([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var stageCompetency = await _context.StageCompetencies.FindAsync(id);
+
+            if (stageCompetency == null)
+            {
+                return NotFound();
+            }
+
+          //  var stages = _context.ProjectStages.Where(l =)
+            return Ok(stageCompetency);
+        }
+
         // PUT: api/StageCompetencies/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStageCompetency([FromRoute] int id, [FromBody] StageCompetency stageCompetency)

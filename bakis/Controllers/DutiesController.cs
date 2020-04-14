@@ -111,6 +111,13 @@ namespace bakis.Controllers
                 return NotFound();
             }
 
+            var employeeDuties = _context.EmployeeDuties.Where(l => l.DutyId == id).Select(l => l.EmployeeDutyId).FirstOrDefault().ToString();
+
+            if (employeeDuties != "0")
+            {
+                return BadRequest("Negalima ištrinti, nes yra šios pareigos yra priskirtos bent vienam darbuotojui.");
+            }
+
             _context.Duties.Remove(duty);
             await _context.SaveChangesAsync();
 

@@ -20,5 +20,7 @@ namespace bakis.Models
         [Required]
         [Column(TypeName = "nvarchar(100)")]
         public string Technology { get; set; }
+        [Required]
+        public int Order { get; set; }
     }
 }
