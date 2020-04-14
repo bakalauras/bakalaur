@@ -97,7 +97,7 @@ namespace bakis.Controllers
 
             if (id != tender.TenderId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
             }
 
             var contest = _context.Contests.Where(l => l.ContestId == tender.ContestId).Select(l => l.ContestId).FirstOrDefault().ToString();
@@ -106,7 +106,7 @@ namespace bakis.Controllers
 
             if (contest == "0" || tenderState == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas konkursas ar pasiūlymo būsena");
             }
 
             _context.Entry(tender).State = EntityState.Modified;
@@ -145,7 +145,7 @@ namespace bakis.Controllers
 
             if (contest == "0" || tenderState == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas konkursas ar pasiūlymo būsena");
             }
 
             _context.Tenders.Add(tender);
@@ -175,7 +175,7 @@ namespace bakis.Controllers
 
             if (tenderFiles != "0" || projects != "0")
             {
-                return BadRequest();
+                return BadRequest("Pasiūlymas turi susijusių įrašų ir negali būti ištrintas");
             }
 
             _context.Tenders.Remove(tender);

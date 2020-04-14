@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using System.Data;
+using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace bakis.Controllers
 {
@@ -103,6 +106,35 @@ namespace bakis.Controllers
             return Ok(resourcePlans);
         }
 
+        [HttpGet("{id}/SPI")]
+        public string GetSPI([FromRoute] int id)
+        {
+            //services.AddDbContext<ProjectContext>(options =>
+            //options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+            //var result;
+            using (SqlConnection conn = new SqlConnection("Server=(LocalDB)\\MSSQLLocalDB;Database=ResourcePlanningDB2;Trusted_Connection=True;MultipleActiveResultSets=True;"))
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+               // cmd.CommandText = parameterStatement.getQuery();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPI";
+                //cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@StageId", SqlDbType.Int)
+                    { Value = id });
+                //cmd.Parameters.AddWithValue("SeqName", "SeqNameValue");
+
+                var returnParameter = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+                
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                var result = 0;
+                result = (int)returnParameter.Value;
+                Console.WriteLine(result);
+                return result.ToString();
+            }
+        }
+
         [HttpGet("{id}/competencies")]
         public async Task<IActionResult> GetProjectStageCompetencies([FromRoute] int id)
         {
@@ -133,7 +165,7 @@ namespace bakis.Controllers
 
             if (id != projectStage.ProjectStageId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
             }
 
             var projectStageName = _context.ProjectStageNames.Where(l => l.ProjctStageNameId == projectStage.ProjectStageNameId).Select(l => l.ProjctStageNameId).FirstOrDefault().ToString();
@@ -142,7 +174,7 @@ namespace bakis.Controllers
 
             if (projectStageName == "0" || project == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas projektas ar projekto etapo pavadinimas");
             }
 
             _context.Entry(projectStage).State = EntityState.Modified;
@@ -181,7 +213,7 @@ namespace bakis.Controllers
 
             if (projectStageName == "0" || project == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinktas nekorektiškas projektas ar projekto etapo pavadinimas");
             }
 
             _context.ProjectStages.Add(projectStage);
@@ -215,7 +247,7 @@ namespace bakis.Controllers
 
             if (stageProgresses != "0" || resourcePlans != "0" || workingTimeRegisters != "0" || stageCompetencies != "0")
             {
-                return BadRequest();
+                return BadRequest("Projekto etapas turi susijusių įrašų ir negali būti ištrintas");
             }
 
             _context.ProjectStages.Remove(projectStage);

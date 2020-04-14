@@ -12,8 +12,10 @@ namespace bakis.Models
         [Key]
         public int StageProgressId { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateFrom { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateTo { get; set; }
         [Required]
         public double Percentage { get; set; }

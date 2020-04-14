@@ -57,7 +57,7 @@ namespace bakis.Controllers
 
             if (id != contestStatus.ContestStatusId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos būsenos ID nesutampa su formoje esančiu būsenos ID");
             }
 
             _context.Entry(contestStatus).State = EntityState.Modified;
@@ -115,7 +115,7 @@ namespace bakis.Controllers
 
             if (contests != "0")
             {
-                return BadRequest();
+                return BadRequest("Konkurso būsena turi susijusių įrašų ir negali būti ištrinta");
             }
 
             _context.ContestStatuses.Remove(contestStatus);

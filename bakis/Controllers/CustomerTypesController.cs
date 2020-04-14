@@ -77,7 +77,7 @@ namespace bakis.Controllers
 
             if (id != customerType.CustomerTypeId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
             }
 
             _context.Entry(customerType).State = EntityState.Modified;
@@ -135,7 +135,7 @@ namespace bakis.Controllers
 
             if (customers != "0")
             {
-                return BadRequest();
+                return BadRequest("Užsakovo tipas turi susijusių įrašų ir negali būti ištrintas");
             }
 
             _context.CustomerTypes.Remove(customerType);
