@@ -57,7 +57,7 @@ namespace bakis.Controllers
 
             if (id != projectStageName.ProjctStageNameId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
             }
 
             _context.Entry(projectStageName).State = EntityState.Modified;
@@ -115,7 +115,7 @@ namespace bakis.Controllers
 
             if (projectStages != "0")
             {
-                return BadRequest();
+                return BadRequest("Projekto etapo pavadinimas turi susijusių įrašų ir negali būti ištrintas");
             }
 
             _context.ProjectStageNames.Remove(projectStageName);

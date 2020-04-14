@@ -57,7 +57,7 @@ namespace bakis.Controllers
 
             if (id != tenderState.TenderStateId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
             }
 
             _context.Entry(tenderState).State = EntityState.Modified;
@@ -115,7 +115,7 @@ namespace bakis.Controllers
 
             if (tenders != "0")
             {
-                return BadRequest();
+                return BadRequest("Pasiūlymo būsena turi susijusių įrašų ir negali būti ištrinta");
             }
 
             _context.TenderStates.Remove(tenderState);

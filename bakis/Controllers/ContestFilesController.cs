@@ -40,7 +40,7 @@ namespace bakis.Controllers
 
             if (contestFile == null)
             {
-                return NotFound();
+                return NotFound("Konkurso failas nerastas");
             }
 
             return Ok(contestFile);
@@ -57,14 +57,14 @@ namespace bakis.Controllers
 
             if (id != contestFile.ContestFileId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos failo ID nesutampa su formoje esančiu failo ID");
             }
 
             var contests = _context.Contests.Where(l => l.ContestId == contestFile.ContestId).Select(l => l.ContestId).FirstOrDefault().ToString();
 
             if (contests == "0")
             {
-                return BadRequest();
+                return BadRequest("Konkursas, kurio failą bandoma pridėti, neegzistuoja");
             }
 
             _context.Entry(contestFile).State = EntityState.Modified;
@@ -101,7 +101,7 @@ namespace bakis.Controllers
 
             if (contests == "0")
             {
-                return BadRequest();
+                return BadRequest("Konkursas, kurio failą bandoma pridėti, neegzistuoja");
             }
 
             _context.ContestFiles.Add(contestFile);

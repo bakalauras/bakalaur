@@ -97,7 +97,7 @@ namespace bakis.Controllers
 
             if (id != contest.ContestId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos konkurso ID nesutampa su formoje esančiu konkurso ID");
             }
 
             var contestStatus = _context.ContestStatuses.Where(l => l.ContestStatusId == contest.ContestStatusId).Select(l => l.ContestStatusId).FirstOrDefault().ToString();
@@ -106,7 +106,7 @@ namespace bakis.Controllers
 
             if (contestStatus == "0" || customer == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinkta nekorektiška konkurso būsena ar užsakovas");
             }
 
             _context.Entry(contest).State = EntityState.Modified;
@@ -145,7 +145,7 @@ namespace bakis.Controllers
 
             if (contestStatus == "0" || customer == "0")
             {
-                return BadRequest();
+                return BadRequest("Pasirinkta nekorektiška konkurso būsena ar užsakovas");
             }
 
             _context.Contests.Add(contest);
@@ -177,7 +177,7 @@ namespace bakis.Controllers
 
             if (contestFiles != "0" || tenders != "0" || contestCertificates != "0")
             {
-                return BadRequest();
+                return BadRequest("Konkursas turi susijusių įrašų ir negali būti ištrintas");
             }
 
             _context.Contests.Remove(contest);

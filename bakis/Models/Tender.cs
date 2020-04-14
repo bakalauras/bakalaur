@@ -17,6 +17,7 @@ namespace bakis.Models
         [Required]
         public double Price { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FillingDate { get; set; }
         [ForeignKey("ContestId")]
         public int ContestId { get; set; }
