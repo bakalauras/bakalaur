@@ -91,20 +91,21 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
+            var firstCert = await _context.Certificates.FirstAsync();
             var cert = await _context.Certificates.FindAsync(employeeExam.CertificateId);
             var query = from b in _context.EmployeeExams
                         from p in _context.EmployeeCertificates.Where(p => b.CertificateId == p.CertificateId)
                         from c in _context.Certificates.Where(c => p.CertificateId == c.CertificateId).Where(a => b.EmployeeId == employeeExam.EmployeeId)
                         select new { b, p, c };
            
-            if (cert.Title == "ISTQB Advanced")
+            if (cert.CertificateId == 2)
             {
-                var query1 = query.Select(s => s.c).Where(a => a.Title == "ISTQB Foundation");
+                var query1 = query.Select(s => s.c).Where(a => a.CertificateId == 1);
                 if (query1.Count() == 0)
                 {
-                    return BadRequest("Negalite registruotis, nes neturite ISTQB Foundation sertifikato.");
+                    return BadRequest("Negalite registruotis, nes neturite " + firstCert.Title + " sertifikato.");
                 }
-                var query2 = query.Select(s => s.c).Where(a => a.Title == "ISTQB Advanced");
+                var query2 = query.Select(s => s.p).Where(a => a.CertificateId == 2);
                 if (query2.Count() == 1)
                 {
                     return BadRequest("Jūs jau turite šį sertifikatą.");
