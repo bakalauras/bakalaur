@@ -12,8 +12,7 @@ namespace bakis.Models
         [Key]
         public int EmployeeCertificateId { get; set; }
         [Required]
-        [Column(TypeName = "nvarchar(100)")]
-        public string File { get; set; }
+        public byte[] File { get; set; }
         [ForeignKey("EmployeeId")]
         public int EmployeeId { get; set; }
         [ForeignKey("CertificateId")]

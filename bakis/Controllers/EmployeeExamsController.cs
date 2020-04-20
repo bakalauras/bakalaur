@@ -61,6 +61,8 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            employeeExam.PlannedExamDate = employeeExam.PlannedExamDate.ToLocalTime();
+            employeeExam.RealExamDate = employeeExam.RealExamDate.ToLocalTime();
             _context.Entry(employeeExam).State = EntityState.Modified;
 
             try
@@ -112,7 +114,9 @@ namespace bakis.Controllers
                 }
             }
 
-             _context.EmployeeExams.Add(employeeExam);
+            employeeExam.PlannedExamDate = employeeExam.PlannedExamDate.ToLocalTime();
+            employeeExam.RealExamDate = employeeExam.RealExamDate.ToLocalTime();
+            _context.EmployeeExams.Add(employeeExam);
              await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetEmployeeExam", new { id = employeeExam.EmployeeExamId }, employeeExam);

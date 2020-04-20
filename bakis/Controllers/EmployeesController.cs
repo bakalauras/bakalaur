@@ -114,6 +114,27 @@ namespace bakis.Controllers
             return Ok(exams);
         }
 
+        // GET: api/Employees/5/salaries
+        [HttpGet("{id}/salaries")]
+        public async Task<IActionResult> GetEmployeeSalaries([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var employee = await _context.Employees.FindAsync(id);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            var salaries = _context.Salaries.Where(l => l.EmployeeId == id);
+
+            return Ok(salaries);
+        }
+
         // GET: api/Employees/5/certificates
         [HttpGet("{id}/certificates")]
         public async Task<IActionResult> GetEmployeeCertificates([FromRoute] int id)

@@ -29,8 +29,6 @@ namespace bakis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Order");
-
                     b.Property<string>("Technology")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
@@ -225,9 +223,8 @@ namespace bakis.Migrations
 
                     b.Property<int>("EmployeeId");
 
-                    b.Property<string>("File")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<byte[]>("File")
+                        .IsRequired();
 
                     b.HasKey("EmployeeCertificateId");
 
@@ -329,8 +326,6 @@ namespace bakis.Migrations
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("Order");
 
                     b.Property<string>("Title")
                         .IsRequired()
