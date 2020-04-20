@@ -116,3 +116,17 @@ bakis/obj/Debug/netcoreapp2.1/bakis.dll
 bakis/obj/Debug/netcoreapp2.1/bakis.pdb
 bakis/Resources/Certificates/10.png
 bakis/Resources/Certificates/db.txt
+bakis/.vs/bakis/DesignTimeBuild/.dtbcache
+bakis/.vs/bakis/v16/.suo
+bakis/.vs/bakis/v16/Server/sqlite3/storage.ide
+bakis/.vs/bakis/v16/Server/sqlite3/storage.ide-shm
+bakis/.vs/bakis/v16/Server/sqlite3/storage.ide-wal
+bakis/appsettings.json
+bakis/bakis.csproj.user
+bakis/bin/Debug/netcoreapp2.1/appsettings.json
+bakis/bin/Debug/netcoreapp2.1/bakis.dll
+bakis/bin/Debug/netcoreapp2.1/bakis.pdb
+bakis/Migrations/ProjectContextModelSnapshot.cs
+bakis/obj/Debug/netcoreapp2.1/bakis.csprojAssemblyReference.cache
+bakis/obj/Debug/netcoreapp2.1/bakis.dll
+bakis/obj/Debug/netcoreapp2.1/bakis.pdb

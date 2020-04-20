@@ -21,5 +21,7 @@ namespace bakis.Models
         public bool IsActive { get; set; }
         [ForeignKey("EmployeeId")]
         public int FkEmployeeId { get; set; }
+        [ForeignKey("GroupId")]
+        public int GroupId { get; set; }
     }
 }
