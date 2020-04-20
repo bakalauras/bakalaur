@@ -74,6 +74,8 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas ar darbuotojo rolė");
             }
 
+            resourcePlan = calculatePrice(resourcePlan);
+
             _context.Entry(resourcePlan).State = EntityState.Modified;
 
             try
@@ -113,10 +115,23 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas ar darbuotojo rolė");
             }
 
+            resourcePlan = calculatePrice(resourcePlan);
+
             _context.ResourcePlans.Add(resourcePlan);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetResourcePlan", new { id = resourcePlan.ResourcePlanId }, resourcePlan);
+        }
+
+        public ResourcePlan calculatePrice(ResourcePlan resourcePlan)
+        {
+            EmployeeRole employeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == resourcePlan.EmployeeRoleId).FirstOrDefault();
+
+            resourcePlan.Price = resourcePlan.Hours * employeeRole.AverageWage / 168;
+
+            resourcePlan.Price = Convert.ToDouble(String.Format("{0:0.00}", resourcePlan.Price));
+
+            return resourcePlan;
         }
 
         // DELETE: api/ResourcePlans/5

@@ -72,6 +72,25 @@ namespace bakis.Controllers
             return Ok(stageProgresses);
         }
 
+        [HttpGet("{id}/stageCPI")]
+        public async Task<IActionResult> GetProjectStageCPI([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var projectStage = await _context.ProjectStages.FindAsync(id);
+
+            if (projectStage == null)
+            {
+                return NotFound();
+            }
+            var cPIMeasures = _context.CPIMeasures.Where(l => l.ProjectStageId == id);
+
+            return Ok(cPIMeasures);
+        }
+
         [HttpGet("{id}/workingTimeRegisters")]
         public async Task<IActionResult> GetProjectStageWorkingTimeRegsters([FromRoute] int id)
         {
