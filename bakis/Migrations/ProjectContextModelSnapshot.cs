@@ -229,6 +229,8 @@ namespace bakis.Migrations
 
                     b.Property<int>("FkEmployeeId");
 
+                    b.Property<int>("GroupId");
+
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("Name")
@@ -367,6 +369,36 @@ namespace bakis.Migrations
                     b.ToTable("Exams");
                 });
 
+            modelBuilder.Entity("bakis.Models.Group", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("GroupId");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("bakis.Models.GroupRight", b =>
+                {
+                    b.Property<int>("GroupRightId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GroupId");
+
+                    b.Property<int>("RightId");
+
+                    b.HasKey("GroupRightId");
+
+                    b.ToTable("GroupRights");
+                });
+
             modelBuilder.Entity("bakis.Models.Project", b =>
                 {
                     b.Property<int>("ProjectId")
@@ -465,6 +497,21 @@ namespace bakis.Migrations
                     b.HasIndex("ProjectStageId");
 
                     b.ToTable("ResourcePlans");
+                });
+
+            modelBuilder.Entity("bakis.Models.Right", b =>
+                {
+                    b.Property<int>("RightId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("RightId");
+
+                    b.ToTable("Rights");
                 });
 
             modelBuilder.Entity("bakis.Models.Salary", b =>

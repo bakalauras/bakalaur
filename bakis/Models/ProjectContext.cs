@@ -60,6 +60,10 @@ namespace bakis.Models
 
         public DbSet<WorkingTimeRegister> WorkingTimeRegisters { get; set; }
 
+        public DbSet<Right> Rights { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<GroupRight> GroupRights { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             foreach (var relationship in modelbuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
