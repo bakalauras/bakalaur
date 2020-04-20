@@ -24,6 +24,11 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<Contest> GetContests()
         {
+            foreach (Contest contest in _context.Contests)
+            {
+                contest.Customer = _context.Customers.Where(l => l.CustomerId == contest.CustomerId).FirstOrDefault();
+                contest.ContestStatus = _context.ContestStatuses.Where(l => l.ContestStatusId == contest.ContestStatusId).FirstOrDefault();
+            }
             return _context.Contests;
         }
 

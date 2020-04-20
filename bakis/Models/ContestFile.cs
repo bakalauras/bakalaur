@@ -18,6 +18,7 @@ namespace bakis.Models
         [Column(TypeName = "nvarchar(100)")]
         public string FileName { get; set; }
         [ForeignKey("ContestId")]
+        public Contest Contest { get; set; }
         public int ContestId { get; set; }
     }
 }

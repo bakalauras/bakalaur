@@ -19,14 +19,15 @@ namespace bakis.Models
         public DateTime DateTo { get; set; }
         [Required]
         public double Hours { get; set; }
-        [Required]
+        public double Price { get; set; }
         [ForeignKey("ProjectStageId")]
+        public ProjectStage ProjectStage { get; set; }
         public int ProjectStageId { get; set; }
-        [Required]
         [ForeignKey("EmployeeRoleId")]
+        public EmployeeRole EmployeeRole { get; set; }
         public int EmployeeRoleId { get; set; }
-        [Required]
         [ForeignKey("EmployeeId")]
+        public Employee Employee { get; set; }
         public int EmployeeId { get; set; }
     }
 }

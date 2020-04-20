@@ -24,6 +24,11 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<ResourcePlan> GetResourcePlans()
         {
+            foreach (ResourcePlan plan in _context.ResourcePlans)
+            {
+                plan.EmployeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == plan.EmployeeRoleId).FirstOrDefault();
+                plan.ProjectStage = _context.ProjectStages.Where(l => l.ProjectStageId == plan.ProjectStageId).FirstOrDefault();
+            }
             return _context.ResourcePlans;
         }
 

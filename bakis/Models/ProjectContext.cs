@@ -50,6 +50,8 @@ namespace bakis.Models
 
         public DbSet<ProjectStage> ProjectStages { get; set; }
 
+        public DbSet<CPIMeasure> CPIMeasures { get; set; }
+
         public DbSet<StageProgress> StageProgresses { get; set; }
 
         public DbSet<EmployeeRole> EmployeeRoles { get; set; }

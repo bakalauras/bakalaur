@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using FluentDateTime;
 
 namespace bakis.Controllers
 {
@@ -24,6 +25,10 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<StageProgress> GetStageProgresses()
         {
+            foreach (StageProgress progress in _context.StageProgresses)
+            {
+                progress.ProjectStage = _context.ProjectStages.Where(l => l.ProjectStageId == progress.ProjectStageId).FirstOrDefault();
+            }
             return _context.StageProgresses;
         }
 
@@ -67,6 +72,13 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas");
             }
 
+            stageProgress = calculateSPI(stageProgress);
+
+            if (stageProgress == null)
+            {
+                return BadRequest("Netinkamos projekto etapo datos - skaičiuojant rodiklius gaunama dalyba iš nulio");
+            }
+
             _context.Entry(stageProgress).State = EntityState.Modified;
 
             try
@@ -97,17 +109,61 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
-            var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == stageProgress.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
+            ProjectStage projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == stageProgress.ProjectStageId).FirstOrDefault();
 
-            if (projectStage == "0")
+            if (projectStage == null)
             {
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas");
+            }
+
+            stageProgress = calculateSPI(stageProgress);
+
+            if(stageProgress == null)
+            {
+                return BadRequest("Netinkamos projekto etapo datos - skaičiuojant rodiklius gaunama dalyba iš nulio");
             }
 
             _context.StageProgresses.Add(stageProgress);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetStageProgress", new { id = stageProgress.StageProgressId }, stageProgress);
+        }
+
+        private StageProgress calculateSPI(StageProgress stageProgress)
+        {
+            ProjectStage projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == stageProgress.ProjectStageId).FirstOrDefault();
+
+            double timeElapsed = GetNumberOfBusinessDays(projectStage.StartDate, stageProgress.Date) * 100;
+
+            double timePlanned = GetNumberOfBusinessDays(projectStage.ScheduledStartDate, projectStage.ScheduledEndDate);
+
+            if(timeElapsed !=0 && timePlanned!=0)
+            {
+                stageProgress.ScheduledPercentage = timeElapsed / timePlanned ;
+
+                stageProgress.SPI = stageProgress.Percentage / stageProgress.ScheduledPercentage;
+
+                stageProgress.ScheduledPercentage = Convert.ToDouble(String.Format("{0:0.00}", stageProgress.ScheduledPercentage));
+
+                stageProgress.SPI = Convert.ToDouble(String.Format("{0:0.00}", stageProgress.SPI));
+
+                return stageProgress;
+            }
+            return null;
+        }
+
+        private static int GetNumberOfBusinessDays(DateTime start, DateTime stop)
+        {
+            int days = 0;
+            while (start <= stop)
+            {
+                if (start.DayOfWeek != DayOfWeek.Saturday && start.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    ++days;
+                }
+                start = start.AddDays(1);
+            }
+            return days;
         }
 
         // DELETE: api/StageProgresses/5

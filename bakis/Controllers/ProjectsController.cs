@@ -24,6 +24,12 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<Project> GetProjects()
         {
+            foreach (Project project in _context.Projects)
+            {
+                project.Customer = _context.Customers.Where(l => l.CustomerId == project.CustomerId).FirstOrDefault();
+                project.Tender = _context.Tenders.Where(l => l.TenderId == project.TenderId).FirstOrDefault();
+            }
+
             return _context.Projects;
         }
 
@@ -62,6 +68,12 @@ namespace bakis.Controllers
                 return NotFound();
             }
             var projectStages = _context.ProjectStages.Where(l => l.ProjectId == id);
+
+            foreach (ProjectStage stage in projectStages)
+            {
+                stage.Project = _context.Projects.Where(l => l.ProjectId == stage.ProjectId).FirstOrDefault();
+                stage.ProjectStageName = _context.ProjectStageNames.Where(l => l.ProjctStageNameId == stage.ProjectStageNameId).FirstOrDefault();
+            }
 
             return Ok(projectStages);
         }

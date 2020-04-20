@@ -83,6 +83,10 @@ namespace bakis.Migrations
 
                     b.HasKey("ContestId");
 
+                    b.HasIndex("ContestStatusId");
+
+                    b.HasIndex("CustomerId");
+
                     b.ToTable("Contests");
                 });
 
@@ -121,6 +125,8 @@ namespace bakis.Migrations
 
                     b.HasKey("ContestFileId");
 
+                    b.HasIndex("ContestId");
+
                     b.ToTable("ContestFiles");
                 });
 
@@ -137,6 +143,29 @@ namespace bakis.Migrations
                     b.HasKey("ContestStatusId");
 
                     b.ToTable("ContestStatuses");
+                });
+
+            modelBuilder.Entity("bakis.Models.CPIMeasure", b =>
+                {
+                    b.Property<int>("CPIMeasureId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("ActualPrice");
+
+                    b.Property<double>("CPI");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<double>("PlannedPrice");
+
+                    b.Property<int>("ProjectStageId");
+
+                    b.HasKey("CPIMeasureId");
+
+                    b.HasIndex("ProjectStageId");
+
+                    b.ToTable("CPIMeasures");
                 });
 
             modelBuilder.Entity("bakis.Models.Customer", b =>
@@ -156,6 +185,8 @@ namespace bakis.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("CustomerId");
+
+                    b.HasIndex("CustomerTypeId");
 
                     b.ToTable("Customers");
                 });
@@ -358,6 +389,10 @@ namespace bakis.Migrations
 
                     b.HasKey("ProjectId");
 
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("TenderId");
+
                     b.ToTable("Projects");
                 });
 
@@ -382,6 +417,10 @@ namespace bakis.Migrations
                     b.Property<DateTime>("StartDate");
 
                     b.HasKey("ProjectStageId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("ProjectStageNameId");
 
                     b.ToTable("ProjectStages");
                 });
@@ -415,9 +454,15 @@ namespace bakis.Migrations
 
                     b.Property<double>("Hours");
 
+                    b.Property<double>("Price");
+
                     b.Property<int>("ProjectStageId");
 
                     b.HasKey("ResourcePlanId");
+
+                    b.HasIndex("EmployeeRoleId");
+
+                    b.HasIndex("ProjectStageId");
 
                     b.ToTable("ResourcePlans");
                 });
@@ -466,15 +511,19 @@ namespace bakis.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateFrom");
-
-                    b.Property<DateTime>("DateTo");
+                    b.Property<DateTime>("Date");
 
                     b.Property<double>("Percentage");
 
                     b.Property<int>("ProjectStageId");
 
+                    b.Property<double>("SPI");
+
+                    b.Property<double>("ScheduledPercentage");
+
                     b.HasKey("StageProgressId");
+
+                    b.HasIndex("ProjectStageId");
 
                     b.ToTable("StageProgresses");
                 });
@@ -491,9 +540,13 @@ namespace bakis.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<int>("TenderState");
+                    b.Property<int>("TenderStateId");
 
                     b.HasKey("TenderId");
+
+                    b.HasIndex("ContestId");
+
+                    b.HasIndex("TenderStateId");
 
                     b.ToTable("Tenders");
                 });
@@ -515,6 +568,8 @@ namespace bakis.Migrations
                     b.Property<int>("TenderId");
 
                     b.HasKey("TenderFileId");
+
+                    b.HasIndex("TenderId");
 
                     b.ToTable("TenderFiles");
                 });
@@ -550,11 +605,142 @@ namespace bakis.Migrations
 
                     b.Property<double>("Hours");
 
+                    b.Property<double>("Price");
+
                     b.Property<int>("ProjectStageId");
 
                     b.HasKey("WorkingTimeRegisterId");
 
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("EmployeeRoleId");
+
+                    b.HasIndex("ProjectStageId");
+
                     b.ToTable("WorkingTimeRegisters");
+                });
+
+            modelBuilder.Entity("bakis.Models.Contest", b =>
+                {
+                    b.HasOne("bakis.Models.ContestStatus", "ContestStatus")
+                        .WithMany()
+                        .HasForeignKey("ContestStatusId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.ContestFile", b =>
+                {
+                    b.HasOne("bakis.Models.Contest", "Contest")
+                        .WithMany()
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.CPIMeasure", b =>
+                {
+                    b.HasOne("bakis.Models.ProjectStage", "ProjectStage")
+                        .WithMany()
+                        .HasForeignKey("ProjectStageId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.Customer", b =>
+                {
+                    b.HasOne("bakis.Models.CustomerType", "CustomerType")
+                        .WithMany()
+                        .HasForeignKey("CustomerTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.Project", b =>
+                {
+                    b.HasOne("bakis.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.Tender", "Tender")
+                        .WithMany()
+                        .HasForeignKey("TenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.ProjectStage", b =>
+                {
+                    b.HasOne("bakis.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.ProjectStageName", "ProjectStageName")
+                        .WithMany()
+                        .HasForeignKey("ProjectStageNameId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.ResourcePlan", b =>
+                {
+                    b.HasOne("bakis.Models.EmployeeRole", "EmployeeRole")
+                        .WithMany()
+                        .HasForeignKey("EmployeeRoleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.ProjectStage", "ProjectStage")
+                        .WithMany()
+                        .HasForeignKey("ProjectStageId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.StageProgress", b =>
+                {
+                    b.HasOne("bakis.Models.ProjectStage", "ProjectStage")
+                        .WithMany()
+                        .HasForeignKey("ProjectStageId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.Tender", b =>
+                {
+                    b.HasOne("bakis.Models.Contest", "Contest")
+                        .WithMany()
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.TenderState", "TenderState")
+                        .WithMany()
+                        .HasForeignKey("TenderStateId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.TenderFile", b =>
+                {
+                    b.HasOne("bakis.Models.Tender", "Tender")
+                        .WithMany()
+                        .HasForeignKey("TenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.WorkingTimeRegister", b =>
+                {
+                    b.HasOne("bakis.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.EmployeeRole", "EmployeeRole")
+                        .WithMany()
+                        .HasForeignKey("EmployeeRoleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.ProjectStage", "ProjectStage")
+                        .WithMany()
+                        .HasForeignKey("ProjectStageId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

@@ -24,6 +24,10 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<TenderFile> GetTenderFiles()
         {
+            foreach (TenderFile file in _context.TenderFiles)
+            {
+                file.Tender = _context.Tenders.Where(l => l.TenderId == file.TenderId).FirstOrDefault();
+            }
             return _context.TenderFiles;
         }
 
