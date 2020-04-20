@@ -60,6 +60,8 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            employeeCompetency.DateFrom = employeeCompetency.DateFrom.ToLocalTime();
+            employeeCompetency.DateTo = employeeCompetency.DateTo.ToLocalTime();
             _context.Entry(employeeCompetency).State = EntityState.Modified;
 
             try
@@ -90,6 +92,8 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
+            employeeCompetency.DateFrom = employeeCompetency.DateFrom.ToLocalTime();
+            employeeCompetency.DateTo = employeeCompetency.DateTo.ToLocalTime();
             _context.EmployeeCompetencies.Add(employeeCompetency);
             await _context.SaveChangesAsync();
 

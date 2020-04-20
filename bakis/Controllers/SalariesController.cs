@@ -60,6 +60,8 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            salary.DateFrom = salary.DateFrom.ToLocalTime();
+            salary.DateTo = salary.DateTo.ToLocalTime();
             _context.Entry(salary).State = EntityState.Modified;
 
             try
@@ -90,6 +92,8 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
+            salary.DateFrom = salary.DateFrom.ToLocalTime();
+            salary.DateTo = salary.DateTo.ToLocalTime();
             _context.Salaries.Add(salary);
             await _context.SaveChangesAsync();
 

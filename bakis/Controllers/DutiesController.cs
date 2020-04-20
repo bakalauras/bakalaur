@@ -52,7 +52,7 @@ namespace bakis.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Jūs neįvedėte duomenų.");
             }
 
             if (id != duty.DutyId)
@@ -88,6 +88,12 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+
+            }
+
+            if(duty.Title == null)
+            {
+                return BadRequest("Jūs neįvedėte duomenų.");
             }
 
             _context.Duties.Add(duty);
