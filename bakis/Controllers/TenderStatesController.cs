@@ -111,7 +111,7 @@ namespace bakis.Controllers
                 return NotFound();
             }
 
-            var tenders = _context.Tenders.Where(l => l.TenderState == id).Select(l => l.TenderId).FirstOrDefault().ToString();
+            var tenders = _context.Tenders.Where(l => l.TenderStateId == id).Select(l => l.TenderId).FirstOrDefault().ToString();
 
             if (tenders != "0")
             {

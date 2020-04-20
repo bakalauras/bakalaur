@@ -24,6 +24,10 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<Customer> GetCustomers()
         {
+            foreach (Customer customer in _context.Customers)
+            {
+                customer.CustomerType = _context.CustomerTypes.Where(l => l.CustomerTypeId == customer.CustomerTypeId).FirstOrDefault();
+            }
             return _context.Customers;
         }
 

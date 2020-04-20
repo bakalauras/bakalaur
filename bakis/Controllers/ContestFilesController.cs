@@ -24,6 +24,10 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<ContestFile> GetContestFiles()
         {
+            foreach (ContestFile file in _context.ContestFiles)
+            {
+                file.Contest = _context.Contests.Where(l => l.ContestId == file.ContestId).FirstOrDefault();
+            }
             return _context.ContestFiles;
         }
 

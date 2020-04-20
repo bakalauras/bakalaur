@@ -11,15 +11,16 @@ namespace bakis.Models
     {
         [Key]
         public int TenderId { get; set; }
-        [Required]
         [ForeignKey("TenderStateId")]
-        public int TenderState { get; set; }
+        public TenderState TenderState { get; set; }
+        public int TenderStateId { get; set; }
         [Required]
         public double Price { get; set; }
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FillingDate { get; set; }
         [ForeignKey("ContestId")]
+        public Contest Contest { get; set; }
         public int ContestId { get; set; }
     }
 }

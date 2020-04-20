@@ -29,8 +29,10 @@ namespace bakis.Models
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime ClaimsFillingDate { get; set; }
         [ForeignKey("CustomerId")]
+        public Customer Customer { get; set; }
         public int CustomerId { get; set; }
         [ForeignKey("ContestStatusId")]
+        public ContestStatus ContestStatus { get; set; }
         public int ContestStatusId { get; set; }
     }
 }

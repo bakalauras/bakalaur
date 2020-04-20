@@ -18,6 +18,7 @@ namespace bakis.Models
         [Column(TypeName = "nvarchar(100)")]
         public string Adress { get; set; }
         [ForeignKey("CustomerTypeId")]
+        public CustomerType CustomerType { get; set; }
         public int CustomerTypeId { get; set; }
     }
 }

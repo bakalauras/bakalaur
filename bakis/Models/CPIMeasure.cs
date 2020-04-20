@@ -7,17 +7,16 @@ using System.Threading.Tasks;
 
 namespace bakis.Models
 {
-    public class StageProgress
+    public class CPIMeasure
     {
         [Key]
-        public int StageProgressId { get; set; }
+        public int CPIMeasureId { get; set; }
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
-        [Required]
-        public double Percentage { get; set; }
-        public double ScheduledPercentage { get; set; }
-        public double SPI { get; set; }
+        public double PlannedPrice { get; set; }
+        public double ActualPrice { get; set; }
+        public double CPI { get; set; }
         [ForeignKey("ProjectStageId")]
         public ProjectStage ProjectStage { get; set; }
         public int ProjectStageId { get; set; }

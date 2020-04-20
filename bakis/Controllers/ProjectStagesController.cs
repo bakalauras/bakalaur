@@ -27,6 +27,10 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<ProjectStage> GetProjectStages()
         {
+           foreach (ProjectStage stage in _context.ProjectStages) {
+                stage.Project = _context.Projects.Where(l => l.ProjectId == stage.ProjectId).FirstOrDefault();
+                stage.ProjectStageName = _context.ProjectStageNames.Where(l => l.ProjctStageNameId == stage.ProjectStageNameId).FirstOrDefault();
+            }
             return _context.ProjectStages;
         }
 
@@ -84,6 +88,13 @@ namespace bakis.Controllers
             }
             var workingTimeRegisters = _context.WorkingTimeRegisters.Where(l => l.ProjectStageId == id);
 
+            foreach (WorkingTimeRegister register in workingTimeRegisters)
+            {
+                register.EmployeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == register.EmployeeRoleId).FirstOrDefault();
+                register.ProjectStage = _context.ProjectStages.Where(l => l.ProjectStageId == register.ProjectStageId).FirstOrDefault();
+                register.Employee = _context.Employees.Where(l => l.EmployeeId == register.EmployeeId).FirstOrDefault();
+            }
+
             return Ok(workingTimeRegisters);
         }
 
@@ -102,6 +113,12 @@ namespace bakis.Controllers
                 return NotFound();
             }
             var resourcePlans = _context.ResourcePlans.Where(l => l.ProjectStageId == id);
+
+            foreach (ResourcePlan plan in resourcePlans)
+            {
+                plan.EmployeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == plan.EmployeeRoleId).FirstOrDefault();
+                plan.ProjectStage = _context.ProjectStages.Where(l => l.ProjectStageId == plan.ProjectStageId).FirstOrDefault();
+            }
 
             return Ok(resourcePlans);
         }
@@ -177,6 +194,11 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projektas ar projekto etapo pavadinimas");
             }
 
+            if (!IsProjectStagesBugdetSumCorrect(projectStage))
+            {
+                return BadRequest("Projekto etapų biudžetų suma negali būti didesnė nei projekto suma");
+            }
+
             _context.Entry(projectStage).State = EntityState.Modified;
 
             try
@@ -216,10 +238,30 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projektas ar projekto etapo pavadinimas");
             }
 
+            if(!IsProjectStagesBugdetSumCorrect(projectStage))
+            {
+                return BadRequest("Projekto etapų biudžetų suma negali būti didesnė nei projekto suma");
+            }
+
+           // projectStage.Project = _context.Projects.Where(l => l.ProjectId == projectStage.ProjectId).FirstOrDefault();
+
             _context.ProjectStages.Add(projectStage);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProjectStage", new { id = projectStage.ProjectStageId }, projectStage);
+        }
+
+        public bool IsProjectStagesBugdetSumCorrect(ProjectStage projectStage)
+        {
+            double projectBudget = _context.Projects.Where(l => l.ProjectId == projectStage.ProjectId).Select(l => l.Budget).Single();
+
+            double projectStagesBugdetSum = _context.ProjectStages.Where(l => l.ProjectId == projectStage.ProjectId).Where(l => l.ProjectStageId != projectStage.ProjectStageId).Select(l => l.StageBudget).Sum();
+
+            projectStagesBugdetSum += projectStage.StageBudget;
+
+            if (projectBudget >= projectStagesBugdetSum)
+                return true;
+            return false;
         }
 
         // DELETE: api/ProjectStages/5

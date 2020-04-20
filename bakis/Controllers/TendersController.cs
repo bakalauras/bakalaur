@@ -24,6 +24,11 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<Tender> GetTenders()
         {
+            foreach (Tender tender in _context.Tenders)
+            {
+                tender.TenderState = _context.TenderStates.Where(l => l.TenderStateId == tender.TenderStateId).FirstOrDefault();
+                tender.Contest = _context.Contests.Where(l => l.ContestId == tender.ContestId).FirstOrDefault();
+            }
             return _context.Tenders;
         }
 
@@ -102,7 +107,7 @@ namespace bakis.Controllers
 
             var contest = _context.Contests.Where(l => l.ContestId == tender.ContestId).Select(l => l.ContestId).FirstOrDefault().ToString();
 
-            var tenderState = _context.TenderStates.Where(l => l.TenderStateId == tender.TenderState).Select(l => l.TenderStateId).FirstOrDefault().ToString();
+            var tenderState = _context.TenderStates.Where(l => l.TenderStateId == tender.TenderStateId).Select(l => l.TenderStateId).FirstOrDefault().ToString();
 
             if (contest == "0" || tenderState == "0")
             {
@@ -141,7 +146,7 @@ namespace bakis.Controllers
 
             var contest = _context.Contests.Where(l => l.ContestId == tender.ContestId).Select(l => l.ContestId).FirstOrDefault().ToString();
 
-            var tenderState = _context.TenderStates.Where(l => l.TenderStateId == tender.TenderState).Select(l => l.TenderStateId).FirstOrDefault().ToString();
+            var tenderState = _context.TenderStates.Where(l => l.TenderStateId == tender.TenderStateId).Select(l => l.TenderStateId).FirstOrDefault().ToString();
 
             if (contest == "0" || tenderState == "0")
             {

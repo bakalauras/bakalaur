@@ -24,6 +24,12 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<WorkingTimeRegister> GetWorkingTimeRegisters()
         {
+            foreach (WorkingTimeRegister register in _context.WorkingTimeRegisters)
+            {
+                register.EmployeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == register.EmployeeRoleId).FirstOrDefault();
+                register.ProjectStage = _context.ProjectStages.Where(l => l.ProjectStageId == register.ProjectStageId).FirstOrDefault();
+                register.Employee = _context.Employees.Where(l => l.EmployeeId == register.EmployeeId).FirstOrDefault();
+            }
             return _context.WorkingTimeRegisters;
         }
 
