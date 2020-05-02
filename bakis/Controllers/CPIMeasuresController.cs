@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CPIMeasuresController : ControllerBase
@@ -63,6 +65,8 @@ namespace bakis.Controllers
 
             calculateCPI(cPIMeasure);
 
+            cPIMeasure.Date = cPIMeasure.Date.ToLocalTime();
+
             _context.Entry(cPIMeasure).State = EntityState.Modified;
 
             try
@@ -94,6 +98,8 @@ namespace bakis.Controllers
             }
 
             calculateCPI(cPIMeasure);
+
+            cPIMeasure.Date = cPIMeasure.Date.ToLocalTime();
 
             _context.CPIMeasures.Add(cPIMeasure);
             await _context.SaveChangesAsync();

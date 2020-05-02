@@ -9,9 +9,11 @@ using bakis.Models;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectStagesController : ControllerBase
@@ -218,6 +220,11 @@ namespace bakis.Controllers
                 return BadRequest("Projekto etapų biudžetų suma negali būti didesnė nei projekto suma");
             }
 
+            projectStage.EndDate = projectStage.EndDate.ToLocalTime();
+            projectStage.ScheduledEndDate = projectStage.ScheduledEndDate.ToLocalTime();
+            projectStage.StartDate = projectStage.StartDate.ToLocalTime();
+            projectStage.ScheduledStartDate = projectStage.ScheduledStartDate.ToLocalTime();
+
             _context.Entry(projectStage).State = EntityState.Modified;
 
             try
@@ -262,7 +269,12 @@ namespace bakis.Controllers
                 return BadRequest("Projekto etapų biudžetų suma negali būti didesnė nei projekto suma");
             }
 
-           // projectStage.Project = _context.Projects.Where(l => l.ProjectId == projectStage.ProjectId).FirstOrDefault();
+            projectStage.EndDate = projectStage.EndDate.ToLocalTime();
+            projectStage.ScheduledEndDate = projectStage.ScheduledEndDate.ToLocalTime();
+            projectStage.StartDate = projectStage.StartDate.ToLocalTime();
+            projectStage.ScheduledStartDate = projectStage.ScheduledStartDate.ToLocalTime();
+
+            // projectStage.Project = _context.Projects.Where(l => l.ProjectId == projectStage.ProjectId).FirstOrDefault();
 
             _context.ProjectStages.Add(projectStage);
             await _context.SaveChangesAsync();
