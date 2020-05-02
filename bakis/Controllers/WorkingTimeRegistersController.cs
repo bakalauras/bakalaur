@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkingTimeRegistersController : ControllerBase
@@ -84,6 +86,9 @@ namespace bakis.Controllers
                 return BadRequest("Neįvestas darbuotojo atlyginimas");
             }
 
+            workingTimeRegister.DateFrom = workingTimeRegister.DateFrom.ToLocalTime();
+            workingTimeRegister.DateTo = workingTimeRegister.DateTo.ToLocalTime();
+
             _context.Entry(workingTimeRegister).State = EntityState.Modified;
 
             try
@@ -132,6 +137,9 @@ namespace bakis.Controllers
                 return BadRequest("Neįvestas darbuotojo atlyginimas");
             }
 
+            workingTimeRegister.DateFrom = workingTimeRegister.DateFrom.ToLocalTime();
+            workingTimeRegister.DateTo = workingTimeRegister.DateTo.ToLocalTime();
+
             _context.WorkingTimeRegisters.Add(workingTimeRegister);
             await _context.SaveChangesAsync();
 
@@ -142,7 +150,7 @@ namespace bakis.Controllers
         {
             int EmployeeId = _context.Employees.Where(l => l.EmployeeId == workingTimeRegister.EmployeeId).Select(l => l.EmployeeId).FirstOrDefault();
 
-            Salary salary = _context.Salaries.Where(l => l.EmployeeId == EmployeeId).Where(l => l.DateTo == null || l.DateTo > workingTimeRegister.DateTo).OrderByDescending(l => l.SalaryId).FirstOrDefault();
+            Salary salary = _context.Salaries.Where(l => l.EmployeeId == EmployeeId).Where(l => (l.DateTo == null || l.DateTo > workingTimeRegister.DateTo) && l.DateFrom < workingTimeRegister.DateTo).OrderByDescending(l => l.SalaryId).FirstOrDefault();
 
             if(salary == null)
             {

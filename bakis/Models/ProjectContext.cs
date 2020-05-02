@@ -64,6 +64,8 @@ namespace bakis.Models
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupRight> GroupRights { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             foreach (var relationship in modelbuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))

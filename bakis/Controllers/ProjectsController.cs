@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectsController : ControllerBase
@@ -28,6 +30,7 @@ namespace bakis.Controllers
             {
                 project.Customer = _context.Customers.Where(l => l.CustomerId == project.CustomerId).FirstOrDefault();
                 project.Tender = _context.Tenders.Where(l => l.TenderId == project.TenderId).FirstOrDefault();
+                project.Tender.Contest = _context.Contests.Where(l => l.ContestId == project.Tender.ContestId).FirstOrDefault();
             }
 
             return _context.Projects;

@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ResourcePlansController : ControllerBase
@@ -76,6 +78,9 @@ namespace bakis.Controllers
 
             resourcePlan = calculatePrice(resourcePlan);
 
+            resourcePlan.DateFrom = resourcePlan.DateFrom.ToLocalTime();
+            resourcePlan.DateTo = resourcePlan.DateTo.ToLocalTime();
+
             _context.Entry(resourcePlan).State = EntityState.Modified;
 
             try
@@ -114,6 +119,9 @@ namespace bakis.Controllers
             {
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas ar darbuotojo rolė");
             }
+
+            resourcePlan.DateFrom = resourcePlan.DateFrom.ToLocalTime();
+            resourcePlan.DateTo = resourcePlan.DateTo.ToLocalTime();
 
             resourcePlan = calculatePrice(resourcePlan);
 
