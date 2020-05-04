@@ -24,10 +24,13 @@ namespace bakis.Models
         [Column(TypeName = "nvarchar(100)")]
         public string File { get; set; }
         [ForeignKey("ExamId")]
+        public Exam Exam { get; set; }
         public int ExamId { get; set; }
         [ForeignKey("EmployeeId")]
+        public Employee Employee { get; set; }
         public int EmployeeId { get; set; }
         [ForeignKey("CertificateId")]
+        public Certificate Certificate { get; set; }
         public int CertificateId { get; set; }
     }
 }

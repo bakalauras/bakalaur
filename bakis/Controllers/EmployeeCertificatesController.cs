@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using System.IO;
 using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
@@ -48,6 +49,41 @@ namespace bakis.Controllers
             return Ok(employeeCertificate);
         }
 
+       // [HttpGet("{id}/files")]
+       // public IActionResult GetFile()
+       public string GetFile()
+        {
+            try
+            {
+                var folderName = Path.Combine("Resources");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                string[] fileEntries = Directory.GetFiles(pathToSave);
+                int count = 0;
+                DateTime[] dates = new DateTime[10];
+
+                for (int i = 0; i < fileEntries.Length; i++)
+                {
+                    dates[count] = System.IO.File.GetLastWriteTime(fileEntries[i]);
+                    count++;
+                }
+                var reikiama = dates.Max();
+                string kelias = "";
+
+                for (int i = 0; i < fileEntries.Length; i++)
+                {
+                    if (System.IO.File.GetLastWriteTime(fileEntries[i]) == reikiama)
+                        kelias = fileEntries[i];
+                }
+
+                return kelias;
+
+            }
+            catch (Exception ex)
+            {
+                return "Nerasta";
+            }
+        }
+
         // PUT: api/EmployeeCertificates/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmployeeCertificate([FromRoute] int id, [FromBody] EmployeeCertificate employeeCertificate)
@@ -62,6 +98,7 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            employeeCertificate.File = GetFile();
             _context.Entry(employeeCertificate).State = EntityState.Modified;
 
             try
@@ -84,7 +121,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/EmployeeCertificates
-        [HttpPost]
+        [HttpPost, DisableRequestSizeLimit]
         public async Task<IActionResult> PostEmployeeCertificate([FromBody] EmployeeCertificate employeeCertificate)
         {
             if (!ModelState.IsValid)
@@ -92,6 +129,7 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
+            employeeCertificate.File = GetFile();
             _context.EmployeeCertificates.Add(employeeCertificate);
             await _context.SaveChangesAsync();
 

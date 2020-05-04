@@ -33,7 +33,7 @@ namespace bakis.Controllers
                 stage.Project = _context.Projects.Where(l => l.ProjectId == stage.ProjectId).FirstOrDefault();
                 stage.ProjectStageName = _context.ProjectStageNames.Where(l => l.ProjctStageNameId == stage.ProjectStageNameId).FirstOrDefault();
             }
-            return _context.ProjectStages;
+            return _context.ProjectStages.ToList();
         }
 
         // GET: api/ProjectStages/5

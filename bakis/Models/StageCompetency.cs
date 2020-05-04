@@ -14,8 +14,10 @@ namespace bakis.Models
         [Required]
         public int Amount { get; set; }
         [ForeignKey("CompetencyId")]
+        public Competency Competency { get; set; }
         public int CompetencyId { get; set; }
         [ForeignKey("ProjectStageId")]
+        public ProjectStage ProjectStage { get; set; }
         public int ProjectStageId { get; set; }
     }
 }

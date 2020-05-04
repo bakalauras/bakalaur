@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -14,29 +17,33 @@ namespace bakis.Controllers
     [ApiController]
     public class UploadController : ControllerBase
     {
-       // private readonly ProjectContext _context;
+        private readonly ProjectContext _context;
+
+        public UploadController(ProjectContext context)
+        {
+            _context = context;
+        }
 
         [HttpPost, DisableRequestSizeLimit]
-        public async Task<IActionResult> Upload()
+        public IActionResult Upload()
         {
             try
             {
                 var file = Request.Form.Files[0];
-                var folderName = Path.Combine("Resources", "Certificates");
+                var folderName = Path.Combine("Resources");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
-                if(file.Length > 0)
+                if (file.Length > 0)
                 {
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     var fullPath = Path.Combine(pathToSave, fileName);
                     var dbPath = Path.Combine(folderName, fileName);
-
-                    using(var strem = new FileStream(fullPath, FileMode.Create))
+                    using (var strem = new FileStream(fullPath, FileMode.Create))
                     {
                         file.CopyTo(strem);
                     }
-
-                    return Ok(new { dbPath });
+                   
+                    return Ok(new { fileName });
                 }
                 else
                 {
@@ -46,49 +53,76 @@ namespace bakis.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex}");
+                return StatusCode(500, $"Serverio klaida: {ex}");
             }
-            /*var file = Request.Form.Files[0];
-            var folderName = Path.Combine("Resources", "Certificates");
-            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            if (file.Length > 0)
-            {
-                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                var fullPath = Path.Combine(pathToSave, fileName);
-                var dbPath = Path.Combine(folderName, fileName);
-
-                FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                byte[] bytes = System.IO.File.ReadAllBytes(fileName);
-               /* _context.EmployeeCertificates.Add(employeeCertificate);
-                await _context.SaveChangesAsync();*/
-            
         }
 
-      /*  [HttpPost, DisableRequestSizeLimit]
-        public async Task<IActionResult> OnPostUploadAsync()
+        [HttpGet("{id}/certificates")]
+        public async Task<IActionResult> Download([FromRoute] int id)
         {
-            var file = Request.Form.Files[0];
-            using (var memoryStream = new MemoryStream())
+            if (!ModelState.IsValid)
             {
-                await file.CopyToAsync(memoryStream);
-
-                // Upload the file if less than 2 MB
-                if (memoryStream.Length < 2097152)
-                {
-                    var files = new EmployeeCertificate()
-                    {
-                        File = memoryStream.ToArray()
-                    };
-
-                    await _context.SaveChangesAsync();
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                return BadRequest(ModelState);
             }
 
-            return Ok();
-        }*/
+            var employeeCertificate = await _context.EmployeeCertificates.FindAsync(id);
+            if (employeeCertificate == null)
+            {
+                return NotFound();
+            }
+
+            var certPath = employeeCertificate.File;
+            var memory = new MemoryStream();
+
+            using (var stream = new FileStream(certPath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            var ext = Path.GetExtension(certPath).ToLowerInvariant();
+            return File(memory, GetMimeTypes()[ext], Path.GetFileName(certPath));
+        }
+
+        [HttpGet("{id}/exams")]
+        public async Task<IActionResult> DownloadExam([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var empExam = await _context.EmployeeExams.FindAsync(id);
+            if (empExam == null)
+            {
+                return NotFound();
+            }
+
+            var ePath = empExam.File;
+            var memory = new MemoryStream();
+
+            using (var stream = new FileStream(ePath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            var ext = Path.GetExtension(ePath).ToLowerInvariant();
+            return File(memory, GetMimeTypes()[ext], Path.GetFileName(ePath));
+        }
+
+        private Dictionary<string, string> GetMimeTypes()
+        {
+            return new Dictionary<string, string>
+            {
+                {".txt", "text/plain"},
+                {".pdf", "application/pdf" },
+                {".doc",  "application/vnd.ms-word"},
+                {".docx", "applications/vnd.ms-word" },
+                {".xls",  "application/vnd.ms-excel"},
+                {".xlsx",  "application/vnd.ms-excel"},
+                {".png", "image/png" },
+                {".jpg", "image/jpg" }
+            };
+        }
+
     }
 }

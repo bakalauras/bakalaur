@@ -45,8 +45,15 @@ namespace bakis
 
             services.AddDbContext<ProjectContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
-            services.AddCors();
-            services.Configure<FormOptions>(o =>
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+
+        services.Configure<FormOptions>(o =>
             {
                 o.ValueLengthLimit = int.MaxValue;
                 o.MultipartBodyLengthLimit = int.MaxValue;
@@ -91,11 +98,12 @@ namespace bakis
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(builder => builder
-             .AllowAnyOrigin()
-             .AllowAnyMethod()
-             .AllowAnyHeader()
-             .AllowCredentials());
+            /* app.UseCors(builder => builder
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials());*/
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
 
@@ -106,10 +114,10 @@ namespace bakis
             //    RequestPath = new PathString("/Resources")
             //});
 
-            app.UseCors(options =>
+           /* app.UseCors(options =>
             options.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyHeader());*/
 
             app.UseMvc();
         }

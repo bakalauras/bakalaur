@@ -21,8 +21,10 @@ namespace bakis.Models
         [DataType(DataType.Date)]
         public DateTime DateTo { get; set; }
         [ForeignKey("DutyId")]
+        public Duty Duty { get; set; }
         public int DutyId { get; set; }
         [ForeignKey("EmployeeId")]
+        public Employee Employee { get; set; }
         public int EmployeeId { get; set; }
     }
 }
