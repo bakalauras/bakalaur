@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TendersController : ControllerBase
@@ -114,6 +116,8 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas konkursas ar pasiūlymo būsena");
             }
 
+            tender.FillingDate = tender.FillingDate.ToLocalTime();
+
             _context.Entry(tender).State = EntityState.Modified;
 
             try
@@ -152,6 +156,8 @@ namespace bakis.Controllers
             {
                 return BadRequest("Pasirinktas nekorektiškas konkursas ar pasiūlymo būsena");
             }
+
+            tender.FillingDate = tender.FillingDate.ToLocalTime();
 
             _context.Tenders.Add(tender);
             await _context.SaveChangesAsync();

@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkingTimeRegistersController : ControllerBase
@@ -77,6 +79,16 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas, darbuotojas arba darbuotojo rolė");
             }
 
+            workingTimeRegister = calculatePrice(workingTimeRegister);
+
+            if (workingTimeRegister == null)
+            {
+                return BadRequest("Neįvestas darbuotojo atlyginimas");
+            }
+
+            workingTimeRegister.DateFrom = workingTimeRegister.DateFrom.ToLocalTime();
+            workingTimeRegister.DateTo = workingTimeRegister.DateTo.ToLocalTime();
+
             _context.Entry(workingTimeRegister).State = EntityState.Modified;
 
             try
@@ -118,10 +130,38 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas, darbuotojas arba darbuotojo rolė");
             }
 
+            workingTimeRegister = calculatePrice(workingTimeRegister);
+
+            if(workingTimeRegister == null)
+            {
+                return BadRequest("Neįvestas darbuotojo atlyginimas");
+            }
+
+            workingTimeRegister.DateFrom = workingTimeRegister.DateFrom.ToLocalTime();
+            workingTimeRegister.DateTo = workingTimeRegister.DateTo.ToLocalTime();
+
             _context.WorkingTimeRegisters.Add(workingTimeRegister);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetWorkingTimeRegister", new { id = workingTimeRegister.WorkingTimeRegisterId }, workingTimeRegister);
+        }
+
+        public WorkingTimeRegister calculatePrice(WorkingTimeRegister workingTimeRegister)
+        {
+            int EmployeeId = _context.Employees.Where(l => l.EmployeeId == workingTimeRegister.EmployeeId).Select(l => l.EmployeeId).FirstOrDefault();
+
+            Salary salary = _context.Salaries.Where(l => l.EmployeeId == EmployeeId).Where(l => (l.DateTo == null || l.DateTo > workingTimeRegister.DateTo) && l.DateFrom < workingTimeRegister.DateTo).OrderByDescending(l => l.SalaryId).FirstOrDefault();
+
+            if(salary == null)
+            {
+                return null;
+            }
+
+            workingTimeRegister.Price = (workingTimeRegister.Hours * salary.EmployeeSalary) / (168 * salary.Staff);
+
+            workingTimeRegister.Price = Convert.ToDouble(String.Format("{0:0.00}", workingTimeRegister.Price));
+
+            return workingTimeRegister;
         }
 
         // DELETE: api/WorkingTimeRegisters/5

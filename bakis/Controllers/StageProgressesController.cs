@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StageProgressesController : ControllerBase
@@ -71,6 +73,8 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas");
             }
 
+            stageProgress.Date = stageProgress.Date.ToLocalTime();
+
             stageProgress = calculateSPI(stageProgress);
 
             if (stageProgress == null)
@@ -121,6 +125,8 @@ namespace bakis.Controllers
             {
                 return BadRequest("Netinkamos projekto etapo datos - skaičiuojant rodiklius gaunama dalyba iš nulio");
             }
+
+            stageProgress.Date = stageProgress.Date.ToLocalTime();
 
             _context.StageProgresses.Add(stageProgress);
             await _context.SaveChangesAsync();

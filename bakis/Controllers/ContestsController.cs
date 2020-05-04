@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ContestsController : ControllerBase
@@ -114,6 +116,11 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinkta nekorektiška konkurso būsena ar užsakovas");
             }
 
+            contest.ClaimsFillingDate = contest.ClaimsFillingDate.ToLocalTime();
+            contest.FillingDate = contest.FillingDate.ToLocalTime();
+            contest.PriceRobbingDate = contest.PriceRobbingDate.ToLocalTime();
+            contest.PublicationDate = contest.PublicationDate.ToLocalTime();
+
             _context.Entry(contest).State = EntityState.Modified;
 
             try
@@ -152,6 +159,11 @@ namespace bakis.Controllers
             {
                 return BadRequest("Pasirinkta nekorektiška konkurso būsena ar užsakovas");
             }
+
+            contest.ClaimsFillingDate = contest.ClaimsFillingDate.ToLocalTime();
+            contest.FillingDate = contest.FillingDate.ToLocalTime();
+            contest.PriceRobbingDate = contest.PriceRobbingDate.ToLocalTime();
+            contest.PublicationDate = contest.PublicationDate.ToLocalTime();
 
             _context.Contests.Add(contest);
             await _context.SaveChangesAsync();

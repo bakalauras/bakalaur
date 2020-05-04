@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ResourcePlansController : ControllerBase
@@ -74,6 +76,11 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas ar darbuotojo rolė");
             }
 
+            resourcePlan = calculatePrice(resourcePlan);
+
+            resourcePlan.DateFrom = resourcePlan.DateFrom.ToLocalTime();
+            resourcePlan.DateTo = resourcePlan.DateTo.ToLocalTime();
+
             _context.Entry(resourcePlan).State = EntityState.Modified;
 
             try
@@ -113,10 +120,26 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas ar darbuotojo rolė");
             }
 
+            resourcePlan.DateFrom = resourcePlan.DateFrom.ToLocalTime();
+            resourcePlan.DateTo = resourcePlan.DateTo.ToLocalTime();
+
+            resourcePlan = calculatePrice(resourcePlan);
+
             _context.ResourcePlans.Add(resourcePlan);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetResourcePlan", new { id = resourcePlan.ResourcePlanId }, resourcePlan);
+        }
+
+        public ResourcePlan calculatePrice(ResourcePlan resourcePlan)
+        {
+            EmployeeRole employeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == resourcePlan.EmployeeRoleId).FirstOrDefault();
+
+            resourcePlan.Price = resourcePlan.Hours * employeeRole.AverageWage / 168;
+
+            resourcePlan.Price = Convert.ToDouble(String.Format("{0:0.00}", resourcePlan.Price));
+
+            return resourcePlan;
         }
 
         // DELETE: api/ResourcePlans/5
