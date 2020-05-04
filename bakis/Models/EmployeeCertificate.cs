@@ -12,10 +12,12 @@ namespace bakis.Models
         [Key]
         public int EmployeeCertificateId { get; set; }
         [Required]
-        public byte[] File { get; set; }
+        public string File { get; set; }
         [ForeignKey("EmployeeId")]
+        public Employee Employee { get; set; }
         public int EmployeeId { get; set; }
         [ForeignKey("CertificateId")]
+        public Certificate Certificate { get; set; }
         public int CertificateId { get; set; }
     }
 }

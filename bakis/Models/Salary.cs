@@ -21,6 +21,7 @@ namespace bakis.Models
         [DisplayFormat(DataFormatString = "{MM/dd/yyyy hh:mm:ss z}", ApplyFormatInEditMode = true, HtmlEncode = true)]
         public DateTime DateTo { get; set; }
         [ForeignKey("EmployeeId")]
+        public Employee Employee { get; set; }
         public int EmployeeId { get; set; }
     }
 }

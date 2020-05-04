@@ -19,6 +19,31 @@ namespace bakis.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("bakis.Controllers.UploadController+FileToUpload", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FileAsBase64");
+
+                    b.Property<byte[]>("FileAsByteArray");
+
+                    b.Property<string>("FileName");
+
+                    b.Property<string>("FileSize");
+
+                    b.Property<string>("FileType");
+
+                    b.Property<DateTime>("LastModifiedDate");
+
+                    b.Property<long>("LastModifiedTime");
+
+                    b.HasKey("id");
+
+                    b.ToTable("fileToUploads");
+                });
+
             modelBuilder.Entity("bakis.Models.Certificate", b =>
                 {
                     b.Property<int>("CertificateId")
@@ -103,6 +128,10 @@ namespace bakis.Migrations
                     b.Property<int>("ContestId");
 
                     b.HasKey("ContestCertificateId");
+
+                    b.HasIndex("CertificateId");
+
+                    b.HasIndex("ContestId");
 
                     b.ToTable("ContestCertificates");
                 });
@@ -256,10 +285,14 @@ namespace bakis.Migrations
 
                     b.Property<int>("EmployeeId");
 
-                    b.Property<byte[]>("File")
+                    b.Property<string>("File")
                         .IsRequired();
 
                     b.HasKey("EmployeeCertificateId");
+
+                    b.HasIndex("CertificateId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("EmployeeCertificates");
                 });
@@ -280,6 +313,10 @@ namespace bakis.Migrations
 
                     b.HasKey("EmployeeCompetencyId");
 
+                    b.HasIndex("CompetencyId");
+
+                    b.HasIndex("EmployeeId");
+
                     b.ToTable("EmployeeCompetencies");
                 });
 
@@ -298,6 +335,10 @@ namespace bakis.Migrations
                     b.Property<int>("EmployeeId");
 
                     b.HasKey("EmployeeDutyId");
+
+                    b.HasIndex("DutyId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("EmployeeDuties");
                 });
@@ -327,6 +368,12 @@ namespace bakis.Migrations
                     b.Property<DateTime>("RealExamDate");
 
                     b.HasKey("EmployeeExamId");
+
+                    b.HasIndex("CertificateId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ExamId");
 
                     b.ToTable("EmployeeExams");
                 });
@@ -365,6 +412,8 @@ namespace bakis.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ExamId");
+
+                    b.HasIndex("CertificateId");
 
                     b.ToTable("Exams");
                 });
@@ -532,6 +581,8 @@ namespace bakis.Migrations
 
                     b.HasKey("SalaryId");
 
+                    b.HasIndex("EmployeeId");
+
                     b.ToTable("Salaries");
                 });
 
@@ -548,6 +599,10 @@ namespace bakis.Migrations
                     b.Property<int>("ProjectStageId");
 
                     b.HasKey("StageCompetencyId");
+
+                    b.HasIndex("CompetencyId");
+
+                    b.HasIndex("ProjectStageId");
 
                     b.ToTable("StageCompetencies");
                 });
@@ -680,6 +735,19 @@ namespace bakis.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("bakis.Models.ContestCertificate", b =>
+                {
+                    b.HasOne("bakis.Models.Certificate", "Certificate")
+                        .WithMany()
+                        .HasForeignKey("CertificateId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.Contest", "Contest")
+                        .WithMany()
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("bakis.Models.ContestFile", b =>
                 {
                     b.HasOne("bakis.Models.Contest", "Contest")
@@ -701,6 +769,71 @@ namespace bakis.Migrations
                     b.HasOne("bakis.Models.CustomerType", "CustomerType")
                         .WithMany()
                         .HasForeignKey("CustomerTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.EmployeeCertificate", b =>
+                {
+                    b.HasOne("bakis.Models.Certificate", "Certificate")
+                        .WithMany()
+                        .HasForeignKey("CertificateId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.EmployeeCompetency", b =>
+                {
+                    b.HasOne("bakis.Models.Competency", "Competency")
+                        .WithMany()
+                        .HasForeignKey("CompetencyId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.EmployeeDuty", b =>
+                {
+                    b.HasOne("bakis.Models.Duty", "Duty")
+                        .WithMany()
+                        .HasForeignKey("DutyId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.EmployeeExam", b =>
+                {
+                    b.HasOne("bakis.Models.Certificate", "Certificate")
+                        .WithMany()
+                        .HasForeignKey("CertificateId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.Exam", "Exam")
+                        .WithMany()
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.Exam", b =>
+                {
+                    b.HasOne("bakis.Models.Certificate", "Certificate")
+                        .WithMany()
+                        .HasForeignKey("CertificateId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -735,6 +868,27 @@ namespace bakis.Migrations
                     b.HasOne("bakis.Models.EmployeeRole", "EmployeeRole")
                         .WithMany()
                         .HasForeignKey("EmployeeRoleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("bakis.Models.ProjectStage", "ProjectStage")
+                        .WithMany()
+                        .HasForeignKey("ProjectStageId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.Salary", b =>
+                {
+                    b.HasOne("bakis.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.StageCompetency", b =>
+                {
+                    b.HasOne("bakis.Models.Competency", "Competency")
+                        .WithMany()
+                        .HasForeignKey("CompetencyId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("bakis.Models.ProjectStage", "ProjectStage")

@@ -25,6 +25,7 @@ namespace bakis.Controllers
         public IEnumerable<Employee> GetEmployees()
         {
             return _context.Employees;
+
         }
 
         // GET: api/Employees/5
@@ -84,13 +85,13 @@ namespace bakis.Controllers
 
             string param;
 
-            if (employee.IsActive == true)
+          /*  if (employee.IsActive == true)
             {
                 param = "Aktyvus";
             }
-            else param = "Neaktyvus";
+            else param = "Neaktyvus";*/
 
-            return Ok(param);
+            return Ok();
         }
 
         // GET: api/Employees/5/exams
@@ -263,14 +264,15 @@ namespace bakis.Controllers
                 return NotFound();
             }
 
-            var empl = _context.Employees.Where(l => l.FkEmployeeId == id).Select(l => l.EmployeeId).FirstOrDefault().ToString(); //patikrinti
+           // var empl = _context.Employees.Where(l => l.FkEmployeeId == id).Select(l => l.EmployeeId).FirstOrDefault().ToString(); //patikrinti
             var salary = _context.Salaries.Where(l => l.EmployeeId == id).Select(l => l.SalaryId).FirstOrDefault().ToString();
             var employeeCertificate = _context.EmployeeCertificates.Where(l => l.EmployeeId == id).Select(l => l.EmployeeCertificateId).FirstOrDefault().ToString();
             var employeeExam = _context.EmployeeExams.Where(l => l.EmployeeId == id).Select(l => l.EmployeeExamId).FirstOrDefault().ToString();
             var employeeCompetency = _context.EmployeeCompetencies.Where(l => l.EmployeeId == id).Select(l => l.EmployeeCompetencyId).FirstOrDefault().ToString();
             var employeeDuties = _context.EmployeeDuties.Where(l => l.EmployeeId == id).Select(l => l.EmployeeDutyId).FirstOrDefault().ToString();
 
-            if (empl != "0" || salary != "0" || employeeCertificate != "0" || employeeExam != "0" || employeeCompetency != "0" || employeeDuties != "0")
+            //if (empl != "0" || salary != "0" || employeeCertificate != "0" || employeeExam != "0" || employeeCompetency != "0" || employeeDuties != "0")
+            if (salary != "0" || employeeCertificate != "0" || employeeExam != "0" || employeeCompetency != "0" || employeeDuties != "0")
             {
                 return BadRequest("Negalima ištrinti šio darbuotojo, nes jis turi susijusių įrašų.");
             }

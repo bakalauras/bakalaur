@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
+using System.IO;
 
 namespace bakis.Controllers
 {
@@ -63,6 +64,7 @@ namespace bakis.Controllers
 
             employeeExam.PlannedExamDate = employeeExam.PlannedExamDate.ToLocalTime();
             employeeExam.RealExamDate = employeeExam.RealExamDate.ToLocalTime();
+            employeeExam.File = GetFile();
             _context.Entry(employeeExam).State = EntityState.Modified;
 
             try
@@ -100,22 +102,19 @@ namespace bakis.Controllers
                         from c in _context.Certificates.Where(c => p.CertificateId == c.CertificateId).Where(a => b.EmployeeId == employeeExam.EmployeeId)
                         select new { b, p, c };
            
-            if (cert.CertificateId == 2)
+            if (cert.Title == "ISTQB Advanced Level")
             {
-                var query1 = query.Select(s => s.c).Where(a => a.CertificateId == 1);
+                var query1 = query.Select(s => s.c).Where(a => a.Title == "ISTQB Foundation Level");
                 if (query1.Count() == 0)
                 {
                     return BadRequest("Negalite registruotis, nes neturite " + firstCert.Title + " sertifikato.");
                 }
-                var query2 = query.Select(s => s.p).Where(a => a.CertificateId == 2);
-                if (query2.Count() == 1)
-                {
-                    return BadRequest("Jūs jau turite šį sertifikatą.");
-                }
+               
             }
 
             employeeExam.PlannedExamDate = employeeExam.PlannedExamDate.ToLocalTime();
             employeeExam.RealExamDate = employeeExam.RealExamDate.ToLocalTime();
+            employeeExam.File = GetFile();
             _context.EmployeeExams.Add(employeeExam);
              await _context.SaveChangesAsync();
 
@@ -146,6 +145,39 @@ namespace bakis.Controllers
         private bool EmployeeExamExists(int id)
         {
             return _context.EmployeeExams.Any(e => e.EmployeeExamId == id);
+        }
+
+        public string GetFile()
+        {
+            try
+            {
+                var folderName = Path.Combine("Resources");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                string[] fileEntries = Directory.GetFiles(pathToSave);
+                int count = 0;
+                DateTime[] dates = new DateTime[10];
+
+                for (int i = 0; i < fileEntries.Length; i++)
+                {
+                    dates[count] = System.IO.File.GetLastWriteTime(fileEntries[i]);
+                    count++;
+                }
+                var reikiama = dates.Max();
+                string kelias = "";
+
+                for (int i = 0; i < fileEntries.Length; i++)
+                {
+                    if (System.IO.File.GetLastWriteTime(fileEntries[i]) == reikiama)
+                        kelias = fileEntries[i];
+                }
+
+                return kelias;
+
+            }
+            catch (Exception ex)
+            {
+                return "Nerasta";
+            }
         }
     }
 }

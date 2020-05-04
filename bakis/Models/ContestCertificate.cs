@@ -14,8 +14,10 @@ namespace bakis.Models
         [Required]
         public int Amount { get; set; }
         [ForeignKey("CertificateId")]
+        public Certificate Certificate { get; set; }
         public int CertificateId { get; set; }
         [ForeignKey("ContestId")]
+        public Contest Contest { get; set; }
         public int ContestId { get; set; }
     }
 }
