@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
 
 namespace bakis.Controllers
 {
@@ -73,6 +74,7 @@ namespace bakis.Controllers
                 return BadRequest("Konkursas, kurio failą bandoma pridėti, neegzistuoja");
             }
 
+            contestFile.FileName = GetFile();
             _context.Entry(contestFile).State = EntityState.Modified;
 
             try
@@ -110,6 +112,7 @@ namespace bakis.Controllers
                 return BadRequest("Konkursas, kurio failą bandoma pridėti, neegzistuoja");
             }
 
+            contestFile.FileName = GetFile();
             _context.ContestFiles.Add(contestFile);
             await _context.SaveChangesAsync();
 
@@ -140,6 +143,39 @@ namespace bakis.Controllers
         private bool ContestFileExists(int id)
         {
             return _context.ContestFiles.Any(e => e.ContestFileId == id);
+        }
+
+        public string GetFile()
+        {
+            try
+            {
+                var folderName = Path.Combine("Resources");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                string[] fileEntries = Directory.GetFiles(pathToSave);
+                int count = 0;
+                DateTime[] dates = new DateTime[10];
+
+                for (int i = 0; i < fileEntries.Length; i++)
+                {
+                    dates[count] = System.IO.File.GetLastWriteTime(fileEntries[i]);
+                    count++;
+                }
+                var fileDate = dates.Max();
+                string pathFile = "";
+
+                for (int i = 0; i < fileEntries.Length; i++)
+                {
+                    if (System.IO.File.GetLastWriteTime(fileEntries[i]) == fileDate)
+                        pathFile = fileEntries[i];
+                }
+
+                return pathFile;
+
+            }
+            catch (Exception ex)
+            {
+                return "Nerasta";
+            }
         }
     }
 }

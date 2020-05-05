@@ -109,6 +109,58 @@ namespace bakis.Controllers
             return File(memory, GetMimeTypes()[ext], Path.GetFileName(ePath));
         }
 
+        [HttpGet("{id}/contest")]
+        public async Task<IActionResult> DownloadContestFile([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var contestFile = await _context.ContestFiles.FindAsync(id);
+            if (contestFile == null)
+            {
+                return NotFound();
+            }
+
+            var certPath = contestFile.FileName;
+            var memory = new MemoryStream();
+
+            using (var stream = new FileStream(certPath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            var ext = Path.GetExtension(certPath).ToLowerInvariant();
+            return File(memory, GetMimeTypes()[ext], Path.GetFileName(certPath));
+        }
+
+        [HttpGet("{id}/tender")]
+        public async Task<IActionResult> DownloadTenderFile([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var tenderFile = await _context.TenderFiles.FindAsync(id);
+            if (tenderFile == null)
+            {
+                return NotFound();
+            }
+
+            var certPath = tenderFile.FileName;
+            var memory = new MemoryStream();
+
+            using (var stream = new FileStream(certPath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            var ext = Path.GetExtension(certPath).ToLowerInvariant();
+            return File(memory, GetMimeTypes()[ext], Path.GetFileName(certPath));
+        }
+
         private Dictionary<string, string> GetMimeTypes()
         {
             return new Dictionary<string, string>

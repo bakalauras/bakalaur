@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Certificates\" />
+    <Compile Remove="Resources\Certificates\**" />
+    <Content Remove="Resources\Certificates\**" />
+    <EmbeddedResource Remove="Resources\Certificates\**" />
+    <None Remove="Resources\Certificates\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

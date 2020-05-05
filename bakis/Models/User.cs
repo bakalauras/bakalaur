@@ -15,5 +15,8 @@ namespace bakis.Models
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
+        [ForeignKey("GroupRightId")]
+        public GroupRight GroupRight { get; set; }
+        public int GroupRightId { get; set; }
     }
 }
