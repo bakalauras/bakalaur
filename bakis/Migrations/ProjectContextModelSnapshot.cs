@@ -19,31 +19,6 @@ namespace bakis.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("bakis.Controllers.UploadController+FileToUpload", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FileAsBase64");
-
-                    b.Property<byte[]>("FileAsByteArray");
-
-                    b.Property<string>("FileName");
-
-                    b.Property<string>("FileSize");
-
-                    b.Property<string>("FileType");
-
-                    b.Property<DateTime>("LastModifiedDate");
-
-                    b.Property<long>("LastModifiedTime");
-
-                    b.HasKey("id");
-
-                    b.ToTable("fileToUploads");
-                });
-
             modelBuilder.Entity("bakis.Models.Certificate", b =>
                 {
                     b.Property<int>("CertificateId")
@@ -258,8 +233,6 @@ namespace bakis.Migrations
 
                     b.Property<int>("FkEmployeeId");
 
-                    b.Property<int>("GroupId");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("Name")
@@ -418,9 +391,9 @@ namespace bakis.Migrations
                     b.ToTable("Exams");
                 });
 
-            modelBuilder.Entity("bakis.Models.Group", b =>
+            modelBuilder.Entity("bakis.Models.GroupRight", b =>
                 {
-                    b.Property<int>("GroupId")
+                    b.Property<int>("GroupRightId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -428,20 +401,19 @@ namespace bakis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("GroupId");
+                    b.Property<bool>("manageClassifiers");
 
-                    b.ToTable("Groups");
-                });
+                    b.Property<bool>("manageContests");
 
-            modelBuilder.Entity("bakis.Models.GroupRight", b =>
-                {
-                    b.Property<int>("GroupRightId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<bool>("manageCustomers");
 
-                    b.Property<int>("GroupId");
+                    b.Property<bool>("manageEmployees");
 
-                    b.Property<int>("RightId");
+                    b.Property<bool>("manageProjects");
+
+                    b.Property<bool>("manageTenders");
+
+                    b.Property<bool>("manageUsers");
 
                     b.HasKey("GroupRightId");
 
@@ -546,21 +518,6 @@ namespace bakis.Migrations
                     b.HasIndex("ProjectStageId");
 
                     b.ToTable("ResourcePlans");
-                });
-
-            modelBuilder.Entity("bakis.Models.Right", b =>
-                {
-                    b.Property<int>("RightId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("RightId");
-
-                    b.ToTable("Rights");
                 });
 
             modelBuilder.Entity("bakis.Models.Salary", b =>
@@ -689,6 +646,27 @@ namespace bakis.Migrations
                     b.HasKey("TenderStateId");
 
                     b.ToTable("TenderStates");
+                });
+
+            modelBuilder.Entity("bakis.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GroupRightId");
+
+                    b.Property<string>("Login")
+                        .IsRequired();
+
+                    b.Property<string>("Password")
+                        .IsRequired();
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("GroupRightId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("bakis.Models.WorkingTimeRegister", b =>
@@ -923,6 +901,14 @@ namespace bakis.Migrations
                     b.HasOne("bakis.Models.Tender", "Tender")
                         .WithMany()
                         .HasForeignKey("TenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("bakis.Models.User", b =>
+                {
+                    b.HasOne("bakis.Models.GroupRight", "GroupRight")
+                        .WithMany()
+                        .HasForeignKey("GroupRightId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
