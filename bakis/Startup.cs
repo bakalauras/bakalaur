@@ -98,7 +98,7 @@ namespace bakis
             {
                 app.UseDeveloperExceptionPage();
             }
-            /* app.UseCors(builder => builder
+           /*  app.UseCors(builder => builder
               .AllowAnyOrigin()
               .AllowAnyMethod()
               .AllowAnyHeader()
@@ -114,7 +114,7 @@ namespace bakis
             //    RequestPath = new PathString("/Resources")
             //});
 
-           /* app.UseCors(options =>
+            /*app.UseCors(options =>
             options.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
             .AllowAnyHeader());*/

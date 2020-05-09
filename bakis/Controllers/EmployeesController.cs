@@ -215,6 +215,11 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            if(employee.EmployeeId == employee.FkEmployeeId)
+            {
+                return BadRequest("Negalite priskirti to paties žmogaus vadovu");
+            }
+
             _context.Entry(employee).State = EntityState.Modified;
 
             try

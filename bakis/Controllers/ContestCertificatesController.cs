@@ -62,6 +62,11 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            if (contestCertificate.Amount <= 0)
+            {
+                return BadRequest("Kiekis turi būti didesnis už 0");
+            }
+
             _context.Entry(contestCertificate).State = EntityState.Modified;
 
             try
@@ -90,6 +95,11 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if(contestCertificate.Amount <= 0)
+            {
+                return BadRequest("Kiekis turi būti didesnis už 0");
             }
 
             _context.ContestCertificates.Add(contestCertificate);

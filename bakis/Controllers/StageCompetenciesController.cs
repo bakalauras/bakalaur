@@ -82,6 +82,11 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            if(stageCompetency.Amount <= 0)
+            {
+                return BadRequest("Kiekis turi būti didesnis už 0");
+            }
+
             _context.Entry(stageCompetency).State = EntityState.Modified;
 
             try
@@ -110,6 +115,11 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if(stageCompetency.Amount <= 0)
+            {
+                return BadRequest("Kiekis turi būti didesnis už 0");
             }
 
             _context.StageCompetencies.Add(stageCompetency);

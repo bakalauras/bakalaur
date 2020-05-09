@@ -64,6 +64,11 @@ namespace bakis.Controllers
                 return BadRequest();
             }
 
+            if (employeeExam.Price <= 0)
+            {
+                return BadRequest("Kaina turi būti didesnė už 0");
+            }
+
             employeeExam.PlannedExamDate = employeeExam.PlannedExamDate.ToLocalTime();
             employeeExam.RealExamDate = employeeExam.RealExamDate.ToLocalTime();
             employeeExam.File = GetFile();
@@ -112,6 +117,11 @@ namespace bakis.Controllers
                     return BadRequest("Negalite registruotis, nes neturite " + firstCert.Title + " sertifikato.");
                 }
                
+            }
+
+            if(employeeExam.Price <= 0)
+            {
+                return BadRequest("Kaina turi būti didesnė už 0");
             }
 
             employeeExam.PlannedExamDate = employeeExam.PlannedExamDate.ToLocalTime();
