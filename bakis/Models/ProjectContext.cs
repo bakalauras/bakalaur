@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static bakis.Controllers.ProjectsController;
 using static bakis.Controllers.UploadController;
 
 namespace bakis.Models
@@ -62,7 +63,8 @@ namespace bakis.Models
         public DbSet<WorkingTimeRegister> WorkingTimeRegisters { get; set; }
 
         public DbSet<GroupRight> GroupRights { get; set; }
-       // public DbSet<FileToUpload> fileToUploads { get; set; }
+       // public DbSet<temp_GanttChart> gantt { get; set; }
+        // public DbSet<FileToUpload> fileToUploads { get; set; }
 
         public DbSet<User> Users { get; set; }
 
