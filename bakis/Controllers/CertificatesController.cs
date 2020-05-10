@@ -49,6 +49,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/Certificates/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCertificate([FromRoute] int id, [FromBody] Certificate certificate)
         {
@@ -84,6 +85,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/Certificates
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPost]
         public async Task<IActionResult> PostCertificate([FromBody] Certificate certificate)
         {
@@ -99,6 +101,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/Certificates/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCertificate([FromRoute] int id)
         {

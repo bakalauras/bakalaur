@@ -11,7 +11,7 @@ using System.IO;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "manageTenders")]
     [Route("api/[controller]")]
     [ApiController]
     public class TenderFilesController : ControllerBase

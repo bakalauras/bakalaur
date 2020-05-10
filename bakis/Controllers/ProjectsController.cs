@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace bakis.Controllers
 {
@@ -55,6 +56,7 @@ namespace bakis.Controllers
             return Ok(project);
         }
 
+        [Authorize(Policy = "manageProjects")]
         [HttpGet("{id}/projectStages")]
         public async Task<IActionResult> GetProjectStages([FromRoute] int id)
         {
@@ -81,6 +83,7 @@ namespace bakis.Controllers
             return Ok(projectStages);
         }
 
+        [Authorize(Policy = "manageProjects")]
         [HttpGet("{id}/projectTenders")]
         public async Task<IActionResult> GetProjectTenders([FromRoute] int id)
         {
@@ -102,6 +105,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/Projects/5
+        [Authorize(Policy = "manageProjects")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProject([FromRoute] int id, [FromBody] Project project)
         {
@@ -146,6 +150,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/Projects
+        [Authorize(Policy = "manageProjects")]
         [HttpPost]
         public async Task<IActionResult> PostProject([FromBody] Project project)
         {
@@ -170,6 +175,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/Projects/5
+        [Authorize(Policy = "manageProjects")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject([FromRoute] int id)
         {

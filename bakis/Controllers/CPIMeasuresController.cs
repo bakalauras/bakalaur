@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "manageProjects")]
     [Route("api/[controller]")]
     [ApiController]
     public class CPIMeasuresController : ControllerBase
@@ -60,7 +60,14 @@ namespace bakis.Controllers
 
             if (id != cPIMeasure.CPIMeasureId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
+            }
+
+            var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == cPIMeasure.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
+
+            if (projectStage == "0")
+            {
+                return BadRequest("Pasirinktas nekorektiškas projekto etapas");
             }
 
             calculateCPI(cPIMeasure);
@@ -95,6 +102,13 @@ namespace bakis.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == cPIMeasure.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
+
+            if (projectStage == "0")
+            {
+                return BadRequest("Pasirinktas nekorektiškas projekto etapas");
             }
 
             calculateCPI(cPIMeasure);

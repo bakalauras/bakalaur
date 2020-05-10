@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace bakis.Controllers
 {
@@ -36,17 +37,51 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
-            int user1 = _context.Users.Where(l => l.Login == user.Login).Where(l => l.Password == user.Password).Select(l => l.UserId).FirstOrDefault();
-            
-            if (user1 == 0)
+            User userDB = _context.Users.Where(l => l.Login == user.Login).FirstOrDefault();
+            if (userDB == null || !verifyPass(userDB, user.Password))
             {
                 return NotFound();
             }
-            string id = user1.ToString();
-            return Ok(new JwtSecurityTokenHandler().WriteToken(GenerateToken(user.Login, id)));
+            string id = userDB.UserId.ToString();
+            string rights = generateRightsString(userDB);
+            return Ok(new JwtSecurityTokenHandler().WriteToken(GenerateToken(user.Login, id, rights)));
         }
 
-        private JwtSecurityToken GenerateToken(string username, string id)
+        private bool verifyPass(User user, string pass)
+        {
+            bool verified = false;
+            var passwordHasher = new PasswordHasher<User>();
+            var result = passwordHasher.VerifyHashedPassword(user, user.Password, pass);
+            if (result == PasswordVerificationResult.Success) verified = true;
+            else if (result == PasswordVerificationResult.SuccessRehashNeeded) verified = true;
+            else if (result == PasswordVerificationResult.Failed) verified = false;
+            return verified;
+        }
+
+        private string generateRightsString(User user)
+        {
+            user.GroupRight = _context.GroupRights.Where(l => l.GroupRightId == user.GroupRightId).FirstOrDefault();
+            string rights = "0000000";
+            var temp = rights.ToCharArray();
+            if (user.GroupRight.manageClassifiers)
+                temp[0] = '1';
+            if (user.GroupRight.manageContests)
+                temp[1] = '1';
+            if (user.GroupRight.manageCustomers)
+                temp[2] = '1';
+            if (user.GroupRight.manageEmployees)
+                temp[3] = '1';
+            if (user.GroupRight.manageProjects)
+                temp[4] = '1';
+            if (user.GroupRight.manageTenders)
+                temp[5] = '1';
+            if (user.GroupRight.manageUsers)
+                temp[6] = '1';
+            string s = new string(temp);
+            return s;
+        }
+
+        private JwtSecurityToken GenerateToken(string username, string id, string rights)
         {
             Environment.SetEnvironmentVariable("KEY_FOR_SECRET", "kazkas123213das_ASdasdadasdasdsada");
 
@@ -56,6 +91,7 @@ namespace bakis.Controllers
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, username));
             claims.Add(new Claim(ClaimTypes.NameIdentifier, id));
+            claims.Add(new Claim("Rights", rights));
             var token = new JwtSecurityToken(
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: signingCredentials,

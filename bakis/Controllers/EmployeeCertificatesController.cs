@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "manageEmployees")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeCertificatesController : ControllerBase

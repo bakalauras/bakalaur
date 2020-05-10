@@ -50,6 +50,7 @@ namespace bakis.Controllers
         }
 
         // GET: api/Employees/5/manager
+        [Authorize(Policy = "manageEmployees")]
         [HttpGet("{id}/manager")]
         public async Task<IActionResult> GetManager([FromRoute] int id)
         {
@@ -70,6 +71,7 @@ namespace bakis.Controllers
         }
 
         // GET: api/Employees/5/isActive
+        [Authorize(Policy = "manageEmployees")]
         [HttpGet("{id}/isActive")]
         public async Task<IActionResult> GetActiveParam([FromRoute] int id)
         {
@@ -97,6 +99,7 @@ namespace bakis.Controllers
         }
 
         // GET: api/Employees/5/exams
+        [Authorize(Policy = "manageEmployees")]
         [HttpGet("{id}/exams")]
         public async Task<IActionResult> GetEmployeeExams([FromRoute] int id)
         {
@@ -118,6 +121,7 @@ namespace bakis.Controllers
         }
 
         // GET: api/Employees/5/salaries
+        [Authorize(Policy = "manageEmployees")]
         [HttpGet("{id}/salaries")]
         public async Task<IActionResult> GetEmployeeSalaries([FromRoute] int id)
         {
@@ -139,6 +143,7 @@ namespace bakis.Controllers
         }
 
         // GET: api/Employees/5/certificates
+        [Authorize(Policy = "manageEmployees")]
         [HttpGet("{id}/certificates")]
         public async Task<IActionResult> GetEmployeeCertificates([FromRoute] int id)
         {
@@ -160,6 +165,7 @@ namespace bakis.Controllers
         }
 
         // GET: api/Employees/5/duties
+        [Authorize(Policy = "manageEmployees")]
         [HttpGet("{id}/duties")]
         public async Task<IActionResult> GetEmployeeDuties([FromRoute] int id)
         {
@@ -181,6 +187,7 @@ namespace bakis.Controllers
         }
 
         // GET: api/Employees/5/competencies
+        [Authorize(Policy = "manageEmployees")]
         [HttpGet("{id}/competencies")]
         public async Task<IActionResult> GetEmployeeCompetencies([FromRoute] int id)
         {
@@ -202,6 +209,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/Employees/5
+        [Authorize(Policy = "manageEmployees")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmployee([FromRoute] int id, [FromBody] Employee employee)
         {
@@ -242,6 +250,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/Employees
+        [Authorize(Policy = "manageEmployees")]
         [HttpPost]
         public async Task<IActionResult> PostEmployee([FromBody] Employee employee)
         {
@@ -257,6 +266,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/Employees/5
+        [Authorize(Policy = "manageEmployees")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee([FromRoute] int id)
         {

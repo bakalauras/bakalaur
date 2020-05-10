@@ -49,6 +49,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/ProjectStageNames/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProjectStageName([FromRoute] int id, [FromBody] ProjectStageName projectStageName)
         {
@@ -84,6 +85,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/ProjectStageNames
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPost]
         public async Task<IActionResult> PostProjectStageName([FromBody] ProjectStageName projectStageName)
         {
@@ -99,6 +101,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/ProjectStageNames/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProjectStageName([FromRoute] int id)
         {
