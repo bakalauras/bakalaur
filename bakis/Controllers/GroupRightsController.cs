@@ -49,6 +49,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/GroupRights/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGroupRight([FromRoute] int id, [FromBody] GroupRight groupRight)
         {
@@ -84,6 +85,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/GroupRights
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPost]
         public async Task<IActionResult> PostGroupRight([FromBody] GroupRight groupRight)
         {
@@ -99,6 +101,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/GroupRights/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGroupRight([FromRoute] int id)
         {
@@ -111,6 +114,13 @@ namespace bakis.Controllers
             if (groupRight == null)
             {
                 return NotFound();
+            }
+
+            var user = _context.Users.Where(l => l.GroupRightId == groupRight.GroupRightId).Select(l => l.GroupRightId).FirstOrDefault().ToString();
+
+            if (user != "0")
+            {
+                return BadRequest("Grupė yra priskirta bent vienam naudotojui ir negali būti ištrinta");
             }
 
             _context.GroupRights.Remove(groupRight);

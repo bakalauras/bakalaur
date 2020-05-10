@@ -10,10 +10,11 @@ using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using System.Globalization;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "manageProjects")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectStagesController : ControllerBase
@@ -89,6 +90,12 @@ namespace bakis.Controllers
                 return NotFound();
             }
             var cPIMeasures = _context.CPIMeasures.Where(l => l.ProjectStageId == id);
+            //foreach(CPIMeasure measure in cPIMeasures)
+           // {
+            //    string d = measure.Date.ToString();
+            //    DateTime dt = DateTime.ParseExact(d, "yyyy-M-d", CultureInfo.InvariantCulture);
+            //    measure.Date = dt;
+           // }
 
             return Ok(cPIMeasures);
         }
@@ -317,6 +324,8 @@ namespace bakis.Controllers
             var workingTimeRegisters = _context.WorkingTimeRegisters.Where(l => l.ProjectStageId == id).Select(l => l.WorkingTimeRegisterId).FirstOrDefault().ToString();
 
             var stageCompetencies = _context.StageCompetencies.Where(l => l.ProjectStageId == id).Select(l => l.StageCompetencyId).FirstOrDefault().ToString();
+
+            var cpiMeasures = _context.CPIMeasures.Where(l => l.ProjectStageId == id).Select(l => l.CPIMeasureId).FirstOrDefault().ToString();
 
             if (stageProgresses != "0" || resourcePlans != "0" || workingTimeRegisters != "0" || stageCompetencies != "0")
             {

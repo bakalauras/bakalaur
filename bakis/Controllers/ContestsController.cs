@@ -53,6 +53,7 @@ namespace bakis.Controllers
             return Ok(contest);
         }
 
+        [Authorize(Policy = "manageContests")]
         [HttpGet("{id}/files")]
         public async Task<IActionResult> GetContestFiles([FromRoute] int id)
         {
@@ -73,6 +74,7 @@ namespace bakis.Controllers
             return Ok(files);
         }
 
+        [Authorize(Policy = "manageContests")]
         [HttpGet("{id}/certificates")]
         public async Task<IActionResult> GetContestCertificates([FromRoute] int id)
         {
@@ -94,6 +96,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/Contests/5
+        [Authorize(Policy = "manageContests")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContest([FromRoute] int id, [FromBody] Contest contest)
         {
@@ -143,6 +146,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/Contests
+        [Authorize(Policy = "manageContests")]
         [HttpPost]
         public async Task<IActionResult> PostContest([FromBody] Contest contest)
         {
@@ -172,6 +176,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/Contests/5
+        [Authorize(Policy = "manageContests")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContest([FromRoute] int id)
         {

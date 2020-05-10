@@ -49,6 +49,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/Competencies/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompetency([FromRoute] int id, [FromBody] Competency competency)
         {
@@ -84,6 +85,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/Competencies
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPost]
         public async Task<IActionResult> PostCompetency([FromBody] Competency competency)
         {
@@ -99,6 +101,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/Competencies/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompetency([FromRoute] int id)
         {

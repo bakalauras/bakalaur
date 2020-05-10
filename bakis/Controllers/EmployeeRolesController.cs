@@ -49,6 +49,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/EmployeeRoles/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmployeeRole([FromRoute] int id, [FromBody] EmployeeRole employeeRole)
         {
@@ -84,6 +85,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/EmployeeRoles
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPost]
         public async Task<IActionResult> PostEmployeeRole([FromBody] EmployeeRole employeeRole)
         {
@@ -99,6 +101,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/EmployeeRoles/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployeeRole([FromRoute] int id)
         {

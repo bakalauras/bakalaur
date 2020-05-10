@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "manageContests")]
     [Route("api/[controller]")]
     [ApiController]
     public class ContestCertificatesController : ControllerBase

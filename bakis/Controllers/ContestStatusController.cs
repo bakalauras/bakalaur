@@ -49,6 +49,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/ContestStatus/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContestStatus([FromRoute] int id, [FromBody] ContestStatus contestStatus)
         {
@@ -84,6 +85,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/ContestStatus
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPost]
         public async Task<IActionResult> PostContestStatus([FromBody] ContestStatus contestStatus)
         {
@@ -99,6 +101,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/ContestStatus/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContestStatus([FromRoute] int id)
         {

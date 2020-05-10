@@ -69,6 +69,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/CustomerTypes/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomerType([FromRoute] int id, [FromBody] CustomerType customerType)
         {
@@ -104,6 +105,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/CustomerTypes
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPost]
         public async Task<IActionResult> PostCustomerType([FromBody] CustomerType customerType)
         {
@@ -119,6 +121,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/CustomerTypes/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomerType([FromRoute] int id)
         {
