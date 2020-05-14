@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize(Policy = "manageEmployees")]
     [Route("api/[controller]")]
     [ApiController]

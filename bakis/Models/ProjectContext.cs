@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using static bakis.Controllers.ProjectsController;
@@ -8,6 +9,7 @@ using static bakis.Controllers.UploadController;
 
 namespace bakis.Models
 {
+    [ExcludeFromCodeCoverage]
     public class ProjectContext : DbContext
     {
         public ProjectContext(DbContextOptions<ProjectContext> options) : base(options)

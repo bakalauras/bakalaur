@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Identity;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize(Policy = "manageUsers")]
     [Route("api/[controller]")]
     [ApiController]

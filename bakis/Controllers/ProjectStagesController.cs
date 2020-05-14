@@ -11,9 +11,11 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using System.Globalization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize(Policy = "manageProjects")]
     [Route("api/[controller]")]
     [ApiController]
