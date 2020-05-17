@@ -204,60 +204,6 @@ namespace bakis.Controllers
 
             return Ok(project);
         }
-        /*
-        public class temp_GanttChart
-        {
-            public int ProjectStageNameId { get; set; }
-            public string StageName { get; set; }
-            public DateTime StartDate { get; set; }
-            public DateTime EndDate { get; set; }
-            public DateTime ScheduledStartDate { get; set; }
-            public DateTime ScheduledEndDate { get; set; }
-
-            public temp_GanttChart(int id, string name, DateTime startDate, DateTime endDate, DateTime scheduledStartDate, DateTime scheduledEndDate)
-            {
-                ProjectStageNameId = id;
-                StageName = name;
-                StartDate = startDate;
-                EndDate = endDate;
-                ScheduledStartDate = scheduledStartDate;
-                ScheduledEndDate = scheduledEndDate;
-
-            }
-        }*/
-        
-       /* [HttpGet("{id}/gantt")]
-        public async Task<IActionResult> GetGanttChartData([FromRoute] int id)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            
-            var project = await _context.Projects.FindAsync(id);
-            
-            if (project == null)
-            {
-                return NotFound();
-            }
-            var projectStages = _context.ProjectStages.Where(l => l.ProjectId == id);
-            
-
-            foreach (ProjectStage stage in projectStages)
-            {
-                stage.Project = _context.Projects.Where(l => l.ProjectId == stage.ProjectId).FirstOrDefault();
-                stage.ProjectStageName.StageName = _context.ProjectStageNames.Where(l => l.ProjctStageNameId == stage.ProjectStageNameId).FirstOrDefault().StageName;
-                var ganttObj = new GanttChart(stage.ProjectStageNameId, stage.ProjectStageName.StageName, stage.StartDate, stage.EndDate,
-                        stage.ScheduledStartDate, stage.ScheduledStartDate);
-                gantts.Append(ganttObj);
-            }
-            
-
-
-            return Ok(gantts);
-        }*/
 
         private bool ProjectExists(int id)
         {
