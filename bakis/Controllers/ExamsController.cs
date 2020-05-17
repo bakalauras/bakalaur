@@ -26,6 +26,10 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<Exam> GetExams()
         {
+            foreach (Exam Exam in _context.Exams)
+            {
+                Exam.Certificate = _context.Certificates.Where(l => l.CertificateId == Exam.CertificateId).FirstOrDefault();
+            }
             return _context.Exams;
         }
 
@@ -43,6 +47,11 @@ namespace bakis.Controllers
             if (exam == null)
             {
                 return NotFound();
+            }
+
+            foreach (Exam Exam in _context.Exams)
+            {
+                Exam.Certificate = _context.Certificates.Where(l => l.CertificateId == Exam.CertificateId).FirstOrDefault();
             }
 
             return Ok(exam);

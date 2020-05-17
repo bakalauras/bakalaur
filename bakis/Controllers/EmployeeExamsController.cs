@@ -27,6 +27,12 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<EmployeeExam> GetEmployeeExams()
         {
+            foreach (EmployeeExam empExam in _context.EmployeeExams)
+            {
+                empExam.Exam = _context.Exams.Where(l => l.ExamId == empExam.ExamId).FirstOrDefault();
+                empExam.Employee = _context.Employees.Where(l => l.EmployeeId == empExam.EmployeeId).FirstOrDefault();
+                empExam.Certificate = _context.Certificates.Where(l => l.CertificateId == empExam.CertificateId).FirstOrDefault();
+            }
             return _context.EmployeeExams;
         }
 
@@ -44,6 +50,13 @@ namespace bakis.Controllers
             if (employeeExam == null)
             {
                 return NotFound();
+            }
+
+            foreach (EmployeeExam empExam in _context.EmployeeExams)
+            {
+                empExam.Exam = _context.Exams.Where(l => l.ExamId == empExam.ExamId).FirstOrDefault();
+                empExam.Employee = _context.Employees.Where(l => l.EmployeeId == empExam.EmployeeId).FirstOrDefault();
+                empExam.Certificate = _context.Certificates.Where(l => l.CertificateId == empExam.CertificateId).FirstOrDefault();
             }
 
             return Ok(employeeExam);
@@ -71,7 +84,13 @@ namespace bakis.Controllers
 
             employeeExam.PlannedExamDate = employeeExam.PlannedExamDate.ToLocalTime();
             employeeExam.RealExamDate = employeeExam.RealExamDate.ToLocalTime();
-            employeeExam.File = GetFile();
+
+            if (employeeExam.IsPassed == true)
+            {
+                employeeExam.File = GetFile();
+            }
+            else employeeExam.File = "NULL";
+
             _context.Entry(employeeExam).State = EntityState.Modified;
 
             try
@@ -126,7 +145,13 @@ namespace bakis.Controllers
 
             employeeExam.PlannedExamDate = employeeExam.PlannedExamDate.ToLocalTime();
             employeeExam.RealExamDate = employeeExam.RealExamDate.ToLocalTime();
-            employeeExam.File = GetFile();
+
+            if (employeeExam.IsPassed == true)
+            {
+                employeeExam.File = GetFile();
+            }
+            else employeeExam.File = "NULL";
+
             _context.EmployeeExams.Add(employeeExam);
              await _context.SaveChangesAsync();
 

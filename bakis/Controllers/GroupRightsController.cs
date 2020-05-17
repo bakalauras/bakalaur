@@ -113,6 +113,12 @@ namespace bakis.Controllers
                 return NotFound();
             }
 
+            var user = _context.Users.Where(l => l.GroupRightId == id).Select(l => l.GroupRightId).FirstOrDefault().ToString();
+            if (user != "0")
+            {
+                return BadRequest("Negalima ištrinti šio grupės teisių įrašo, nes jis yra priskirtas bent vienam naudotojui.");
+            }
+
             _context.GroupRights.Remove(groupRight);
             await _context.SaveChangesAsync();
 

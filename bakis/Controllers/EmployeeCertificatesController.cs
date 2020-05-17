@@ -27,6 +27,11 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<EmployeeCertificate> GetEmployeeCertificates()
         {
+            foreach (EmployeeCertificate cert in _context.EmployeeCertificates)
+            {
+                cert.Certificate = _context.Certificates.Where(l => l.CertificateId == cert.CertificateId).FirstOrDefault();
+                cert.Employee = _context.Employees.Where(l => l.EmployeeId == cert.EmployeeId).FirstOrDefault();
+            }
             return _context.EmployeeCertificates;
         }
 
@@ -46,6 +51,12 @@ namespace bakis.Controllers
                 return NotFound();
             }
 
+            foreach (EmployeeCertificate cert in _context.EmployeeCertificates)
+            {
+                cert.Certificate = _context.Certificates.Where(l => l.CertificateId == cert.CertificateId).FirstOrDefault();
+                cert.Employee = _context.Employees.Where(l => l.EmployeeId == cert.EmployeeId).FirstOrDefault();
+            }
+
             return Ok(employeeCertificate);
         }
 
@@ -55,11 +66,13 @@ namespace bakis.Controllers
         {
             try
             {
+                string kelias = "";
+                DateTime localDate = DateTime.Now;
                 var folderName = Path.Combine("Resources");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                 string[] fileEntries = Directory.GetFiles(pathToSave);
                 int count = 0;
-                DateTime[] dates = new DateTime[10];
+                DateTime[] dates = new DateTime[100];
 
                 for (int i = 0; i < fileEntries.Length; i++)
                 {
@@ -67,14 +80,21 @@ namespace bakis.Controllers
                     count++;
                 }
                 var reikiama = dates.Max();
-                string kelias = "";
+                var skirt = (localDate - reikiama).TotalMinutes;
 
-                for (int i = 0; i < fileEntries.Length; i++)
+                if (skirt > 1)
                 {
-                    if (System.IO.File.GetLastWriteTime(fileEntries[i]) == reikiama)
-                        kelias = fileEntries[i];
+                    kelias = "NULL";
                 }
-
+                else
+                {
+                    for (int i = 0; i < fileEntries.Length; i++)
+                    {
+                        if (System.IO.File.GetLastWriteTime(fileEntries[i]) == reikiama)
+                            kelias = fileEntries[i];
+                    }
+                }
+            
                 return kelias;
 
             }

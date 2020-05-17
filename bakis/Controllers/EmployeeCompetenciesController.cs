@@ -26,6 +26,11 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<EmployeeCompetency> GetEmployeeCompetencies()
         {
+            foreach (EmployeeCompetency comp in _context.EmployeeCompetencies)
+            {
+                comp.Competency = _context.Competencies.Where(l => l.CompetencyId == comp.CompetencyId).FirstOrDefault();
+                comp.Employee = _context.Employees.Where(l => l.EmployeeId == comp.EmployeeId).FirstOrDefault();
+            }
             return _context.EmployeeCompetencies;
         }
 
@@ -43,6 +48,12 @@ namespace bakis.Controllers
             if (employeeCompetency == null)
             {
                 return NotFound();
+            }
+
+            foreach (EmployeeCompetency comp in _context.EmployeeCompetencies)
+            {
+                comp.Competency = _context.Competencies.Where(l => l.CompetencyId == comp.CompetencyId).FirstOrDefault();
+                comp.Employee = _context.Employees.Where(l => l.EmployeeId == comp.EmployeeId).FirstOrDefault();
             }
 
             return Ok(employeeCompetency);

@@ -26,6 +26,11 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<Salary> GetSalaries()
         {
+            foreach (Salary sal in _context.Salaries)
+            {
+                sal.Employee = _context.Employees.Where(l => l.EmployeeId == sal.EmployeeId).FirstOrDefault();
+            }
+
             return _context.Salaries;
         }
 
@@ -43,6 +48,10 @@ namespace bakis.Controllers
             if (salary == null)
             {
                 return NotFound();
+            }
+            foreach (Salary sal in _context.Salaries)
+            {
+                sal.Employee = _context.Employees.Where(l => l.EmployeeId == sal.EmployeeId).FirstOrDefault();
             }
 
             return Ok(salary);

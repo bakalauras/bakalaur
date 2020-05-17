@@ -26,6 +26,11 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<ContestCertificate> GetContestCertificates()
         {
+            foreach (ContestCertificate contest in _context.ContestCertificates)
+            {
+                contest.Certificate = _context.Certificates.Where(l => l.CertificateId == contest.CertificateId).FirstOrDefault();
+                contest.Contest = _context.Contests.Where(l => l.ContestId == contest.ContestId).FirstOrDefault();
+            }
             return _context.ContestCertificates;
         }
 
@@ -43,6 +48,12 @@ namespace bakis.Controllers
             if (contestCertificate == null)
             {
                 return NotFound();
+            }
+
+            foreach (ContestCertificate contest in _context.ContestCertificates)
+            {
+                contest.Certificate = _context.Certificates.Where(l => l.CertificateId == contest.CertificateId).FirstOrDefault();
+                contest.Contest = _context.Contests.Where(l => l.ContestId == contest.ContestId).FirstOrDefault();
             }
 
             return Ok(contestCertificate);

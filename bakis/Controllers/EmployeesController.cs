@@ -114,6 +114,13 @@ namespace bakis.Controllers
 
             var exams = _context.EmployeeExams.Where(l => l.EmployeeId == id);
 
+            foreach (EmployeeExam empExam in _context.EmployeeExams)
+            {
+                empExam.Exam = _context.Exams.Where(l => l.ExamId == empExam.ExamId).FirstOrDefault();
+                empExam.Employee = _context.Employees.Where(l => l.EmployeeId == empExam.EmployeeId).FirstOrDefault();
+                empExam.Certificate = _context.Certificates.Where(l => l.CertificateId == empExam.CertificateId).FirstOrDefault();
+            }
+
             return Ok(exams);
         }
 
@@ -156,6 +163,12 @@ namespace bakis.Controllers
 
             var cert = _context.EmployeeCertificates.Where(l => l.EmployeeId == id);
 
+            foreach (EmployeeCertificate empExam in _context.EmployeeCertificates)
+            {
+                empExam.Certificate = _context.Certificates.Where(l => l.CertificateId == empExam.CertificateId).FirstOrDefault();
+                empExam.Employee = _context.Employees.Where(l => l.EmployeeId == empExam.EmployeeId).FirstOrDefault();
+            }
+
             return Ok(cert);
         }
 
@@ -177,6 +190,12 @@ namespace bakis.Controllers
 
             var duties = _context.EmployeeDuties.Where(l => l.EmployeeId == id);
 
+            foreach (EmployeeDuty empDuty in _context.EmployeeDuties)
+            {
+                empDuty.Duty = _context.Duties.Where(l => l.DutyId == empDuty.DutyId).FirstOrDefault();
+                empDuty.Employee = _context.Employees.Where(l => l.EmployeeId == empDuty.EmployeeId).FirstOrDefault();
+            }
+
             return Ok(duties);
         }
 
@@ -197,6 +216,12 @@ namespace bakis.Controllers
             }
 
             var competencies = _context.EmployeeCompetencies.Where(l => l.EmployeeId == id);
+
+            foreach (EmployeeCompetency empComp in _context.EmployeeCompetencies)
+            {
+                empComp.Competency = _context.Competencies.Where(l => l.CompetencyId == empComp.CompetencyId).FirstOrDefault();
+                empComp.Employee = _context.Employees.Where(l => l.EmployeeId == empComp.EmployeeId).FirstOrDefault();
+            }
 
             return Ok(competencies);
         }

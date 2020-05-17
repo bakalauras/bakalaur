@@ -90,6 +90,11 @@ namespace bakis.Controllers
             }
             var certificates = _context.ContestCertificates.Where(l => l.ContestId == id);
 
+            foreach (ContestCertificate cert in _context.ContestCertificates)
+            {
+                cert.Certificate = _context.Certificates.Where(l => l.CertificateId == cert.CertificateId).FirstOrDefault();
+            }
+
             return Ok(certificates);
         }
 
