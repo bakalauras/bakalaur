@@ -65,8 +65,6 @@ namespace bakis.Models
         public DbSet<WorkingTimeRegister> WorkingTimeRegisters { get; set; }
 
         public DbSet<GroupRight> GroupRights { get; set; }
-       // public DbSet<temp_GanttChart> gantt { get; set; }
-        // public DbSet<FileToUpload> fileToUploads { get; set; }
 
         public DbSet<User> Users { get; set; }
 

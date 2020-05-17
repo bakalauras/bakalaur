@@ -51,8 +51,6 @@ namespace bakis.Controllers
             return Ok(employeeCertificate);
         }
 
-       // [HttpGet("{id}/files")]
-       // public IActionResult GetFile()
        public string GetFile()
         {
             try
