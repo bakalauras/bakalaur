@@ -99,6 +99,11 @@ namespace bakis.Controllers
                 return NotFound();
             }
 
+            if(empExam.File == null)
+            {
+                return NotFound("Failas nebuvo įkeltas");
+            }
+
             var ePath = empExam.File;
             var memory = new MemoryStream();
 

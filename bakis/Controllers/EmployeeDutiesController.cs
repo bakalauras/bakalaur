@@ -28,6 +28,11 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<EmployeeDuty> GetEmployeeD()
         {
+            foreach (EmployeeDuty duty in _context.EmployeeDuties)
+            {
+                duty.Duty = _context.Duties.Where(l => l.DutyId == duty.DutyId).FirstOrDefault();
+                duty.Employee = _context.Employees.Where(l => l.EmployeeId == duty.EmployeeId).FirstOrDefault();
+            }
             return _context.EmployeeDuties;
         }
 
@@ -45,6 +50,12 @@ namespace bakis.Controllers
             if (employeeDuty == null)
             {
                 return NotFound();
+            }
+
+            foreach (EmployeeDuty duty in _context.EmployeeDuties)
+            {
+                duty.Duty = _context.Duties.Where(l => l.DutyId == duty.DutyId).FirstOrDefault();
+                duty.Employee = _context.Employees.Where(l => l.EmployeeId == duty.EmployeeId).FirstOrDefault();
             }
 
             return Ok(employeeDuty);

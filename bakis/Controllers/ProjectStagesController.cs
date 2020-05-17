@@ -163,6 +163,12 @@ namespace bakis.Controllers
             }
             var competencies = _context.StageCompetencies.Where(l => l.ProjectStageId == id);
 
+            foreach (StageCompetency comp in _context.StageCompetencies)
+            {
+                comp.Competency = _context.Competencies.Where(l => l.CompetencyId == comp.CompetencyId).FirstOrDefault();
+                comp.ProjectStage = _context.ProjectStages.Where(l => l.ProjectStageId == comp.ProjectStageId).FirstOrDefault();
+            }
+
             return Ok(competencies);
         }
 

@@ -28,6 +28,12 @@ namespace bakis.Controllers
         [HttpGet]
         public IEnumerable<StageCompetency> GetStageCompetencies()
         {
+            foreach (StageCompetency sal in _context.StageCompetencies)
+            {
+                sal.ProjectStage = _context.ProjectStages.Where(l => l.ProjectStageId == sal.ProjectStageId).FirstOrDefault();
+                sal.Competency = _context.Competencies.Where(l => l.CompetencyId == sal.CompetencyId).FirstOrDefault();
+            }
+
             return _context.StageCompetencies;
         }
 
@@ -45,6 +51,12 @@ namespace bakis.Controllers
             if (stageCompetency == null)
             {
                 return NotFound();
+            }
+
+            foreach (StageCompetency sal in _context.StageCompetencies)
+            {
+                sal.ProjectStage = _context.ProjectStages.Where(l => l.ProjectStageId == sal.ProjectStageId).FirstOrDefault();
+                sal.Competency = _context.Competencies.Where(l => l.CompetencyId == sal.CompetencyId).FirstOrDefault();
             }
 
             return Ok(stageCompetency);
