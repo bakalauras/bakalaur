@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -58,6 +60,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/Exams/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutExam([FromRoute] int id, [FromBody] Exam exam)
         {
@@ -97,6 +100,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/Exams
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPost]
         public async Task<IActionResult> PostExam([FromBody] Exam exam)
         {
@@ -113,6 +117,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/Exams/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExam([FromRoute] int id)
         {

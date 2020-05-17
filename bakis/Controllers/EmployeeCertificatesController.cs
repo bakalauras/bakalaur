@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [ExcludeFromCodeCoverage]
+    [Authorize(Policy = "manageEmployees")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeCertificatesController : ControllerBase
@@ -60,8 +62,6 @@ namespace bakis.Controllers
             return Ok(employeeCertificate);
         }
 
-       // [HttpGet("{id}/files")]
-       // public IActionResult GetFile()
        public string GetFile()
         {
             try

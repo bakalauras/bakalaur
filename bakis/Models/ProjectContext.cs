@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using static bakis.Controllers.ProjectsController;
@@ -8,6 +9,7 @@ using static bakis.Controllers.UploadController;
 
 namespace bakis.Models
 {
+    [ExcludeFromCodeCoverage]
     public class ProjectContext : DbContext
     {
         public ProjectContext(DbContextOptions<ProjectContext> options) : base(options)
@@ -63,8 +65,6 @@ namespace bakis.Models
         public DbSet<WorkingTimeRegister> WorkingTimeRegisters { get; set; }
 
         public DbSet<GroupRight> GroupRights { get; set; }
-       // public DbSet<temp_GanttChart> gantt { get; set; }
-        // public DbSet<FileToUpload> fileToUploads { get; set; }
 
         public DbSet<User> Users { get; set; }
 

@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "manageProjects")]
     [Route("api/[controller]")]
     [ApiController]
     public class StageProgressesController : ControllerBase
@@ -22,8 +23,10 @@ namespace bakis.Controllers
             _context = context;
         }
 
+        
         // GET: api/StageProgresses
         [HttpGet]
+        [ExcludeFromCodeCoverage]
         public IEnumerable<StageProgress> GetStageProgresses()
         {
             foreach (StageProgress progress in _context.StageProgresses)
@@ -33,8 +36,10 @@ namespace bakis.Controllers
             return _context.StageProgresses;
         }
 
+        
         // GET: api/StageProgresses/5
         [HttpGet("{id}")]
+        [ExcludeFromCodeCoverage]
         public async Task<IActionResult> GetStageProgress([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -52,8 +57,10 @@ namespace bakis.Controllers
             return Ok(stageProgress);
         }
 
+        
         // PUT: api/StageProgresses/5
         [HttpPut("{id}")]
+        [ExcludeFromCodeCoverage]
         public async Task<IActionResult> PutStageProgress([FromRoute] int id, [FromBody] StageProgress stageProgress)
         {
             if (!ModelState.IsValid)
@@ -103,8 +110,10 @@ namespace bakis.Controllers
             return NoContent();
         }
 
+        
         // POST: api/StageProgresses
         [HttpPost]
+        [ExcludeFromCodeCoverage]
         public async Task<IActionResult> PostStageProgress([FromBody] StageProgress stageProgress)
         {
             if (!ModelState.IsValid)
@@ -121,7 +130,7 @@ namespace bakis.Controllers
 
             stageProgress = calculateSPI(stageProgress);
 
-            if(stageProgress == null)
+            if(stageProgress.SPI == -1)
             {
                 return BadRequest("Netinkamos projekto etapo datos - skaičiuojant rodiklius gaunama dalyba iš nulio");
             }
@@ -134,27 +143,32 @@ namespace bakis.Controllers
             return CreatedAtAction("GetStageProgress", new { id = stageProgress.StageProgressId }, stageProgress);
         }
 
-        private StageProgress calculateSPI(StageProgress stageProgress)
+        public StageProgress calculateSPI(StageProgress stageProgress)
         {
-            ProjectStage projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == stageProgress.ProjectStageId).FirstOrDefault();
+            StageProgress progress = stageProgress;
 
-            double timeElapsed = GetNumberOfBusinessDays(projectStage.StartDate, stageProgress.Date) * 100;
+            progress.SPI = -1;
 
-            double timePlanned = GetNumberOfBusinessDays(projectStage.ScheduledStartDate, projectStage.ScheduledEndDate);
+            ProjectStage projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == progress.ProjectStageId).FirstOrDefault();
 
-            if(timeElapsed !=0 && timePlanned!=0)
+            if (projectStage != null)
             {
-                stageProgress.ScheduledPercentage = timeElapsed / timePlanned ;
+                double timeElapsed = GetNumberOfBusinessDays(projectStage.StartDate, progress.Date) * 100;
 
-                stageProgress.SPI = stageProgress.Percentage / stageProgress.ScheduledPercentage;
+                double timePlanned = GetNumberOfBusinessDays(projectStage.ScheduledStartDate, projectStage.ScheduledEndDate);
 
-                stageProgress.ScheduledPercentage = Convert.ToDouble(String.Format("{0:0.00}", stageProgress.ScheduledPercentage));
+                if (timeElapsed != 0 && timePlanned != 0)
+                {
+                    progress.ScheduledPercentage = timeElapsed / timePlanned;
 
-                stageProgress.SPI = Convert.ToDouble(String.Format("{0:0.00}", stageProgress.SPI));
+                    progress.SPI = progress.Percentage / progress.ScheduledPercentage;
 
-                return stageProgress;
+                    progress.ScheduledPercentage = Convert.ToDouble(String.Format("{0:0.00}", progress.ScheduledPercentage));
+
+                    progress.SPI = Convert.ToDouble(String.Format("{0:0.00}", progress.SPI));
+                }
             }
-            return null;
+            return progress;
         }
 
         private static int GetNumberOfBusinessDays(DateTime start, DateTime stop)
@@ -171,8 +185,10 @@ namespace bakis.Controllers
             return days;
         }
 
+        
         // DELETE: api/StageProgresses/5
         [HttpDelete("{id}")]
+        [ExcludeFromCodeCoverage]
         public async Task<IActionResult> DeleteStageProgress([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -192,6 +208,8 @@ namespace bakis.Controllers
             return Ok(stageProgress);
         }
 
+
+        [ExcludeFromCodeCoverage]
         private bool StageProgressExists(int id)
         {
             return _context.StageProgresses.Any(e => e.StageProgressId == id);

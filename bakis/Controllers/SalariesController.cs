@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [ExcludeFromCodeCoverage]
+    [Authorize(Policy = "manageEmployees")]
     [Route("api/[controller]")]
     [ApiController]
     public class SalariesController : ControllerBase

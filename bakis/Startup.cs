@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using bakis.Models;
@@ -23,6 +25,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace bakis
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -73,8 +76,6 @@ namespace bakis
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateIssuerSigningKey = true,
-                        //ValidIssuer = "http://localhost:57032/",
-                        //ValidAudience = "http://localhost:57032/",
                         IssuerSigningKey = symmetricSecurityKey
                     };
                 });
@@ -87,8 +88,13 @@ namespace bakis
                 defaultAuthorizationPolicyBuilder =
                     defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
                 options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+                foreach(int right in Enum.GetValues(typeof(Right)))
+                {
+                    options.AddPolicy(Enum.GetName(typeof(Right), right), policy => policy.RequireAssertion(context =>
+                    context.User.HasClaim(c =>
+                    (c.Type == "Rights" && c.Value[right] == '1'))));
+                }
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "manageProjects")]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkingTimeRegistersController : ControllerBase
@@ -22,6 +23,7 @@ namespace bakis.Controllers
             _context = context;
         }
 
+        [ExcludeFromCodeCoverage]
         // GET: api/WorkingTimeRegisters
         [HttpGet]
         public IEnumerable<WorkingTimeRegister> GetWorkingTimeRegisters()
@@ -35,6 +37,7 @@ namespace bakis.Controllers
             return _context.WorkingTimeRegisters;
         }
 
+        [ExcludeFromCodeCoverage]
         // GET: api/WorkingTimeRegisters/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetWorkingTimeRegister([FromRoute] int id)
@@ -54,6 +57,7 @@ namespace bakis.Controllers
             return Ok(workingTimeRegister);
         }
 
+        [ExcludeFromCodeCoverage]
         // PUT: api/WorkingTimeRegisters/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWorkingTimeRegister([FromRoute] int id, [FromBody] WorkingTimeRegister workingTimeRegister)
@@ -110,6 +114,7 @@ namespace bakis.Controllers
             return NoContent();
         }
 
+        [ExcludeFromCodeCoverage]
         // POST: api/WorkingTimeRegisters
         [HttpPost]
         public async Task<IActionResult> PostWorkingTimeRegister([FromBody] WorkingTimeRegister workingTimeRegister)
@@ -132,7 +137,7 @@ namespace bakis.Controllers
 
             workingTimeRegister = calculatePrice(workingTimeRegister);
 
-            if(workingTimeRegister == null)
+            if(workingTimeRegister.Price == -1)
             {
                 return BadRequest("Neįvestas darbuotojo atlyginimas");
             }
@@ -148,22 +153,26 @@ namespace bakis.Controllers
 
         public WorkingTimeRegister calculatePrice(WorkingTimeRegister workingTimeRegister)
         {
-            int EmployeeId = _context.Employees.Where(l => l.EmployeeId == workingTimeRegister.EmployeeId).Select(l => l.EmployeeId).FirstOrDefault();
+            WorkingTimeRegister register = workingTimeRegister;
 
-            Salary salary = _context.Salaries.Where(l => l.EmployeeId == EmployeeId).Where(l => (l.DateTo == null || l.DateTo > workingTimeRegister.DateTo) && l.DateFrom < workingTimeRegister.DateTo).OrderByDescending(l => l.SalaryId).FirstOrDefault();
+            //int EmployeeId = _context.Employees.Where(l => l.EmployeeId == register.EmployeeId).Select(l => l.EmployeeId).FirstOrDefault();
+
+            Salary salary = _context.Salaries.Where(l => l.EmployeeId == register.EmployeeId).Where(l => (l.DateTo == null || l.DateTo > register.DateTo) && l.DateFrom < register.DateTo).OrderByDescending(l => l.SalaryId).FirstOrDefault();
 
             if(salary == null)
             {
-                return null;
+                register.Price = -1;
+                return register;
             }
 
-            workingTimeRegister.Price = (workingTimeRegister.Hours * salary.EmployeeSalary) / (168 * salary.Staff);
+            register.Price = (register.Hours * salary.EmployeeSalary) / (168 * salary.Staff);
 
-            workingTimeRegister.Price = Convert.ToDouble(String.Format("{0:0.00}", workingTimeRegister.Price));
+            register.Price = Convert.ToDouble(String.Format("{0:0.00}", register.Price));
 
-            return workingTimeRegister;
+            return register;
         }
 
+        [ExcludeFromCodeCoverage]
         // DELETE: api/WorkingTimeRegisters/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorkingTimeRegister([FromRoute] int id)
@@ -185,6 +194,7 @@ namespace bakis.Controllers
             return Ok(workingTimeRegister);
         }
 
+        [ExcludeFromCodeCoverage]
         private bool WorkingTimeRegisterExists(int id)
         {
             return _context.WorkingTimeRegisters.Any(e => e.WorkingTimeRegisterId == id);

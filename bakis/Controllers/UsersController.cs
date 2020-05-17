@@ -8,10 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Identity;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [ExcludeFromCodeCoverage]
+    [Authorize(Policy = "manageUsers")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -54,6 +58,13 @@ namespace bakis.Controllers
             return Ok(user);
         }
 
+        private void HashPassword(User user)
+        {
+            var passwordHasher = new PasswordHasher<User>();
+            var hashedPassword = passwordHasher.HashPassword(user, user.Password);
+            user.Password = hashedPassword;
+        }
+
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
@@ -73,6 +84,8 @@ namespace bakis.Controllers
             {
                 return Unauthorized();
             }
+
+            HashPassword(user);
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -109,6 +122,8 @@ namespace bakis.Controllers
             {
                 return BadRequest("Naudotojas su tokiu prisijungimo vardu jau egzistuoja");
             }
+
+            HashPassword(user);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -52,6 +54,7 @@ namespace bakis.Controllers
             return Ok(customer);
         }
 
+        [Authorize(Policy = "manageCustomers")]
         [HttpGet("{id}/projects")]
         public async Task<IActionResult> GetCustomerProjects([FromRoute] int id)
         {
@@ -72,6 +75,7 @@ namespace bakis.Controllers
             return Ok(projects);
         }
 
+        [Authorize(Policy = "manageCustomers")]
         [HttpGet("{id}/contests")]
         public async Task<IActionResult> GetCustomerContests([FromRoute] int id)
         {
@@ -92,6 +96,7 @@ namespace bakis.Controllers
             return Ok(contests);
         }
 
+        [Authorize(Policy = "manageCustomers")]
         // PUT: api/Customers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer([FromRoute] int id, [FromBody] Customer customer)
@@ -134,6 +139,7 @@ namespace bakis.Controllers
             return NoContent();
         }
 
+        [Authorize(Policy = "manageCustomers")]
         // POST: api/Customers
         [HttpPost]
         public async Task<IActionResult> PostCustomer([FromBody] Customer customer)
@@ -156,6 +162,7 @@ namespace bakis.Controllers
             return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
         }
 
+        [Authorize(Policy = "manageCustomers")]
         // DELETE: api/Customers/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer([FromRoute] int id)

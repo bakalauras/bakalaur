@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "manageProjects")]
     [Route("api/[controller]")]
     [ApiController]
     public class CPIMeasuresController : ControllerBase
@@ -23,6 +24,7 @@ namespace bakis.Controllers
             _context = context;
         }
 
+        [ExcludeFromCodeCoverage]
         // GET: api/CPIMeasures
         [HttpGet]
         public IEnumerable<CPIMeasure> GetCPIMeasures()
@@ -30,6 +32,7 @@ namespace bakis.Controllers
             return _context.CPIMeasures;
         }
 
+        [ExcludeFromCodeCoverage]
         // GET: api/CPIMeasures/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCPIMeasure([FromRoute] int id)
@@ -49,6 +52,7 @@ namespace bakis.Controllers
             return Ok(cPIMeasure);
         }
 
+        [ExcludeFromCodeCoverage]
         // PUT: api/CPIMeasures/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCPIMeasure([FromRoute] int id, [FromBody] CPIMeasure cPIMeasure)
@@ -60,7 +64,14 @@ namespace bakis.Controllers
 
             if (id != cPIMeasure.CPIMeasureId)
             {
-                return BadRequest();
+                return BadRequest("Užklausos ID nesutampa su formoje esančiu ID");
+            }
+
+            var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == cPIMeasure.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
+
+            if (projectStage == "0")
+            {
+                return BadRequest("Pasirinktas nekorektiškas projekto etapas");
             }
 
             calculateCPI(cPIMeasure);
@@ -88,6 +99,7 @@ namespace bakis.Controllers
             return NoContent();
         }
 
+        [ExcludeFromCodeCoverage]
         // POST: api/CPIMeasures
         [HttpPost]
         public async Task<IActionResult> PostCPIMeasure([FromBody] CPIMeasure cPIMeasure)
@@ -97,7 +109,19 @@ namespace bakis.Controllers
                 return BadRequest(ModelState);
             }
 
-            calculateCPI(cPIMeasure);
+            var projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == cPIMeasure.ProjectStageId).Select(l => l.ProjectStageId).FirstOrDefault().ToString();
+
+            if (projectStage == "0")
+            {
+                return BadRequest("Pasirinktas nekorektiškas projekto etapas");
+            }
+
+            cPIMeasure = calculateCPI(cPIMeasure);
+
+            if (cPIMeasure.CPI == -1)
+            {
+                return BadRequest("Nekorektiški duomenys - CPI apskaičiuoti negalima");
+            }
 
             cPIMeasure.Date = cPIMeasure.Date.ToLocalTime();
 
@@ -107,30 +131,33 @@ namespace bakis.Controllers
             return CreatedAtAction("GetCPIMeasure", new { id = cPIMeasure.CPIMeasureId }, cPIMeasure);
         }
 
-        private void calculateCPI(CPIMeasure cPIMeasure)
+        public CPIMeasure calculateCPI(CPIMeasure cPIMeasure)
         {
-            cPIMeasure.ActualPrice = _context.WorkingTimeRegisters.Where(l => l.ProjectStageId == cPIMeasure.ProjectStageId && l.DateTo <= cPIMeasure.Date).Select(l => l.Price).Sum();
+            CPIMeasure measure = cPIMeasure;
 
-            cPIMeasure.ActualPrice = Convert.ToDouble(String.Format("{0:0.00}", cPIMeasure.ActualPrice));
+            measure.CPI = -1;
 
-            cPIMeasure.PlannedPrice = _context.ResourcePlans.Where(l => l.ProjectStageId == cPIMeasure.ProjectStageId && l.DateTo <= cPIMeasure.Date).Select(l => l.Price).Sum();
+            measure.ActualPrice = _context.WorkingTimeRegisters.Where(l => l.ProjectStageId == measure.ProjectStageId && l.DateTo <= measure.Date).Select(l => l.Price).Sum();
 
-            IEnumerable<ResourcePlan> plans = _context.ResourcePlans.Where(l => l.ProjectStageId == cPIMeasure.ProjectStageId && l.DateTo > cPIMeasure.Date);
+            measure.ActualPrice = Convert.ToDouble(String.Format("{0:0.00}", measure.ActualPrice));
+
+            measure.PlannedPrice = _context.ResourcePlans.Where(l => l.ProjectStageId == measure.ProjectStageId && l.DateTo <= measure.Date).Select(l => l.Price).Sum();
+
+            IEnumerable<ResourcePlan> plans = _context.ResourcePlans.Where(l => l.ProjectStageId == measure.ProjectStageId && l.DateTo > measure.Date);
 
             foreach(ResourcePlan plan in plans)
             {
-                cPIMeasure.PlannedPrice += calculatePlanSum(plan, cPIMeasure);
+                measure.PlannedPrice += calculatePlanSum(plan, measure);
             }
 
-            cPIMeasure.PlannedPrice = Convert.ToDouble(String.Format("{0:0.00}", cPIMeasure.PlannedPrice));
+            measure.PlannedPrice = Convert.ToDouble(String.Format("{0:0.00}", measure.PlannedPrice));
 
-            cPIMeasure.CPI = 0;
-
-            if (cPIMeasure.ActualPrice != 0 && cPIMeasure.PlannedPrice != 0)
+            if (measure.ActualPrice != 0 && measure.PlannedPrice != 0)
             {
-                cPIMeasure.CPI = cPIMeasure.PlannedPrice / cPIMeasure.ActualPrice;
-                cPIMeasure.CPI = Convert.ToDouble(String.Format("{0:0.00}", cPIMeasure.CPI));
+                measure.CPI = measure.PlannedPrice / measure.ActualPrice;
+                measure.CPI = Convert.ToDouble(String.Format("{0:0.00}", measure.CPI));
             }
+            return measure;
         }
 
         private double calculatePlanSum(ResourcePlan resourcePlan, CPIMeasure cPIMeasure)
@@ -150,6 +177,7 @@ namespace bakis.Controllers
             return planSum;
         }
 
+
         private static int GetNumberOfBusinessDays(DateTime start, DateTime stop)
         {
             int days = 0;
@@ -164,6 +192,7 @@ namespace bakis.Controllers
             return days;
         }
 
+        [ExcludeFromCodeCoverage]
         // DELETE: api/CPIMeasures/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCPIMeasure([FromRoute] int id)
@@ -185,6 +214,7 @@ namespace bakis.Controllers
             return Ok(cPIMeasure);
         }
 
+        [ExcludeFromCodeCoverage]
         private bool CPIMeasureExists(int id)
         {
             return _context.CPIMeasures.Any(e => e.CPIMeasureId == id);

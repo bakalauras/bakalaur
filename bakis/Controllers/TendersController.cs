@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -53,6 +55,7 @@ namespace bakis.Controllers
             return Ok(tender);
         }
 
+        [Authorize(Policy = "manageTenders")]
         [HttpGet("{id}/contests")]
         public async Task<IActionResult> GetTendersContest([FromRoute] int id)
         {
@@ -73,6 +76,7 @@ namespace bakis.Controllers
             return Ok(contests);
         }
 
+        [Authorize(Policy = "manageTenders")]
         [HttpGet("{id}/files")]
         public async Task<IActionResult> GetTenderFiles([FromRoute] int id)
         {
@@ -94,6 +98,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/Tenders/5
+        [Authorize(Policy = "manageTenders")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTender([FromRoute] int id, [FromBody] Tender tender)
         {
@@ -140,6 +145,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/Tenders
+        [Authorize(Policy = "manageTenders")]
         [HttpPost]
         public async Task<IActionResult> PostTender([FromBody] Tender tender)
         {
@@ -166,6 +172,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/Tenders/5
+        [Authorize(Policy = "manageTenders")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTender([FromRoute] int id)
         {

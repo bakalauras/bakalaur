@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "manageProjects")]
     [Route("api/[controller]")]
     [ApiController]
     public class ResourcePlansController : ControllerBase
@@ -22,6 +23,7 @@ namespace bakis.Controllers
             _context = context;
         }
 
+        [ExcludeFromCodeCoverage]
         // GET: api/ResourcePlans
         [HttpGet]
         public IEnumerable<ResourcePlan> GetResourcePlans()
@@ -34,6 +36,7 @@ namespace bakis.Controllers
             return _context.ResourcePlans;
         }
 
+        [ExcludeFromCodeCoverage]
         // GET: api/ResourcePlans/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetResourcePlan([FromRoute] int id)
@@ -53,6 +56,7 @@ namespace bakis.Controllers
             return Ok(resourcePlan);
         }
 
+        [ExcludeFromCodeCoverage]
         // PUT: api/ResourcePlans/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutResourcePlan([FromRoute] int id, [FromBody] ResourcePlan resourcePlan)
@@ -102,6 +106,7 @@ namespace bakis.Controllers
             return NoContent();
         }
 
+        [ExcludeFromCodeCoverage]
         // POST: api/ResourcePlans
         [HttpPost]
         public async Task<IActionResult> PostResourcePlan([FromBody] ResourcePlan resourcePlan)
@@ -125,6 +130,11 @@ namespace bakis.Controllers
 
             resourcePlan = calculatePrice(resourcePlan);
 
+            if (resourcePlan.Price == -1)
+            {
+                return BadRequest("Pasirinkta nekorektiška darbuotojo rolė");
+            }
+
             _context.ResourcePlans.Add(resourcePlan);
             await _context.SaveChangesAsync();
 
@@ -133,15 +143,24 @@ namespace bakis.Controllers
 
         public ResourcePlan calculatePrice(ResourcePlan resourcePlan)
         {
+            ResourcePlan plan = resourcePlan;
+
             EmployeeRole employeeRole = _context.EmployeeRoles.Where(l => l.EmployeeRoleId == resourcePlan.EmployeeRoleId).FirstOrDefault();
 
-            resourcePlan.Price = resourcePlan.Hours * employeeRole.AverageWage / 168;
+            if(employeeRole == null)
+            {
+                plan.Price = -1;
+                return plan;
+            }
 
-            resourcePlan.Price = Convert.ToDouble(String.Format("{0:0.00}", resourcePlan.Price));
+            plan.Price = resourcePlan.Hours * employeeRole.AverageWage / 168;
 
-            return resourcePlan;
+            plan.Price = Convert.ToDouble(String.Format("{0:0.00}", resourcePlan.Price));
+
+            return plan;
         }
 
+        [ExcludeFromCodeCoverage]
         // DELETE: api/ResourcePlans/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteResourcePlan([FromRoute] int id)
@@ -163,6 +182,7 @@ namespace bakis.Controllers
             return Ok(resourcePlan);
         }
 
+        [ExcludeFromCodeCoverage]
         private bool ResourcePlanExists(int id)
         {
             return _context.ResourcePlans.Any(e => e.ResourcePlanId == id);

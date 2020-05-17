@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
-    [Authorize]
+    [ExcludeFromCodeCoverage]
+    [Authorize(Policy = "manageTenders")]
     [Route("api/[controller]")]
     [ApiController]
     public class TenderFilesController : ControllerBase

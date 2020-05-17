@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bakis.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace bakis.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -49,6 +51,7 @@ namespace bakis.Controllers
         }
 
         // PUT: api/TenderStates/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTenderState([FromRoute] int id, [FromBody] TenderState tenderState)
         {
@@ -84,6 +87,7 @@ namespace bakis.Controllers
         }
 
         // POST: api/TenderStates
+        [Authorize(Policy = "manageClassifiers")]
         [HttpPost]
         public async Task<IActionResult> PostTenderState([FromBody] TenderState tenderState)
         {
@@ -99,6 +103,7 @@ namespace bakis.Controllers
         }
 
         // DELETE: api/TenderStates/5
+        [Authorize(Policy = "manageClassifiers")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTenderState([FromRoute] int id)
         {
