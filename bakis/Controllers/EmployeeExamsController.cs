@@ -85,7 +85,7 @@ namespace bakis.Controllers
             }
 
             employeeExam.PlannedExamDate = employeeExam.PlannedExamDate.ToLocalTime();
-            employeeExam.RealExamDate = employeeExam.RealExamDate.ToLocalTime();
+            employeeExam.RealExamDate = employeeExam.RealExamDate?.ToLocalTime();
 
             if (employeeExam.IsPassed == true)
             {
@@ -146,7 +146,7 @@ namespace bakis.Controllers
             }
 
             employeeExam.PlannedExamDate = employeeExam.PlannedExamDate.ToLocalTime();
-            employeeExam.RealExamDate = employeeExam.RealExamDate.ToLocalTime();
+            employeeExam.RealExamDate = employeeExam.RealExamDate?.ToLocalTime();
 
             if (employeeExam.IsPassed == true)
             {

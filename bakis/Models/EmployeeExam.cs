@@ -17,7 +17,7 @@ namespace bakis.Models
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PlannedExamDate { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime RealExamDate { get; set; }
+        public DateTime? RealExamDate { get; set; }
         [Required]
         public bool IsPassed { get; set; }
         [Required]

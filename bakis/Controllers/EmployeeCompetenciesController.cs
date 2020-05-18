@@ -76,7 +76,7 @@ namespace bakis.Controllers
             }
 
             employeeCompetency.DateFrom = employeeCompetency.DateFrom.ToLocalTime();
-            employeeCompetency.DateTo = employeeCompetency.DateTo.ToLocalTime();
+            employeeCompetency.DateTo = employeeCompetency.DateTo?.ToLocalTime();
             _context.Entry(employeeCompetency).State = EntityState.Modified;
 
             try
@@ -108,7 +108,7 @@ namespace bakis.Controllers
             }
 
             employeeCompetency.DateFrom = employeeCompetency.DateFrom.ToLocalTime();
-            employeeCompetency.DateTo = employeeCompetency.DateTo.ToLocalTime();
+            employeeCompetency.DateTo = employeeCompetency.DateTo?.ToLocalTime();
             _context.EmployeeCompetencies.Add(employeeCompetency);
             await _context.SaveChangesAsync();
 

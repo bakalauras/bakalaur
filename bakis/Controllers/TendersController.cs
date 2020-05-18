@@ -121,7 +121,7 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas konkursas ar pasiūlymo būsena");
             }
 
-            tender.FillingDate = tender.FillingDate.ToLocalTime();
+            tender.FillingDate = tender.FillingDate?.ToLocalTime();
 
             _context.Entry(tender).State = EntityState.Modified;
 
@@ -163,7 +163,7 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas konkursas ar pasiūlymo būsena");
             }
 
-            tender.FillingDate = tender.FillingDate.ToLocalTime();
+            tender.FillingDate = tender.FillingDate?.ToLocalTime();
 
             _context.Tenders.Add(tender);
             await _context.SaveChangesAsync();

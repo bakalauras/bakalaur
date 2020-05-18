@@ -200,11 +200,23 @@ namespace bakis.Controllers
                 return BadRequest("Projekto etapų biudžetų suma negali būti didesnė nei projekto suma");
             }
 
-            projectStage.EndDate = projectStage.EndDate.ToLocalTime();
-            projectStage.ScheduledEndDate = projectStage.ScheduledEndDate.ToLocalTime();
-            projectStage.StartDate = projectStage.StartDate.ToLocalTime();
-            projectStage.ScheduledStartDate = projectStage.ScheduledStartDate.ToLocalTime();
 
+            projectStage.ScheduledEndDate = projectStage.ScheduledEndDate.ToLocalTime();
+            projectStage.StartDate = projectStage.StartDate?.ToLocalTime();
+            projectStage.EndDate = projectStage.EndDate?.ToLocalTime();
+            //  int? days = (int?)(date1 - date2)?.TotalDays;
+            projectStage.ScheduledStartDate = projectStage.ScheduledStartDate.ToLocalTime();
+            /*
+            if(projectStage.EndDate != null)
+            {
+                projectStage.EndDate = projectStage.EndDate..ToLocalTime();
+            }
+
+            if (projectStage.StartDate != null)
+            {
+                projectStage.StartDate = projectStage.StartDate.ToLocalTime();
+            }
+            */
             _context.Entry(projectStage).State = EntityState.Modified;
 
             try
@@ -249,11 +261,22 @@ namespace bakis.Controllers
                 return BadRequest("Projekto etapų biudžetų suma negali būti didesnė nei projekto suma");
             }
 
-            projectStage.EndDate = projectStage.EndDate.ToLocalTime();
             projectStage.ScheduledEndDate = projectStage.ScheduledEndDate.ToLocalTime();
-            projectStage.StartDate = projectStage.StartDate.ToLocalTime();
+             projectStage.StartDate = projectStage.StartDate?.ToLocalTime();
+            projectStage.EndDate = projectStage.EndDate?.ToLocalTime();
+            //  int? days = (int?)(date1 - date2)?.TotalDays;
             projectStage.ScheduledStartDate = projectStage.ScheduledStartDate.ToLocalTime();
+            /*
+            if (projectStage.EndDate != null)
+            {
+                projectStage.EndDate = projectStage.EndDate.ToLocalTime();
+            }
 
+            if (projectStage.StartDate != null)
+            {
+                projectStage.StartDate = projectStage.StartDate.ToLocalTime();
+            }
+            */
             _context.ProjectStages.Add(projectStage);
             await _context.SaveChangesAsync();
 
