@@ -126,10 +126,10 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinkta nekorektiška konkurso būsena ar užsakovas");
             }
 
-            contest.ClaimsFillingDate = contest.ClaimsFillingDate.ToLocalTime();
-            contest.FillingDate = contest.FillingDate.ToLocalTime();
-            contest.PriceRobbingDate = contest.PriceRobbingDate.ToLocalTime();
-            contest.PublicationDate = contest.PublicationDate.ToLocalTime();
+            contest.ClaimsFillingDate = contest.ClaimsFillingDate?.ToLocalTime();
+            contest.FillingDate = contest.FillingDate?.ToLocalTime();
+            contest.PriceRobbingDate = contest.PriceRobbingDate?.ToLocalTime();
+            contest.PublicationDate = contest.PublicationDate?.ToLocalTime();
 
             _context.Entry(contest).State = EntityState.Modified;
 
@@ -171,10 +171,10 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinkta nekorektiška konkurso būsena ar užsakovas");
             }
 
-            contest.ClaimsFillingDate = contest.ClaimsFillingDate.ToLocalTime();
-            contest.FillingDate = contest.FillingDate.ToLocalTime();
-            contest.PriceRobbingDate = contest.PriceRobbingDate.ToLocalTime();
-            contest.PublicationDate = contest.PublicationDate.ToLocalTime();
+            contest.ClaimsFillingDate = contest.ClaimsFillingDate?.ToLocalTime();
+            contest.FillingDate = contest.FillingDate?.ToLocalTime();
+            contest.PriceRobbingDate = contest.PriceRobbingDate?.ToLocalTime();
+            contest.PublicationDate = contest.PublicationDate?.ToLocalTime();
 
             _context.Contests.Add(contest);
             await _context.SaveChangesAsync();

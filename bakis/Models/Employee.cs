@@ -22,6 +22,6 @@ namespace bakis.Models
         [Required]
         public bool IsActive { get; set; }
         [ForeignKey("EmployeeId")]
-        public int FkEmployeeId { get; set; }
+        public int? FkEmployeeId { get; set; }
     }
 }

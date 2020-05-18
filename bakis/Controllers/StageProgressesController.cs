@@ -151,9 +151,9 @@ namespace bakis.Controllers
 
             ProjectStage projectStage = _context.ProjectStages.Where(l => l.ProjectStageId == progress.ProjectStageId).FirstOrDefault();
 
-            if (projectStage != null)
+            if (projectStage != null && projectStage.StartDate != null)
             {
-                double timeElapsed = GetNumberOfBusinessDays(projectStage.StartDate, progress.Date) * 100;
+                double timeElapsed =  GetNumberOfBusinessDays(projectStage.StartDate, progress.Date) * 100;
 
                 double timePlanned = GetNumberOfBusinessDays(projectStage.ScheduledStartDate, projectStage.ScheduledEndDate);
 
@@ -171,16 +171,16 @@ namespace bakis.Controllers
             return progress;
         }
 
-        private static int GetNumberOfBusinessDays(DateTime start, DateTime stop)
+        private static int GetNumberOfBusinessDays(DateTime? start, DateTime stop)
         {
             int days = 0;
             while (start <= stop)
             {
-                if (start.DayOfWeek != DayOfWeek.Saturday && start.DayOfWeek != DayOfWeek.Sunday)
+                if (start?.DayOfWeek != DayOfWeek.Saturday && start?.DayOfWeek != DayOfWeek.Sunday)
                 {
                     ++days;
                 }
-                start = start.AddDays(1);
+                start = start?.AddDays(1);
             }
             return days;
         }

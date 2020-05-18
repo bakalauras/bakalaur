@@ -20,9 +20,9 @@ namespace bakis.Models
         public double StageBudget { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{yyyy'-'MM'-'dd}", ApplyFormatInEditMode = true)]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime ScheduledStartDate { get; set; }

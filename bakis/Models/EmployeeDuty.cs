@@ -21,7 +21,7 @@ namespace bakis.Models
         [Display(Name = "DateTo")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime DateTo { get; set; }
+        public DateTime? DateTo { get; set; }
         [ForeignKey("DutyId")]
         public Duty Duty { get; set; }
         public int DutyId { get; set; }

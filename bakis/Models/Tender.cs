@@ -18,9 +18,8 @@ namespace bakis.Models
         public int TenderStateId { get; set; }
         [Required]
         public double Price { get; set; }
-        [Required]
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime FillingDate { get; set; }
+        public DateTime? FillingDate { get; set; }
         [ForeignKey("ContestId")]
         public Contest Contest { get; set; }
         public int ContestId { get; set; }
