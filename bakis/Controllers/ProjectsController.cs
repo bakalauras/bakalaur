@@ -205,6 +205,51 @@ namespace bakis.Controllers
             return Ok(project);
         }
 
+        [HttpGet("{id}/projectStagesGantt")]
+        public async Task<IActionResult> GetProjectStagesGantt([FromRoute] int id)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var project = await _context.Projects.FindAsync(id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+            var projectStages = _context.ProjectStages.Where(l => l.ProjectId == id);
+
+            foreach (ProjectStage stage in projectStages)
+            {
+
+                stage.Project = _context.Projects.Where(l => l.ProjectId == stage.ProjectId).FirstOrDefault();
+                stage.ProjectStageName = _context.ProjectStageNames.Where(l => l.ProjctStageNameId == stage.ProjectStageNameId).FirstOrDefault();
+
+                var start = stage.StartDate;//.ToString();
+                var end = stage.EndDate;//.ToString();
+
+                if((!start.HasValue) || (!end.HasValue))
+                {
+                    if (!start.HasValue)
+                    {
+                        stage.StartDate = stage.ScheduledStartDate.AddMonths(1);
+                    }
+
+                    if (!end.HasValue)
+                    {
+                        stage.EndDate = stage.ScheduledEndDate.AddMonths(1);
+                    }
+                }
+
+            }
+            
+
+            return Ok(projectStages);
+        }
+
         private bool ProjectExists(int id)
         {
             return _context.Projects.Any(e => e.ProjectId == id);
