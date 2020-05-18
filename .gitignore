@@ -184,3 +184,17 @@ bakis/bin/Debug/netcoreapp2.1/bakis.pdb
 bakis/obj/Debug/netcoreapp2.1/bakis.csprojAssemblyReference.cache
 bakis/obj/Debug/netcoreapp2.1/bakis.dll
 bakis/obj/Debug/netcoreapp2.1/bakis.pdb
+bakis/.vs/bakis/v16/.suo
+bakis/.vs/bakis/v16/Server/sqlite3/storage.ide
+bakis/appsettings.json
+bakis/bin/Debug/netcoreapp2.1/appsettings.json
+bakis/bin/Debug/netcoreapp2.1/bakis.dll
+bakis/bin/Debug/netcoreapp2.1/bakis.pdb
+bakis/Migrations/20200518194754_reqFields.cs
+bakis/Migrations/20200518194754_reqFields.Designer.cs
+bakis/obj/Debug/netcoreapp2.1/bakis.csprojAssemblyReference.cache
+bakis/obj/Debug/netcoreapp2.1/bakis.dll
+bakis/obj/Debug/netcoreapp2.1/bakis.pdb
+*.png
+bakis/Resources/Vadovo_ivertinimas_Skaistė.docx
+bakis/Resources/Vadovo_ivertinimas_Živilė.docx
