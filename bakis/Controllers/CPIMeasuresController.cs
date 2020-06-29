@@ -74,9 +74,11 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas");
             }
 
+cPIMeasure.Date = cPIMeasure.Date.ToLocalTime();
+
             calculateCPI(cPIMeasure);
 
-            cPIMeasure.Date = cPIMeasure.Date.ToLocalTime();
+            
 
             _context.Entry(cPIMeasure).State = EntityState.Modified;
 
@@ -116,6 +118,8 @@ namespace bakis.Controllers
                 return BadRequest("Pasirinktas nekorektiškas projekto etapas");
             }
 
+            cPIMeasure.Date = cPIMeasure.Date.ToLocalTime();
+
             cPIMeasure = calculateCPI(cPIMeasure);
 
             if (cPIMeasure.CPI == -1)
@@ -123,7 +127,7 @@ namespace bakis.Controllers
                 return BadRequest("Nekorektiški duomenys - CPI apskaičiuoti negalima");
             }
 
-            cPIMeasure.Date = cPIMeasure.Date.ToLocalTime();
+            
 
             _context.CPIMeasures.Add(cPIMeasure);
             await _context.SaveChangesAsync();
