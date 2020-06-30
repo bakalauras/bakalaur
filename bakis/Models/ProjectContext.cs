@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static bakis.Controllers.ProjectsController;
 using static bakis.Controllers.UploadController;
+using bakis.Models;
 
 namespace bakis.Models
 {
@@ -67,6 +68,10 @@ namespace bakis.Models
         public DbSet<GroupRight> GroupRights { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Competitor> Competitors { get; set; }
+
+        public DbSet<ContestCompetitor> ContestCompetitors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
