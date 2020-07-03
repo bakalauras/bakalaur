@@ -221,3 +221,7 @@ bakis/obj/Debug/netcoreapp2.1/bakis.dll
 bakis/obj/Debug/netcoreapp2.1/bakis.pdb
 bakis/Resources/egzaminas.docx
 bakis/Resources/sertifikatas.pdf
+bakis/Migrations/20200703081659_new.Designer.cs
+bakis/Migrations/20200703081659_new.cs
+bakis/Migrations/20200703082710_new2.cs
+bakis/Migrations/20200703082710_new2.Designer.cs
