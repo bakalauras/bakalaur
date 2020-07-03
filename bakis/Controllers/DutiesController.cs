@@ -128,7 +128,7 @@ namespace bakis.Controllers
 
             if (employeeDuties != "0")
             {
-                return BadRequest("Negalima ištrinti, nes yra šios pareigos yra priskirtos bent vienam darbuotojui.");
+                return BadRequest("Negalima ištrinti, nes šios pareigos yra priskirtos bent vienam darbuotojui.");
             }
 
             _context.Duties.Remove(duty);
