@@ -12530,23 +12530,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Skaiste.Ramanauskait\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\bakalauras\\bakalaur\\bakis\\bakis.csproj",
+      "projectUniqueName": "C:\\Users\\Skaiste.Ramanauskait\\Documents\\GitHub\\bakalaur\\bakis\\bakis.csproj",
       "projectName": "bakis",
-      "projectPath": "E:\\bakalauras\\bakalaur\\bakis\\bakis.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "E:\\bakalauras\\bakalaur\\bakis\\obj\\",
+      "projectPath": "C:\\Users\\Skaiste.Ramanauskait\\Documents\\GitHub\\bakalaur\\bakis\\bakis.csproj",
+      "packagesPath": "C:\\Users\\Skaiste.Ramanauskait\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Skaiste.Ramanauskait\\Documents\\GitHub\\bakalaur\\bakis\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Skaiste.Ramanauskait\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -12554,6 +12550,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "http://ssd-vsrv-tcgit.atealt.lt/nuget/api/v2/": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -12602,7 +12599,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
