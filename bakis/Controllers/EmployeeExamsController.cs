@@ -135,12 +135,22 @@ namespace bakis.Controllers
                 var query1 = query.Select(s => s.c).Where(a => a.Title == "ISTQB Foundation Level");
                 if (query1.Count() == 0)
                 {
-                    return BadRequest("Negalite registruotis, nes neturite " + firstCert.Title + " sertifikato.");
+                    return BadRequest("Negalite registruotis, nes nelaikėte " + firstCert.Title + " egzamino.");
                 }
                
             }
 
-            if(employeeExam.Price <= 0)
+            if (cert.Title == "ISTQB Expert Level")
+            {
+                var query1 = query.Select(s => s.c).Where(a => a.Title == "ISTQB Advanced Level");
+                if (query1.Count() == 0)
+                {
+                    return BadRequest("Negalite registruotis, nes neturite ISTQB Advanced Level sertifikato.");
+                }
+
+            }
+
+            if (employeeExam.Price <= 0)
             {
                 return BadRequest("Kaina turi būti didesnė už 0");
             }
