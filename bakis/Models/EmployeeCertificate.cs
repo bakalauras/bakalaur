@@ -15,6 +15,12 @@ namespace bakis.Models
         public int EmployeeCertificateId { get; set; }
         [Required]
         public string File { get; set; }
+        [Required]
+        [DisplayFormat(DataFormatString = "{MM/dd/yyyy hh:mm:ss z}", ApplyFormatInEditMode = true, HtmlEncode = false)]
+        public DateTime DateFrom { get; set; }
+        [Required]
+        [DisplayFormat(DataFormatString = "{MM/dd/yyyy hh:mm:ss z}", ApplyFormatInEditMode = true, HtmlEncode = false)]
+        public DateTime DateTo { get; set; }
         [ForeignKey("EmployeeId")]
         public Employee Employee { get; set; }
         public int EmployeeId { get; set; }

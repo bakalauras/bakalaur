@@ -72,6 +72,8 @@ namespace bakis.Models
         public DbSet<Competitor> Competitors { get; set; }
 
         public DbSet<ContestCompetitor> ContestCompetitors { get; set; }
+        
+        public DbSet<Department> Departments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
