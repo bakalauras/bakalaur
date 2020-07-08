@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace bakis.Models
 {
-    [ExcludeFromCodeCoverage]
-    public class ContestStatus
+    public class Competitor
     {
         [Key]
-        public int ContestStatusId { get; set; }
+        public int CompetitorId { get; set; }
         [Required]
         [Column(TypeName = "nvarchar(100)")]
-        public string StatusName { get; set; }
+        public string Name { get; set; }
         [Required]
-        public bool IsActive { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public string Adress { get; set; }
     }
 }

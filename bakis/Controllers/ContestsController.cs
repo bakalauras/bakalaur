@@ -102,6 +102,31 @@ namespace bakis.Controllers
             return Ok(certificates);
         }
 
+        [Authorize(Policy = "manageContests")]
+        [HttpGet("{id}/competitors")]
+        public async Task<IActionResult> GetContestCompetitors([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var contest = await _context.Contests.FindAsync(id);
+
+            if (contest == null)
+            {
+                return NotFound();
+            }
+            var competitors = _context.ContestCompetitors.Where(l => l.ContestId == id);
+
+            foreach (ContestCompetitor comp in _context.ContestCompetitors)
+            {
+                comp.Competitor = _context.Competitors.Where(l => l.CompetitorId == comp.CompetitorId).FirstOrDefault();
+            }
+
+            return Ok(competitors);
+        }
+
         // PUT: api/Contests/5
         [Authorize(Policy = "manageContests")]
         [HttpPut("{id}")]
@@ -204,7 +229,9 @@ namespace bakis.Controllers
 
             var contestCertificates = _context.ContestCertificates.Where(l => l.ContestId == id).Select(l => l.ContestCertificateId).FirstOrDefault().ToString();
 
-            if (contestFiles != "0" || tenders != "0" || contestCertificates != "0")
+            var contestCompetitors = _context.ContestCompetitors.Where(l => l.ContestId == id).Select(l => l.ContestCompetitorId).FirstOrDefault().ToString();
+
+            if (contestFiles != "0" || tenders != "0" || contestCertificates != "0" || contestCompetitors != "0")
             {
                 return BadRequest("Konkursas turi susijusių įrašų ir negali būti ištrintas");
             }
