@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace bakis.Controllers
 {
     [ExcludeFromCodeCoverage]
-    [Authorize]
+    [Authorize(Policy = "manageEmployees")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase
