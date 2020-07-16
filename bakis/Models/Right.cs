@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace bakis.Models
+namespace BE.Models
 {
     public enum Right
     {

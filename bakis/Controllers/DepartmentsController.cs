@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using bakis.Models;
+using BE.Models;
 
-namespace bakis.Controllers
+namespace BE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

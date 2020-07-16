@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using bakis.Models;
+using BE.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics.CodeAnalysis;
 
-namespace bakis.Controllers
+namespace BE.Controllers
 {
     [ExcludeFromCodeCoverage]
     [Authorize(Policy = "manageUsers")]

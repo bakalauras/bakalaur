@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using static bakis.Controllers.ProjectsController;
-using static bakis.Controllers.UploadController;
-using bakis.Models;
+using static BE.Controllers.ProjectsController;
+using static BE.Controllers.UploadController;
+using BE.Models;
 
-namespace bakis.Models
+namespace BE.Models
 {
     [ExcludeFromCodeCoverage]
     public class ProjectContext : DbContext

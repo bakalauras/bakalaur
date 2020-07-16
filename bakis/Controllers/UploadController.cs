@@ -8,11 +8,11 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using bakis.Models;
+using BE.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace bakis.Controllers
+namespace BE.Controllers
 {
     [ExcludeFromCodeCoverage]
     [Route("api/[controller]")]

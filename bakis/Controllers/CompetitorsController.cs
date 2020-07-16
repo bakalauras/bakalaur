@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using bakis.Models;
+using BE.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace bakis.Controllers
+namespace BE.Controllers
 {
     [Authorize(Policy = "manageClassifiers")]
     [Route("api/[controller]")]
