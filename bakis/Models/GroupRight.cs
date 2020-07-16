@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace bakis.Models
+namespace BE.Models
 {
     [ExcludeFromCodeCoverage]
     public class GroupRight

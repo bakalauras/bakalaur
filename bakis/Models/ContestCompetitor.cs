@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace bakis.Models
+namespace BE.Models
 {
     public class ContestCompetitor
     {
